@@ -111,12 +111,12 @@ public class Centerstage_Teleop1 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-
+                speedFactor = 1.0;
 
             }
 
             if (gamepad1.dpad_down) {
-
+                speedFactor = 0.5;
 
             }
 
