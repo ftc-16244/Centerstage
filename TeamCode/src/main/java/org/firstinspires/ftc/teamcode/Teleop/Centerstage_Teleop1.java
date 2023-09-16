@@ -1,27 +1,21 @@
-/*
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Enums.SlideTrainerState;
-import org.firstinspires.ftc.teamcode.Subsystem2.Gripper2;
-import org.firstinspires.ftc.teamcode.Subsystem2.Slide_Trainer2;
-import org.firstinspires.ftc.teamcode.Subsystem2.TrackingWheelLifters;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 @Config
 @TeleOp(group = "Teleop")
 
-public class Nikita_Teleop_FSM extends LinearOpMode {
+public class Centerstage_Teleop1 extends LinearOpMode {
 
 
     ElapsedTime runtime = new ElapsedTime();
@@ -30,20 +24,8 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
 
-    RevBlinkinLedDriver blinkinLedDriver;
-    RevBlinkinLedDriver .BlinkinPattern pattern;
-    RevBlinkinLedDriver .BlinkinPattern pattern2;
-    RevBlinkinLedDriver .BlinkinPattern patternEndGame;
-    RevBlinkinLedDriver .BlinkinPattern patternFinale;
 
     FtcDashboard dashboard;
-
-    Slide_Trainer2 slideTrainer = new Slide_Trainer2(this);
-    SlideTrainerState slideTrainerState = SlideTrainerState.UNKNOWN;
-
-    Gripper2 gripper = new Gripper2(this);
-
-    TrackingWheelLifters trkWhlLifters = new TrackingWheelLifters(this);
 
 
     //ENUMS
@@ -57,10 +39,11 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
         LIFT_TURNER_FRONT,
         LIFT_TURNER_BACK,
         LIFT_HOLD
-        }
+    }
     public enum TurnerState {
         FORWARD,
-        BACK}
+        BACK
+    }
 
 
     LiftState liftState = LiftState.LIFT_UNKNOWN;
@@ -82,33 +65,18 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        slideTrainer.init(hardwareMap);
-        gripper.init(hardwareMap);
-        trkWhlLifters.init(hardwareMap);
 
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver .class, "blinkin");
-        pattern  = RevBlinkinLedDriver .BlinkinPattern.HEARTBEAT_BLUE;
-        pattern2 = RevBlinkinLedDriver .BlinkinPattern.DARK_GREEN;
-        patternEndGame = RevBlinkinLedDriver .BlinkinPattern.HEARTBEAT_RED;
-        patternFinale = RevBlinkinLedDriver .BlinkinPattern.HEARTBEAT_WHITE;
-        blinkinLedDriver .setPattern(pattern);
 
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
-        gripper.turnerSetPosition1();
-        sleep(1000);
-        slideTrainer.slideMechanicalReset();
 
         liftState = LiftState.LIFT_IDLE;
         turnerState = TurnerState.BACK;
         heightLow = false;
         turnerTimer.reset();
 
-        gripper.gripperOpen(); // for teleop start with the gripper open. for Auto is needs to be closed to hold the cone
-        trkWhlLifters.trkWhlsUp(); // lift up for teleop put down for auto
-
         // Telemetry
 
-        telemetry.addData("Lift State", slideTrainerState);
+        telemetry.addData("Lift State", null);
         telemetry.addData("Turner State", turnerState);
         telemetry.addData("Height Low", heightLow);
         dashboard = FtcDashboard.getInstance();
@@ -120,7 +88,6 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
         ///////////////////////////////////////////////////////////////////////////////////////////
 
         waitForStart();
-        blinkinLedDriver .setPattern(pattern2);
 
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
@@ -132,56 +99,47 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
             );
 
             if (teleopTimer.time() > 93){
-                blinkinLedDriver .setPattern(patternEndGame);
+
 
             }
 
 
 
             if (gamepad1.dpad_right) {
-                slideTrainer.setSlideCone4();
+
 
             }
 
             if (gamepad1.dpad_up) {
-                slideTrainer.setSlideCone5();
 
 
             }
 
             if (gamepad1.dpad_down) {
-                slideTrainer.setSlideCone3();
 
 
             }
 
             if (gamepad1.dpad_left) {
-                slideTrainer.setSlideCone2();
+
             }
 
             if (gamepad1.back) {
-                slideTrainer.slideMechanicalReset();
-                slideTrainer.targetHeight = 0;
+
             }
             if (gamepad1.left_trigger > 0.25) {
-
-                gripper.TopArmOpen(); // top arm of gripper
-                gripper.gripperOpen(); //cam type gippers
 
             }
 
             if (gamepad1.right_trigger > 0.25) {
-                gripper.topArmClosed();
-                sleep(gripper.GRIPPER_DELAY); // add slight delay to allow top arm to get to cone first
 
-                gripper.gripperClosed();
             }
 //// GAMEPAD #2/////////////////////////
 
             if (gamepad2.dpad_up) {
-                slideTrainer.setSlideLevel4();
-                liftState = LiftState.LIFT_MED;
+
             }
+            /*
             switch(liftState) {
                 case LIFT_IDLE:
                     //do nothing, waiting for driver input
@@ -305,16 +263,12 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
                     break;
 
             }
+             */
 
             if (gamepad2.back) {
-                slideTrainer.slideMechanicalReset();
-                slideTrainer.targetHeight = 0;
+
             }
-
-
         }
-
-
     }
 
     void debounce(long debounceTime) {
@@ -326,4 +280,3 @@ public class Nikita_Teleop_FSM extends LinearOpMode {
 
     }
 }
- */
