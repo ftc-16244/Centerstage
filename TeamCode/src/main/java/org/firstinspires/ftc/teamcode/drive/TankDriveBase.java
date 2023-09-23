@@ -50,7 +50,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  * Simple tank drive hardware implementation for REV hardware.
  */
 @Config
-public class SampleTankDrive extends TankDrive {
+public class TankDriveBase extends TankDrive {
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients CROSS_TRACK_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
@@ -70,7 +70,7 @@ public class SampleTankDrive extends TankDrive {
 
     private VoltageSensor batteryVoltageSensor;
 
-    public SampleTankDrive(HardwareMap hardwareMap) {
+    public TankDriveBase(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH);
 
         follower = new TankPIDVAFollower(AXIAL_PID, CROSS_TRACK_PID,
