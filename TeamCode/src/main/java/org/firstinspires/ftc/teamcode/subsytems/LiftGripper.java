@@ -30,9 +30,9 @@ public class LiftGripper {
 
 
     //Constants for angler
-    public static final double      collect       = 0.17; // facing to the back
-    public static final double      deposit      = 0.86; // facing to the front
-    public static final double      other      = 0.86; // facing to the front
+    public static final double      Collect       = 0.17; // facing to the back
+    public static final double      Deposit      = 0.86; // facing to the front
+    public static final double      Other      = 0.86; // facing to the front
 
 
     public  DcMotorEx       liftMotor;  // config name is "slideMotor"
@@ -52,7 +52,7 @@ public class LiftGripper {
     public static final double      LIFT_LEVEL_4                   = 23; // inches 24" Junction
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.13;
-    private static final double     TICKS_PER_MOTOR_REV             = 145.1; // goBilda 1150  //312 RPM  537.7
+    private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
     private static final double     PULLEY_DIA                      = 40; // milimeters
     private static final double     LIFT_DISTANCE_PER_REV     = PULLEY_DIA * Math.PI / (25.4*LIFT_HEIGHT_CORRECTION_FACTOR);
     private static final double     TICKS_PER_LIFT_IN               = TICKS_PER_MOTOR_REV / LIFT_DISTANCE_PER_REV;
@@ -107,13 +107,13 @@ public class LiftGripper {
 
     //Angler methods
     public void anglerCollect() {
-        angler.setPosition(collect);//fwd
+        angler.setPosition(Collect);//fwd
     }
     public void anglerDeposit() {
-        angler.setPosition(deposit); // back
+        angler.setPosition(Deposit); // back
     }
     public void anglerOther() {
-        angler.setPosition(other);//fwd
+        angler.setPosition(Other);//fwd
     }
 
 

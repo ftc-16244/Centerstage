@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.LiftGripper;
 
 
 @Config
@@ -20,6 +21,8 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
     ElapsedTime runtime = new ElapsedTime();
     ElapsedTime turnerTimer = new ElapsedTime();
+
+    LiftGripper liftGripper = new LiftGripper(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
@@ -32,7 +35,6 @@ public class Centerstage_Teleop1 extends LinearOpMode {
     public enum LiftState {
         LIFT_UNKNOWN,
         LIFT_IDLE,
-        LIFT_GET_CONE,
         LIFT_LOW,
         LIFT_MED,
         LIFT_HIGH,
@@ -40,14 +42,15 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         LIFT_TURNER_BACK,
         LIFT_HOLD
     }
-    public enum TurnerState {
-        FORWARD,
-        BACK
+    public enum AnglerState {
+        Deposit,
+        Collect,
+        Other
     }
 
 
     LiftState liftState = LiftState.LIFT_UNKNOWN;
-    TurnerState turnerState;
+    AnglerState anglerState;
     boolean heightLow;
 
     @Override
@@ -70,14 +73,14 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
         liftState = LiftState.LIFT_IDLE;
-        turnerState = TurnerState.BACK;
+        anglerState = AnglerState.Deposit;
         heightLow = false;
         turnerTimer.reset();
 
         // Telemetry
 
         telemetry.addData("Lift State", null);
-        telemetry.addData("Turner State", turnerState);
+        telemetry.addData("Angler State", anglerState);
         telemetry.addData("Height Low", heightLow);
         dashboard = FtcDashboard.getInstance();
 
