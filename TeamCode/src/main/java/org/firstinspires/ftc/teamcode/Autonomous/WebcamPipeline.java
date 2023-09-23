@@ -142,6 +142,7 @@ public class WebcamPipeline extends OpenCvPipeline {
     private MatOfPoint findBlobs(Mat input) {
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
+        Core.extractChannel(input, input, 2);
         Imgproc.findContours(input, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         return findLargestContour(contours);
     }
