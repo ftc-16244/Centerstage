@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Enums.Alliance;
-import org.firstinspires.ftc.teamcode.Enums.Barcode;
-import org.firstinspires.ftc.teamcode.Enums.StartSide;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -12,22 +9,12 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 // Credit to WolfCorpFTC team # 12525 for the original file.
-// 16244 modified for webcam and for Fright Frenzy Team Shipping Element
-// see youtube video titles FTC EasyOpenCV Tutorial + Skystone Example to get started.
-// the 16244 robot has two starting position which measn that two ROI's are needed.
-// It was decided to maintain the two starting position since all the auto code
-// written for TensorFlow had two positions and it would be too much work to rewrite
-// half of the trajectories to make a common starting point relative to the barcodes.
-// In this case the robot always starts in front of the two barcodes closest the alliance hub.
-// Enums are passed to the pipeline to manage the starting configs easily.
+// 16244 modified for webcam and for the Centerstage team element
 
 
 public class WebcamPipelineNew extends OpenCvPipeline{
     Telemetry telemetry;
     Mat mat = new Mat(); // Mat is a matrix
-    Barcode barcode = Barcode.RIGHT; // Default target zone
-    Alliance alliance;
-    StartSide startside;
 
 
     static double PERCENT_COLOR_THRESHOLD = 0.2;
@@ -36,10 +23,8 @@ public class WebcamPipelineNew extends OpenCvPipeline{
     // telemetry has to be added in the constructor for SkystonePipeline to be able to use it.
 
     // Constructor
-    public FreightFrenzyTSEPipeline_EXP(Telemetry t, Alliance a, StartSide s) {
+    public WebcamPipelineNew(Telemetry t) {
         telemetry = t;
-        alliance = a;
-        startside = s;
 
     }
     @Override
@@ -84,17 +69,6 @@ public class WebcamPipelineNew extends OpenCvPipeline{
         // Due to the asymmetry of camera placement, different ROI's are needed for the two generic
         // starting positions.
 
-        if ((alliance == Alliance.BLUE & startside == StartSide.CAROUSEL) ||
-                (alliance == Alliance.RED & startside == StartSide.WAREHOUSE)){
-            LEFT_ROI = LEFT_ROI_A;
-            RIGHT_ROI = RIGHT_ROI_A;
-        }
-
-        if((alliance == Alliance.RED & startside == StartSide.CAROUSEL) ||
-                (alliance == Alliance.BLUE & startside == StartSide.WAREHOUSE)){
-            LEFT_ROI = LEFT_ROI_B;
-            RIGHT_ROI = RIGHT_ROI_B;
-        }
         // Use a webcam and the GRIP software to tune these values off the robot. It will save a lot of time.
         // GRIP is a free download.
         // For Ol "Party Hat" TSE that is mre Teal Green
@@ -130,46 +104,8 @@ public class WebcamPipelineNew extends OpenCvPipeline{
 
         boolean TSERobotLeft = leftValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
         boolean TSERobotRight = rightValue > PERCENT_COLOR_THRESHOLD;
-
-        // if the TSE is NOT (!) in the left nor the right ROI then it is off to the side
-        // which sde is it "off to" depends on where the robot started.
-
-
-        // This is the blue carosel red warehouse case
-        if ((alliance == Alliance.BLUE & startside == StartSide.CAROUSEL) ||
-                (alliance == Alliance.RED & startside == StartSide.WAREHOUSE)) {
-
-            if (!TSERobotLeft && !TSERobotRight) {
-                barcode = Barcode.RIGHT;
-                telemetry.addData("TSE barcode locations is", barcode);
-            } else if (TSERobotLeft) {
-                barcode = Barcode.LEFT;
-                telemetry.addData("TSE barcode locations is", barcode);
-            } else if (TSERobotRight){
-                barcode = Barcode.CENTER;
-                telemetry.addData("TSE barcode locations is", barcode);
-            }
-        }
-
-        // // This is the red carosel blue warehouse case
-        if((alliance == Alliance.RED & startside == StartSide.CAROUSEL) ||
-                (alliance == Alliance.BLUE & startside == StartSide.WAREHOUSE)) {
-
-            if (!TSERobotLeft && !TSERobotRight) {
-                barcode = Barcode.LEFT;
-                telemetry.addData("TSE barcode locations is", barcode);
-            } else if (TSERobotLeft) {
-                barcode = Barcode.CENTER;
-                telemetry.addData("TSE barcode locations is", barcode);
-            } else if (TSERobotRight){
-                barcode = Barcode.RIGHT;
-                telemetry.addData("TSE barcode locations is", barcode);
-            }
-
-        }
-
         telemetry.update();
-        // switch color back from HSV to RGB to draw the color of the box
+
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
@@ -179,11 +115,6 @@ public class WebcamPipelineNew extends OpenCvPipeline{
         Imgproc.rectangle(mat, RIGHT_ROI, barcode == Barcode.RIGHT? colorTSE:colorNone);
 
         return mat;
-    }
-    // getter function that the main autonomous class can call. Besides telemetry, we just return stone postion because that is all the
-    // auto opmode really needs.
-    public Barcode getLocation() {
-        return barcode;
     }
 
 }
