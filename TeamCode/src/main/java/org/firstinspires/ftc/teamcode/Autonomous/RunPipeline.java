@@ -13,6 +13,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class RunPipeline extends LinearOpMode {
     OpenCvCamera webcam;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -23,14 +24,13 @@ public class RunPipeline extends LinearOpMode {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {
+            public void onError(int errorCode) {}
 
-            }
         });
-        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        waitForStart();
     }
 }

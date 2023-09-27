@@ -74,11 +74,11 @@ public class TensorflowRunner extends LinearOpMode {
                 // Use setModelAssetName() if the TF Model is built in as an asset.
                 // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
                 //.setModelAssetName(TFOD_MODEL_ASSET)
-                //.setModelFileName(TFOD_MODEL_FILE)
+                .setModelFileName("")
 
                 //.setModelLabels(LABELS)
-                //.setIsModelTensorFlow2(true)
-                //.setIsModelQuantized(true)
+                .setIsModelTensorFlow2(true)
+                .setIsModelQuantized(true)
                 //.setModelInputSize(300)
                 //.setModelAspectRatio(16.0 / 9.0)
 
