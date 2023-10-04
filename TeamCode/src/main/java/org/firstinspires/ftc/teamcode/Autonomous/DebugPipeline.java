@@ -13,16 +13,15 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 
 public class DebugPipeline extends OpenCvPipeline {
-    Barcode barcode = Barcode.RIGHT;
+    Prop location = Prop.RIGHT;
     Telemetry telemetry;
     Mat mat = new Mat(); // Mat is a matrix
 
 
-    static double PERCENT_COLOR_THRESHOLD = 0.2;
+    static double PERCENT_COLOR_THRESHOLD = 0.35;
 
     public DebugPipeline(Telemetry t) {
         telemetry = t;
-
     }
     @Override
     public Mat processFrame(Mat input) {
@@ -45,19 +44,32 @@ public class DebugPipeline extends OpenCvPipeline {
         // This essentially calculates the ratio of identified pixels to those not identified. The
         //higher the value the more detection.
 
+        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 255;
+        double centerValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
+
         left.release(); // frees up memory
         right.release();
 
+        telemetry.addData("Left percentage", Math.round(leftValue * 100) + "%");
+        telemetry.addData("Center percentage", Math.round(centerValue * 100) + "%");
+
+        boolean inLeftPosition = leftValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
+        boolean inCenterPosition = centerValue > PERCENT_COLOR_THRESHOLD;
+        if(inLeftPosition) location = Prop.LEFT;
+        else if(inCenterPosition) location = Prop.CENTER;
         telemetry.update();
+
+        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
         Scalar colorTSE = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, LEFT_ROI, barcode == Barcode.LEFT? colorTSE:colorNone); // the target boxes surround the ROI's
-        Imgproc.rectangle(mat, RIGHT_ROI, barcode == Barcode.RIGHT? colorTSE:colorNone);
-        Imgproc.cvtColor(mat, mat, Imgproc.COLOR_HSV2RGB);
+        Imgproc.rectangle(mat, LEFT_ROI, location == Prop.LEFT? colorTSE:colorNone); // the target boxes surround the ROI's
+        Imgproc.rectangle(mat, RIGHT_ROI, location == Prop.CENTER? colorTSE:colorNone);
 
         return mat;
     }
-
+    public Prop getPropLocation() {
+        return location;
+    }
 }
