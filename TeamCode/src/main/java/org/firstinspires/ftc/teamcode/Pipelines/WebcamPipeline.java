@@ -1,38 +1,46 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Pipelines;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
+
+import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.LEFT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.LEFT_ROI_BLUE;
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
-
 
 public class WebcamPipeline extends OpenCvPipeline {
     Prop location = Prop.RIGHT;
     Telemetry telemetry;
+    StartSide startSide;
     Mat mat = new Mat(); // Mat is a matrix
 
 
     static double PERCENT_COLOR_THRESHOLD = 0.25;
 
-    public WebcamPipeline(Telemetry t) {
+    public WebcamPipeline(Telemetry t, StartSide side) {
         telemetry = t;
+        startSide = side;
     }
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-
-        Rect LEFT_ROI = new Rect(
-                new Point(25, 70),
-                new Point(100, 150));
-        Rect RIGHT_ROI = new Rect(
-                new Point(220, 50),
-                new Point(285, 120));
+        Rect LEFT_ROI = null;
+        Rect CENTER_ROI = null;
+        if (startSide == StartSide.RED) {
+            LEFT_ROI = LEFT_ROI_RED;
+            CENTER_ROI = CENTER_ROI_RED;
+        }
+        else if (startSide == StartSide.BLUE) {
+            LEFT_ROI = LEFT_ROI_BLUE;
+            CENTER_ROI = CENTER_ROI_BLUE;
+        }
 
         Scalar lowHSV = new Scalar(0, 155,  115);
         Scalar highHSV = new Scalar(25, 255, 255);
@@ -41,7 +49,7 @@ public class WebcamPipeline extends OpenCvPipeline {
         Core.inRange(mat, lowHSV, highHSV, mat);
 
         Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
-        Mat right = mat.submat(RIGHT_ROI);
+        Mat right = mat.submat(CENTER_ROI);
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
         // white is given a value of 255. This way the new image is just grayscale where 0 is black
@@ -49,8 +57,8 @@ public class WebcamPipeline extends OpenCvPipeline {
         // This essentially calculates the ratio of identified pixels to those not identified. The
         //higher the value the more detection.
 
-        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 255;
-        double centerValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 255;
+        double leftValue = Core.sumElems(left).val[0] / CENTER_ROI.area() / 255;
+        double centerValue = Core.sumElems(right).val[0] / CENTER_ROI.area() / 255;
 
         left.release(); // frees up memory
         right.release();
@@ -72,7 +80,7 @@ public class WebcamPipeline extends OpenCvPipeline {
         Scalar colorTSE = new Scalar(0, 255, 0);
 
         Imgproc.rectangle(mat, LEFT_ROI, location == Prop.LEFT? colorTSE:colorNone); // the target boxes surround the ROI's
-        Imgproc.rectangle(mat, RIGHT_ROI, location == Prop.CENTER? colorTSE:colorNone);
+        Imgproc.rectangle(mat, CENTER_ROI, location == Prop.CENTER? colorTSE:colorNone);
 
         return mat;
     }
