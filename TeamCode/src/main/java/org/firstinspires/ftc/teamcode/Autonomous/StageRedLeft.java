@@ -27,12 +27,12 @@ public class StageRedLeft extends LinearOpMode {
 
         Pose2d StageRedLeft= new Pose2d(30,12,Math.toRadians(90));
         Pose2d StageRedCenter = new Pose2d(21.5,24,Math.toRadians(90));
-        Pose2d StageRedRight = new Pose2d(30,24,Math.toRadians(90));
+        Pose2d StageRedRight = new Pose2d(30,40,Math.toRadians(90));
 
 
         Pose2d StageRedCenterDropoff = new Pose2d(34, 60, Math.toRadians(90));
         Pose2d StageRedLeftDropoff = new Pose2d(29, 60, Math.toRadians(90));
-        //Pose2d StageRedRightDropoff = new Pose2d(34, 60, Math.toRadians(90));
+        Pose2d StageRedRightDropoff = new Pose2d(39, 60, Math.toRadians(90));
 
         Pose2d RedPark = new Pose2d(12,60,Math.toRadians(90));
 
