@@ -42,6 +42,7 @@ public class StageRedLeft extends LinearOpMode {
                 .strafeLeft(27)
                 .waitSeconds(1)
                 .back(4)
+                .waitSeconds(1)
                 .lineToLinearHeading(StageRedLeftDropoff)
                 .waitSeconds(1)
                 .lineToLinearHeading(RedPark)
