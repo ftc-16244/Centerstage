@@ -40,7 +40,7 @@ public class StageRedRight extends LinearOpMode {
 
         TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPos)
                 .lineToLinearHeading(StageRedRight)
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .lineToLinearHeading(StageRedRightDropoff)
                 .waitSeconds(1)
                 .lineToLinearHeading(RedPark)
