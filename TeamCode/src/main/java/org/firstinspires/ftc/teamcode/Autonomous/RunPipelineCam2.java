@@ -21,7 +21,7 @@ public class RunPipelineCam2 extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
         webcam.setPipeline(detector);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override

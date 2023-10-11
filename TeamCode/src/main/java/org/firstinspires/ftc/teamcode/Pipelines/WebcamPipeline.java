@@ -34,21 +34,32 @@ public class WebcamPipeline extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
         Rect NONCENTER_ROI = null;
         Rect CENTER_ROI = null;
+        Prop undetectableLocation = null;
+        Prop detectableNoncenter = null;
+
         if (startPosition == StartPosition.RED_AUD) {
             NONCENTER_ROI = LEFT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
             NONCENTER_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
         }
 
         Scalar lowHSV = new Scalar(0, 155,  115);
@@ -57,7 +68,7 @@ public class WebcamPipeline extends OpenCvPipeline {
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat left = mat.submat(NONCENTER_ROI); //sub matrices of mat
+        Mat noncenter = mat.submat(NONCENTER_ROI); //sub matrices of mat
         Mat right = mat.submat(CENTER_ROI);
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
@@ -66,19 +77,19 @@ public class WebcamPipeline extends OpenCvPipeline {
         // This essentially calculates the ratio of identified pixels to those not identified. The
         //higher the value the more detection.
 
-        double leftValue = Core.sumElems(left).val[0] / CENTER_ROI.area() / 255;
+        double noncenterValue = Core.sumElems(noncenter).val[0] / NONCENTER_ROI.area() / 255;
         double centerValue = Core.sumElems(right).val[0] / CENTER_ROI.area() / 255;
 
-        left.release(); // frees up memory
+        noncenter.release(); // frees up memory
         right.release();
 
-        telemetry.addData("Left percentage", Math.round(leftValue * 100) + "%");
+        telemetry.addData("Noncenter percentage", Math.round(noncenterValue * 100) + "%");
         telemetry.addData("Center percentage", Math.round(centerValue * 100) + "%");
 
-        boolean inLeftPosition = leftValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
+        boolean inNoncenterPosition = noncenterValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
         boolean inCenterPosition = centerValue > PERCENT_COLOR_THRESHOLD;
-        location = Prop.RIGHT;
-        if(inLeftPosition) location = Prop.LEFT;
+        location = undetectableLocation;
+        if(inNoncenterPosition) location = detectableNoncenter;
         else if(inCenterPosition) location = Prop.CENTER;
         telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
         telemetry.update();
@@ -88,7 +99,7 @@ public class WebcamPipeline extends OpenCvPipeline {
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
         Scalar colorTSE = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(mat, NONCENTER_ROI, location == Prop.LEFT? colorTSE:colorNone); // the target boxes surround the ROI's
+        Imgproc.rectangle(mat, NONCENTER_ROI, location == detectableNoncenter? colorTSE:colorNone); // the target boxes surround the ROI's
         Imgproc.rectangle(mat, CENTER_ROI, location == Prop.CENTER? colorTSE:colorNone);
 
         return mat;
