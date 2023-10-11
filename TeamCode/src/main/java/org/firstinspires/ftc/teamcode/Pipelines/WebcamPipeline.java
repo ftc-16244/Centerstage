@@ -18,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.RIGHT_ROI_BLUE;
 // 16244 modified for webcam and for the Centerstage team element
 
 public class WebcamPipeline extends OpenCvPipeline {
-    Prop location = Prop.RIGHT;
+    Prop location;
     Telemetry telemetry;
     StartPosition startPosition;
     Mat mat = new Mat(); // Mat is a matrix
