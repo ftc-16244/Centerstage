@@ -8,12 +8,16 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.CENTER_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.RIGHT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ROIs.RIGHT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_HIGH_HSV;
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
 
@@ -21,9 +25,11 @@ public class WebcamPipeline extends OpenCvPipeline {
     Prop location;
     Telemetry telemetry;
     StartPosition startPosition;
+    Scalar lowHSV;
+    Scalar highHSV;
     Mat mat = new Mat(); // Mat is a matrix
 
-    static double PERCENT_COLOR_THRESHOLD = 0.25;
+    static double PERCENT_COLOR_THRESHOLD = 0.20;
 
     public WebcamPipeline(Telemetry t, StartPosition position) {
         telemetry = t;
@@ -32,38 +38,46 @@ public class WebcamPipeline extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Rect NONCENTER_ROI = null;
-        Rect CENTER_ROI = null;
-        Prop undetectableLocation = null;
-        Prop detectableNoncenter = null;
+        Rect NONCENTER_ROI;
+        Rect CENTER_ROI;
+        Prop undetectableLocation;
+        Prop detectableNoncenter;
 
         if (startPosition == StartPosition.RED_AUD) {
             NONCENTER_ROI = LEFT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
+            lowHSV = RED_LOW_HSV;
+            highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
             NONCENTER_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
+            lowHSV = BLUE_LOW_HSV;
+            highHSV = BLUE_HIGH_HSV;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
+            lowHSV = RED_LOW_HSV;
+            highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
+            lowHSV = BLUE_LOW_HSV;
+            highHSV = BLUE_HIGH_HSV;
         }
-
-        Scalar lowHSV = new Scalar(0, 155,  115);
-        Scalar highHSV = new Scalar(25, 255, 255);
+        else {
+            throw new IllegalArgumentException("Invalid start position passed to pipeline!");
+        }
 
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
@@ -83,8 +97,8 @@ public class WebcamPipeline extends OpenCvPipeline {
         noncenter.release(); // frees up memory
         right.release();
 
-        telemetry.addData("Noncenter percentage", Math.round(noncenterValue * 100) + "%");
-        telemetry.addData("Center percentage", Math.round(centerValue * 100) + "%");
+        telemetry.addData(detectableNoncenter + " percentage", Math.round(noncenterValue * 100) + "%");
+        telemetry.addData("CENTER percentage", Math.round(centerValue * 100) + "%");
 
         boolean inNoncenterPosition = noncenterValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
         boolean inCenterPosition = centerValue > PERCENT_COLOR_THRESHOLD;

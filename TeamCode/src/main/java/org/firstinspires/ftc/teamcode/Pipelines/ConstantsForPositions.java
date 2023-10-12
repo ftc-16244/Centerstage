@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode.Pipelines;
 
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 
-public class ROIs {
+public class ConstantsForPositions {
     public static Rect LEFT_ROI_RED = new Rect(
             new Point(25, 70),
             new Point(100, 150)
@@ -28,4 +29,8 @@ public class ROIs {
             new Point(),
             new Point()
     );
+    public static Scalar RED_LOW_HSV = new Scalar(0, 155,  115);
+    public static Scalar RED_HIGH_HSV = new Scalar(25, 255, 255);
+    public static Scalar BLUE_LOW_HSV = new Scalar(0, 0, 0);
+    public static Scalar BLUE_HIGH_HSV = new Scalar(0, 0, 0);
 }
