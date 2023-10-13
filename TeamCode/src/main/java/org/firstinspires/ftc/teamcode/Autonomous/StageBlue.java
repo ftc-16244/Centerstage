@@ -20,7 +20,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class StageRed extends LinearOpMode {
+public class StageBlue extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -29,7 +29,7 @@ public class StageRed extends LinearOpMode {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
         webcam.setPipeline(detector);
 
@@ -51,62 +51,62 @@ public class StageRed extends LinearOpMode {
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(60, 24, Math.toRadians(90));
 
-        Pose2d StageRedLeft= new Pose2d(30,12,Math.toRadians(90));
-        Pose2d StageRedCenter = new Pose2d(21.5,24,Math.toRadians(90));
-        Pose2d StageRedRight = new Pose2d(30,40,Math.toRadians(90));
+        Pose2d StageBlueLeft= new Pose2d(-30,12,Math.toRadians(90));
+        Pose2d StageBlueCenter = new Pose2d(-21.5,24,Math.toRadians(90));
+        Pose2d StageBlueRight = new Pose2d(-30,40,Math.toRadians(90));
 
 
-        Pose2d StageRedCenterDropoff = new Pose2d(34, 60, Math.toRadians(90));
-        Pose2d StageRedLeftDropoff = new Pose2d(29, 60, Math.toRadians(90));
-        Pose2d StageRedRightDropoff = new Pose2d(39, 60, Math.toRadians(90));
+        Pose2d StageBlueCenterDropoff = new Pose2d(-34, 60, Math.toRadians(90));
+        Pose2d StageBlueLeftDropoff = new Pose2d(-29, 60, Math.toRadians(90));
+        Pose2d StageBlueRightDropoff = new Pose2d(-39, 60, Math.toRadians(90));
 
-        Pose2d RedPark = new Pose2d(12,60,Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-12,60,Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
 
         //StageRedLeft
-        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .strafeLeft(27)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .strafeRight(27)
                 .waitSeconds(1)
                 .back(4)
                 .waitSeconds(1)
-                .lineToLinearHeading(StageRedLeftDropoff)
+                .lineToLinearHeading(StageBlueLeftDropoff)
                 .waitSeconds(1)
-                .lineToLinearHeading(RedPark)
+                .lineToLinearHeading(BluePark)
                 .build();
 
         //StageRedCenter
-        TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .lineToLinearHeading(StageRedCenter)
+        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .lineToLinearHeading(StageBlueCenter)
                 .waitSeconds(1)
-                .lineToLinearHeading(StageRedCenterDropoff)
+                .lineToLinearHeading(StageBlueCenterDropoff)
                 .waitSeconds(1)
-                .lineToLinearHeading(RedPark)
+                .lineToLinearHeading(BluePark)
                 .build();
 
         //StageRedRight
-        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .lineToLinearHeading(StageRedRight)
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .lineToLinearHeading(StageBlueRight)
                 .waitSeconds(1)
-                .lineToLinearHeading(StageRedRightDropoff)
+                .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(1)
-                .lineToLinearHeading(RedPark)
+                .lineToLinearHeading(BluePark)
                 .build();
 
         switch(detector.getPropLocation()){
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeftTraj1);
+                drive.followTrajectorySequence(StageBlueLeftTraj1);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenterTraj1);
+                drive.followTrajectorySequence(StageBlueCenterTraj1);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRightTraj1);
+                drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
             default:
                 //if camera cannot detect, runs StageRedCenter trajectory
-                drive.followTrajectorySequence(StageRedCenterTraj1);
+                drive.followTrajectorySequence(StageBlueCenterTraj1);
                 break;
         }
 

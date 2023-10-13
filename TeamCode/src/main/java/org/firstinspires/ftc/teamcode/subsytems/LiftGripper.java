@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsytems;
 
-        import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.config.Config;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -25,7 +25,7 @@ public class LiftGripper {
     //Constants for rollers
     public static final double      GRIPPER_INITIAL    = 0.5; // not gripped
     public static final double      GRIPPER_OPEN       = 0.25; // not gripped
-    public static final double      GRIPPER_CLOSED      = 0.64 ; // cone gripped
+    public static final double      GRIPPER_CLOSED      = 0.64 ; // pixel gripped
     public static final long    GRIPPER_DELAY            = 300 ; // delay between top and side gripper action (miliseconds)
 
 
