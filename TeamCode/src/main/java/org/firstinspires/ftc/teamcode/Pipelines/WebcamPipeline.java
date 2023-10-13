@@ -29,7 +29,7 @@ public class WebcamPipeline extends OpenCvPipeline {
     Scalar highHSV;
     Mat mat = new Mat(); // Mat is a matrix
 
-    static double PERCENT_COLOR_THRESHOLD = 0.20;
+    static double PERCENT_COLOR_THRESHOLD = 0.15;
 
     public WebcamPipeline(Telemetry t, StartPosition position) {
         telemetry = t;
@@ -52,10 +52,10 @@ public class WebcamPipeline extends OpenCvPipeline {
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
+            NONCENTER_ROI = RIGHT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }
@@ -68,10 +68,10 @@ public class WebcamPipeline extends OpenCvPipeline {
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
-            NONCENTER_ROI = RIGHT_ROI_BLUE;
+            NONCENTER_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }

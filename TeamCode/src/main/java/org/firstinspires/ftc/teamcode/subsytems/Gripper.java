@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config // this is so the dashboard will pick up variables
 public class Gripper {
+    /*
 
     //Define Hardware Objects
     public Servo            gripperOpen       = null; //configis the same name
@@ -108,6 +109,8 @@ public class Gripper {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+     */
 
 }
 
