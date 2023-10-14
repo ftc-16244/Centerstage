@@ -11,6 +11,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
+import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
+
 
 
 @Config
@@ -23,6 +26,7 @@ public class Centerstage_Teleop1 extends LinearOpMode {
     ElapsedTime turnerTimer = new ElapsedTime();
 
     Lift lift = new Lift(this);
+    PixelDropper pixelDropper = new PixelDropper(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
@@ -65,8 +69,10 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap); // this has to be here inside the runopmode. The others go above as class variables
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // Initialize the sub systems. Note the init method is inside the subsystem class
 
+        // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        pixelDropper.dropperInitTeleop();
 
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
@@ -83,6 +89,8 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
@@ -107,7 +115,7 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-
+                pixelDropper.dropperClosed();
 
             }
 

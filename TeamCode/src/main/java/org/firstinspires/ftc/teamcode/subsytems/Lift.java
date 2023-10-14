@@ -43,10 +43,10 @@ public class Lift {
     public  static double           LIFTSPEED                  = 0.70; //
     public  static double           LIFTSPEEDSLOWER            = 0.5; //
     public static  double           LIFTRESETSPEED                 = -0.2; //
-    public static final double      LIFT_LEVEL_1                   = 0; // inches Load cone level
-    public static final double      LIFT_LEVEL_2                   = 2; // inches ground junction
-    public static final double      LIFT_LEVEL_3                   = 13.5; // inches 12" Junction
-    public static final double      LIFT_LEVEL_4                   = 23; // inches 24" Junction
+    public static final double      LIFT_LEVEL_1                   = 0; // inches Load pixel level
+    public static final double      LIFT_LEVEL_2                   = 2; // inches
+    public static final double      LIFT_LEVEL_3                   = 13.5; // inches
+    public static final double      LIFT_LEVEL_4                   = 23; // inches
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.13;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
@@ -73,15 +73,15 @@ public class Lift {
 
         voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
-        // Initialize tuner the servo that rotates the cone capture bucket
+        // Initialize angler
         angler = hwMap.get(Servo.class,"angler");// port 4
         //turner.setPosition(BACK);
 
-        // Initialize the left gripper
-        gripper = hwMap.get(Servo.class,"gripperLeft"); //port 0
+        // Initialize the gripper
+        gripper = hwMap.get(Servo.class,"gripper"); //port 0
 
 
-        // Initialize the slide motors
+        // Initialize the slide motor
         liftMotor = hwMap.get(DcMotorEx.class,"slideMotor");
         liftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
@@ -131,6 +131,11 @@ public class Lift {
         gripper.setPosition(GRIPPER_CLOSED);
 
     }
+
+    public void gripperOpen(){
+        gripper.setPosition(GRIPPER_OPEN);
+    }
+
     public double getWinchPos(){
         double liftPos;
         liftPos = liftMotor.getCurrentPosition()/ TICKS_PER_LIFT_IN; //returns in inches
