@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.LiftGripper;
+import org.firstinspires.ftc.teamcode.subsytems.Lift;
 
 
 @Config
@@ -22,7 +22,7 @@ public class OutreachTeleop extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     ElapsedTime turnerTimer = new ElapsedTime();
 
-    LiftGripper liftGripper = new LiftGripper(this);
+    Lift lift = new Lift(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
