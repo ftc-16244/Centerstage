@@ -14,14 +14,24 @@ import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CEN
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_BLUE;
+
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_HIGH_HSV;
+
+/*
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.RED_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.BLUE_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.BLUE_HIGH_HSV;
+ */
+
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
 
 public class WebcamPipeline extends OpenCvPipeline {
+    boolean telemetryEnabled = true;
     Prop location;
     Telemetry telemetry;
     StartPosition startPosition;
@@ -106,7 +116,8 @@ public class WebcamPipeline extends OpenCvPipeline {
         if(inNoncenterPosition) location = detectableNoncenter;
         else if(inCenterPosition) location = Prop.CENTER;
         telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
-        telemetry.update();
+
+        if (telemetryEnabled) telemetry.update();
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
@@ -120,5 +131,8 @@ public class WebcamPipeline extends OpenCvPipeline {
     }
     public Prop getPropLocation() {
         return location;
+    }
+    public void disableTelemetry() {
+        telemetryEnabled = false;
     }
 }

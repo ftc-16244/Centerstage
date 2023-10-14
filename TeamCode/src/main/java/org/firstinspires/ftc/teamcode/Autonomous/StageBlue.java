@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
@@ -17,7 +15,6 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
 
 @Autonomous
 public class StageBlue extends LinearOpMode {
@@ -49,18 +46,18 @@ public class StageBlue extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Start of Roadrunner stuff
-        Pose2d startPos = new Pose2d(60, 24, Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-60, 24, Math.toRadians(90));
 
-        Pose2d StageBlueLeft= new Pose2d(-30,12,Math.toRadians(90));
-        Pose2d StageBlueCenter = new Pose2d(-21.5,24,Math.toRadians(90));
-        Pose2d StageBlueRight = new Pose2d(-30,40,Math.toRadians(90));
+        Pose2d StageBlueLeft = new Pose2d(-30, 12, Math.toRadians(90));
+        Pose2d StageBlueCenter = new Pose2d(-21.5, 24, Math.toRadians(90));
+        Pose2d StageBlueRight = new Pose2d(-30, 40, Math.toRadians(90));
 
 
         Pose2d StageBlueCenterDropoff = new Pose2d(-34, 60, Math.toRadians(90));
         Pose2d StageBlueLeftDropoff = new Pose2d(-29, 60, Math.toRadians(90));
         Pose2d StageBlueRightDropoff = new Pose2d(-39, 60, Math.toRadians(90));
 
-        Pose2d BluePark = new Pose2d(-12,60,Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-12, 60, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -94,7 +91,18 @@ public class StageBlue extends LinearOpMode {
                 .lineToLinearHeading(BluePark)
                 .build();
 
-        switch(detector.getPropLocation()){
+        detector.disableTelemetry();
+        telemetry.clear();
+
+        Prop location = detector.getPropLocation();
+
+        webcam.stopStreaming();
+        webcam.closeCameraDevice();
+
+        telemetry.addData("Running path BLUE_STAGE_", location);
+        telemetry.update();
+
+        switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageBlueLeftTraj1);
                 break;
@@ -104,11 +112,6 @@ public class StageBlue extends LinearOpMode {
             case RIGHT:
                 drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
-            default:
-                //if camera cannot detect, runs StageRedCenter trajectory
-                drive.followTrajectorySequence(StageBlueCenterTraj1);
-                break;
         }
-
     }
 }

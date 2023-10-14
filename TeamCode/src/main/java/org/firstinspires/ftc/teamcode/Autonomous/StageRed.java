@@ -51,7 +51,7 @@ public class StageRed extends LinearOpMode {
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(60, 24, Math.toRadians(90));
 
-        Pose2d StageRedLeft= new Pose2d(30,12,Math.toRadians(90));
+        Pose2d StageRedLeft = new Pose2d(30,12,Math.toRadians(90));
         Pose2d StageRedCenter = new Pose2d(21.5,24,Math.toRadians(90));
         Pose2d StageRedRight = new Pose2d(30,40,Math.toRadians(90));
 
@@ -103,10 +103,6 @@ public class StageRed extends LinearOpMode {
                 break;
             case RIGHT:
                 drive.followTrajectorySequence(StageRedRightTraj1);
-                break;
-            default:
-                //if camera cannot detect, runs StageRedCenter trajectory
-                drive.followTrajectorySequence(StageRedCenterTraj1);
                 break;
         }
 
