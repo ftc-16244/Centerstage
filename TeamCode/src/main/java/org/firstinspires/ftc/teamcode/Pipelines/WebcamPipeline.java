@@ -107,17 +107,18 @@ public class WebcamPipeline extends OpenCvPipeline {
         noncenter.release(); // frees up memory
         right.release();
 
-        telemetry.addData(detectableNoncenter + " percentage", Math.round(noncenterValue * 100) + "%");
-        telemetry.addData("CENTER percentage", Math.round(centerValue * 100) + "%");
-
         boolean inNoncenterPosition = noncenterValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
         boolean inCenterPosition = centerValue > PERCENT_COLOR_THRESHOLD;
         location = undetectableLocation;
         if(inNoncenterPosition) location = detectableNoncenter;
         else if(inCenterPosition) location = Prop.CENTER;
-        telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
 
-        if (telemetryEnabled) telemetry.update();
+        if (telemetryEnabled) {
+            telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
+            telemetry.addData(detectableNoncenter + " percentage", Math.round(noncenterValue * 100) + "%");
+            telemetry.addData("CENTER percentage", Math.round(centerValue * 100) + "%");
+            telemetry.update();
+        }
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
 
@@ -132,7 +133,7 @@ public class WebcamPipeline extends OpenCvPipeline {
     public Prop getPropLocation() {
         return location;
     }
-    public void disableTelemetry() {
-        telemetryEnabled = false;
+    public void toggleTelemetry() {
+        telemetryEnabled = !telemetryEnabled;
     }
 }

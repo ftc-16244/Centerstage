@@ -35,10 +35,8 @@ public class StageBlue extends LinearOpMode {
             public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
-
             @Override
             public void onError(int errorCode) {}
-
         });
 
         waitForStart();
@@ -91,7 +89,7 @@ public class StageBlue extends LinearOpMode {
                 .lineToLinearHeading(BluePark)
                 .build();
 
-        detector.disableTelemetry();
+        detector.toggleTelemetry();
         telemetry.clear();
 
         Prop location = detector.getPropLocation();
@@ -112,6 +110,8 @@ public class StageBlue extends LinearOpMode {
             case RIGHT:
                 drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
+            default:
+                throw new InternalError("Pipeline didn't return a valid position - Did you wait for it to initialize?");
         }
     }
 }

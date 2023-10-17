@@ -94,7 +94,18 @@ public class StageRed extends LinearOpMode {
                 .lineToLinearHeading(RedPark)
                 .build();
 
-        switch(detector.getPropLocation()){
+        detector.toggleTelemetry();
+        telemetry.clear();
+
+        Prop location = detector.getPropLocation();
+
+        webcam.stopStreaming();
+        webcam.closeCameraDevice();
+
+        telemetry.addData("Running path RED_STAGE_", location);
+        telemetry.update();
+
+        switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageRedLeftTraj1);
                 break;
@@ -104,6 +115,8 @@ public class StageRed extends LinearOpMode {
             case RIGHT:
                 drive.followTrajectorySequence(StageRedRightTraj1);
                 break;
+            default:
+                throw new InternalError("Pipeline didn't return a valid position - Did you wait for it to initialize?");
         }
 
     }
