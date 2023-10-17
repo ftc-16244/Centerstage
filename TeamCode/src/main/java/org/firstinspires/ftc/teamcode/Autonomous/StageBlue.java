@@ -59,8 +59,6 @@ public class StageBlue extends LinearOpMode {
 
         drive.setPoseEstimate(startPos);
 
-
-        //StageRedLeft
         TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .strafeRight(27)
                 .waitSeconds(1)
@@ -71,7 +69,6 @@ public class StageBlue extends LinearOpMode {
                 .lineToLinearHeading(BluePark)
                 .build();
 
-        //StageRedCenter
         TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .lineToLinearHeading(StageBlueCenter)
                 .waitSeconds(1)
@@ -80,7 +77,6 @@ public class StageBlue extends LinearOpMode {
                 .lineToLinearHeading(BluePark)
                 .build();
 
-        //StageRedRight
         TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .lineToLinearHeading(StageBlueRight)
                 .waitSeconds(1)
@@ -90,14 +86,14 @@ public class StageBlue extends LinearOpMode {
                 .build();
 
         detector.toggleTelemetry();
-        telemetry.clear();
+        telemetry.clearAll();
 
         Prop location = detector.getPropLocation();
 
         webcam.stopStreaming();
         webcam.closeCameraDevice();
 
-        telemetry.addData("Running path BLUE_STAGE_", location);
+        telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
 
         switch(location) {
