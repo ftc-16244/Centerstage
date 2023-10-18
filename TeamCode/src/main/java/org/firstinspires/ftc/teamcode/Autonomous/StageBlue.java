@@ -60,11 +60,9 @@ public class StageBlue extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .strafeRight(27)
+                .lineToLinearHeading(StageBlueRight)
                 .waitSeconds(1)
-                .back(4)
-                .waitSeconds(1)
-                .lineToLinearHeading(StageBlueLeftDropoff)
+                .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(1)
                 .lineToLinearHeading(BluePark)
                 .build();
@@ -78,9 +76,11 @@ public class StageBlue extends LinearOpMode {
                 .build();
 
         TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .lineToLinearHeading(StageBlueRight)
+                .strafeRight(27)
                 .waitSeconds(1)
-                .lineToLinearHeading(StageBlueRightDropoff)
+                .back(4)
+                .waitSeconds(1)
+                .lineToLinearHeading(StageBlueLeftDropoff)
                 .waitSeconds(1)
                 .lineToLinearHeading(BluePark)
                 .build();

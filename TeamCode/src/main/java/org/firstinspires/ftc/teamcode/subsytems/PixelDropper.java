@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.subsytems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,7 +12,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 public class PixelDropper {
 
     //Define Hardware Objects
-    public Servo            pixelDropper            = null;
+    public Servo pixelDropperServo = null;
     public VoltageSensor    voltSensor         = null;
 
 
@@ -36,38 +33,31 @@ public class PixelDropper {
     /// constructor with opmode passed in
     public PixelDropper(LinearOpMode opmode) {
         this.opmode = opmode;
-
     }
 
     public void init(HardwareMap hwMap)  {
 
         voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
-
         // Initialize the dropper
-        pixelDropper = hwMap.get(Servo.class,"pixelDropper"); //port 2
-
-
+        pixelDropperServo = hwMap.get(Servo.class,"pixelDropper"); //port 2
     }
-
-
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public void dropperInitTeleop(){
-        pixelDropper.setPosition(DROPPER_OPEN);
+        pixelDropperServo.setPosition(DROPPER_OPEN);
     }
 
     public void dropperInitAuto(){
-        pixelDropper.setPosition(DROPPER_CLOSED);
+        pixelDropperServo.setPosition(DROPPER_CLOSED);
     }
     public void dropperClosed(){
-        pixelDropper.setPosition(DROPPER_CLOSED);}
+        pixelDropperServo.setPosition(DROPPER_CLOSED);
 
-    public void dropperOpen(){
-        pixelDropper.setPosition(DROPPER_OPEN);
     }
-
-
+    public void dropperOpen(){
+        pixelDropperServo.setPosition(DROPPER_OPEN);
+    }
 
 }

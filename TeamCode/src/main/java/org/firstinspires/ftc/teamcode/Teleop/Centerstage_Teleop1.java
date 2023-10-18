@@ -116,7 +116,7 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
             if (gamepad1.dpad_right) {
                 pixelDropper.dropperClosed();
-
+                debounce(500);
             }
 
             if (gamepad1.dpad_up) {
@@ -130,7 +130,8 @@ public class Centerstage_Teleop1 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
-
+                pixelDropper.dropperOpen();
+                debounce(500);
             }
 
             if (gamepad1.back) {
