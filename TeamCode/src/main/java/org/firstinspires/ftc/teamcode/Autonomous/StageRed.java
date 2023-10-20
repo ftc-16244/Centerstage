@@ -46,6 +46,31 @@ public class StageRed extends LinearOpMode {
 
         waitForStart();
 
+        detector.toggleTelemetry();
+        telemetry.clearAll();
+
+        int totalTimeWaited = 0;
+        boolean pipelineRan = true;
+        if(detector.getPropLocation() == null) {
+            telemetry.addData("ERROR", "Start was pressed too soon.");
+            telemetry.update();
+
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+                totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
+                sleep(webcam.getOverheadTimeMs() * 4L);
+            }
+            telemetry.addData("Wasted time", totalTimeWaited);
+            if(totalTimeWaited > 7000) {
+                telemetry.addData("ERROR", "The pipeline never ran.");
+                pipelineRan = false;
+            }
+            telemetry.update();
+        }
+        else {
+            telemetry.addData("INFO", "Pipeline is running correctly");
+            telemetry.update();
+        }
+
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Start of Roadrunner stuff
@@ -95,14 +120,17 @@ public class StageRed extends LinearOpMode {
                 .build();
 
         detector.toggleTelemetry();
-        telemetry.clear();
+        telemetry.clearAll();
 
-        Prop location = detector.getPropLocation();
+        Prop location = Prop.CENTER;
 
-        webcam.stopStreaming();
-        webcam.closeCameraDevice();
+        if(pipelineRan) {
+            location = detector.getPropLocation();
+            webcam.stopStreaming();
+            webcam.closeCameraDevice();
+        }
 
-        telemetry.addData("Running path RED_STAGE_", location);
+        telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
 
         switch(location) {
@@ -116,8 +144,7 @@ public class StageRed extends LinearOpMode {
                 drive.followTrajectorySequence(StageRedRightTraj1);
                 break;
             default:
-                throw new InternalError("Pipeline didn't return a valid position - Did you wait for it to initialize?");
+                throw new IllegalArgumentException("The code is most certainly severely screwed up.");
         }
-
     }
 }

@@ -4,7 +4,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 
-public class ConstantsForPositions {
+public class Constants {
     public static final Rect LEFT_ROI_RED = new Rect(
             new Point(25, 70),
             new Point(100, 150)

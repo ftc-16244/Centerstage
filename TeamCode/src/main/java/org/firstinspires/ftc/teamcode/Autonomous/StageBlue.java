@@ -25,6 +25,8 @@ public class StageBlue extends LinearOpMode {
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.addData("INFO", "Initializing pipeline");
+        telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
@@ -40,6 +42,31 @@ public class StageBlue extends LinearOpMode {
         });
 
         waitForStart();
+
+        detector.toggleTelemetry();
+        telemetry.clearAll();
+
+        int totalTimeWaited = 0;
+        boolean pipelineRan = true;
+        if(detector.getPropLocation() == null) {
+            telemetry.addData("ERROR", "Start was pressed too soon.");
+            telemetry.update();
+
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+                totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
+                sleep(webcam.getOverheadTimeMs() * 4L);
+            }
+            telemetry.addData("Wasted time", totalTimeWaited);
+            if(totalTimeWaited > 7000) {
+                telemetry.addData("ERROR", "The pipeline never ran.");
+                pipelineRan = false;
+            }
+            telemetry.update();
+        }
+        else {
+            telemetry.addData("INFO", "Pipeline is running correctly");
+            telemetry.update();
+        }
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -88,10 +115,13 @@ public class StageBlue extends LinearOpMode {
         detector.toggleTelemetry();
         telemetry.clearAll();
 
-        Prop location = detector.getPropLocation();
+        Prop location = Prop.CENTER;
 
-        webcam.stopStreaming();
-        webcam.closeCameraDevice();
+        if(pipelineRan) {
+            location = detector.getPropLocation();
+            webcam.stopStreaming();
+            webcam.closeCameraDevice();
+        }
 
         telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
@@ -107,7 +137,7 @@ public class StageBlue extends LinearOpMode {
                 drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
             default:
-                throw new InternalError("Pipeline didn't return a valid position - Did you wait for it to initialize?");
+                throw new IllegalArgumentException("The code is most certainly severely screwed up.");
         }
     }
 }

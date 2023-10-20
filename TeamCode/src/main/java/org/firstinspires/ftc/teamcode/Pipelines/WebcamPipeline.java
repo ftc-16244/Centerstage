@@ -8,24 +8,17 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RED_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.BLUE_HIGH_HSV;
-
-/*
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.RED_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.RED_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.BLUE_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositionsCube.BLUE_HIGH_HSV;
- */
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element

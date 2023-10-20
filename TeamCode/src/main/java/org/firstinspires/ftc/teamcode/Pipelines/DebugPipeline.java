@@ -6,12 +6,12 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.ConstantsForPositions.RIGHT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
 
