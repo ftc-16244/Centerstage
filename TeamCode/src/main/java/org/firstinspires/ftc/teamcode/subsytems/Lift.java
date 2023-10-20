@@ -81,8 +81,8 @@ public class Lift {
         gripper = hwMap.get(Servo.class,"gripper"); //port 0
 
 
-        // Initialize the slide motor
-        liftMotor = hwMap.get(DcMotorEx.class,"slideMotor");
+        // Initialize the lift motor
+        liftMotor = hwMap.get(DcMotorEx.class,"liftMotor");
         liftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
 
