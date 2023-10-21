@@ -26,12 +26,12 @@ public class Lift {
     //Constants for gripper
 
     public static final double      GRIPPER_OPEN       = 0.25; // not gripped
-    public static final double      GRIPPER_CLOSED      = 0.64 ; // pixel gripped
+    public static final double      GRIPPER_CLOSED      = 0.45; // pixel gripped
 
     //Constants for angler
-    public static final double      ANGLER_CARRY       = 0.17; // load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.86; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.86; // Loading the pixel
+    public static final double      ANGLER_CARRY       = 0.45; // load and moving the pixel
+    public static final double      ANGLER_DEPLOY      = 0.45; // deposit the pixel
+    public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
 
 
     Telemetry       telemetry;
@@ -40,13 +40,13 @@ public class Lift {
     ElapsedTime runtime = new ElapsedTime();
 
     //Constants Lift
-    public  static double           LIFTSPEED                  = 0.70; //
+    public  static double           LIFTSPEED                  = 0.30; //
     public  static double           LIFTSPEEDSLOWER            = 0.5; //
     public static  double           LIFTRESETSPEED                 = -0.2; //
     public static final double      LIFT_LEVEL_1                   = 0; // inches Load pixel level
     public static final double      LIFT_LEVEL_2                   = 2; // inches
     public static final double      LIFT_LEVEL_3                   = 13.5; // inches
-    public static final double      LIFT_LEVEL_4                   = 23; // inches
+    public static final double      LIFT_LEVEL_4                   = 10; // inches
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.13;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
@@ -83,7 +83,7 @@ public class Lift {
 
         // Initialize the lift motor
         liftMotor = hwMap.get(DcMotorEx.class,"liftMotor");
-        liftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        liftMotor.setDirection(DcMotorEx.Direction.FORWARD);
 
 
         PIDFCoefficients pidfOrig = liftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -122,6 +122,9 @@ public class Lift {
 
     public void gripperInitTeleop(){
         gripper.setPosition(GRIPPER_OPEN);
+    }
+    public void anglerInitTeleop(){
+        angler.setPosition(ANGLER_LOAD);
     }
 
     public void gripperInitAuto(){

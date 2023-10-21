@@ -74,6 +74,9 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         pixelDropper.init(hardwareMap);
         pixelDropper.dropperInitTeleop();
 
+        lift.init(hardwareMap);
+        lift.gripperInitTeleop();
+        lift.anglerInitTeleop();
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
         liftState = LiftState.LIFT_IDLE;
@@ -115,33 +118,45 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-                pixelDropper.dropperClosed();
-                debounce(500);
+                lift.anglerCarry();
             }
 
             if (gamepad1.dpad_up) {
-                speedFactor = 1.0;
-
+                lift.setAnglerDeploy();
             }
 
             if (gamepad1.dpad_down) {
-                speedFactor = 0.5;
+                lift.setAnglerLoad();
 
             }
 
             if (gamepad1.dpad_left) {
-                pixelDropper.dropperOpen();
-                debounce(500);
+
+                lift.setSlideLevel4();
+
             }
 
             if (gamepad1.back) {
 
             }
             if (gamepad1.left_trigger > 0.25) {
-
+                lift.gripperOpen();
             }
 
             if (gamepad1.right_trigger > 0.25) {
+                lift.gripperClosed();
+                debounce(500);
+
+            }
+
+            if (gamepad1.right_bumper) {
+                lift.setSlideLevel1();
+
+            }
+
+            if (gamepad1.left_bumper) {
+                pixelDropper.dropperClosed();
+                debounce(500);
 
             }
 //// GAMEPAD #2/////////////////////////
