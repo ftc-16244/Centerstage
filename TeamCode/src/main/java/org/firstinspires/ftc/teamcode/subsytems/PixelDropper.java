@@ -37,10 +37,8 @@ public class PixelDropper {
 
     public void init(HardwareMap hwMap)  {
 
-        voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
-
         // Initialize the dropper
-        pixelDropperServo = hwMap.get(Servo.class,"pixelDropper"); //port 2
+        pixelDropperServo = hwMap.get(Servo.class,"pixelDropperServo"); //port 0
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

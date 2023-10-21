@@ -23,6 +23,6 @@ public class Climber {
         winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         climber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        winch.setCurrentAlert(9.2, CurrentUnit.AMPS);
+        winch.setCurrentAlert(9, CurrentUnit.AMPS); // Stall rating is 9.2
     }
 }

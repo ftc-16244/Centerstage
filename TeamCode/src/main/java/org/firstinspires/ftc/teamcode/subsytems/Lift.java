@@ -71,14 +71,14 @@ public class Lift {
 
     public void init(HardwareMap hwMap)  {
 
-        voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
+        voltSensor = hwMap.voltageSensor.get("Expansion Hub 4");
 
         // Initialize angler
-        angler = hwMap.get(Servo.class,"angler");// port 4
+        angler = hwMap.get(Servo.class,"anglerServo");// port 2
         //turner.setPosition(BACK);
 
         // Initialize the gripper
-        gripper = hwMap.get(Servo.class,"gripper"); //port 0
+        gripper = hwMap.get(Servo.class,"gripperServo"); //port 0
 
 
         // Initialize the lift motor
