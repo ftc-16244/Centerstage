@@ -27,11 +27,9 @@ public class Climber {
     ElapsedTime runtime = new ElapsedTime();
 
     public static double LIFTSPEED = 0.70; //
-    private static final double LIFT_HEIGHT_CORRECTION_FACTOR = 1.13;
     private static final double TICKS_PER_MOTOR_REV = 384.5; // goBilda 435  //312 RPM  537.7
     private static final double PULLEY_DIA = 40; // milimeters
-    private static final double LIFT_DISTANCE_PER_REV = PULLEY_DIA * Math.PI / (25.4 * LIFT_HEIGHT_CORRECTION_FACTOR);
-    private static final double TICKS_PER_LIFT_IN = TICKS_PER_MOTOR_REV / LIFT_DISTANCE_PER_REV;
+    private static final double PULLEY_DISTANCE_PER_ANGLER_DEGREE = (PULLEY_DIA * Math.PI) / 1;
 
     private static final int climberDeployed = 385;
     private static final int climberStowed = 0;
@@ -57,28 +55,16 @@ public class Climber {
         winch.setCurrentAlert(9, CurrentUnit.AMPS); // Stall rating is 9.2
     }
 
-    public void climberInitTeleop(){
+public void climberInitTeleop(){
         climber.setTargetPosition(climberStowed);
         winch.setTargetPosition(winchStowed);
     }
 
 
-    public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED) {
-
-        int newTargetHeight;
-
-
-        // Ensure that the opmode is still active
+    public void climberGoToPosition(int climberPosition, double speed) {
         if (opmode.opModeIsActive()) {
-
-            // Determine new target lift height in ticks based on the current position.
-            // When the match starts the current position should be reset to zero.
-
-            newTargetHeight = (int) (height * TICKS_PER_LIFT_IN);
-            // Set the target now that is has been calculated
-            climber.setTargetPosition(newTargetHeight);
-            // Turn On RUN_TO_POSITION
-            climber.setPower(Math.abs(SLIDELIFTSPEED));
+            climber.setTargetPosition(climberPosition);
+            climber.setPower(Math.abs(speed));
             // reset the timeout time and start motion.
             runtime.reset();
             climber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -87,9 +73,6 @@ public class Climber {
             // holds up execution to let the slide go up to the right place
 
             // }
-
-
         }
-
     }
 }
