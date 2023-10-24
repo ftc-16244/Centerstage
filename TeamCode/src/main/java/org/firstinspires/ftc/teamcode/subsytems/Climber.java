@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsytems;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -38,7 +39,12 @@ public class Climber {
     private static final int winchStowed = 0;
 
     public double targetHeight;
+    public double ticks;
 
+    public Climber(LinearOpMode opmode) {
+        this.opmode = opmode;
+
+    }
 
     public void init(HardwareMap hardwareMap) {
         climber = hardwareMap.get(DcMotorEx.class, "climberMotor");
@@ -51,7 +57,10 @@ public class Climber {
         winch.setCurrentAlert(9, CurrentUnit.AMPS); // Stall rating is 9.2
     }
 
-
+    public void climberInitTeleop(){
+        climber.setTargetPosition(climberStowed);
+        winch.setTargetPosition(winchStowed);
+    }
 
 
     public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED) {

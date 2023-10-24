@@ -28,6 +28,8 @@ public class Centerstage_Teleop1 extends LinearOpMode {
     Lift lift = new Lift(this);
     PixelDropper pixelDropper = new PixelDropper(this);
 
+    Climber climber = new Climber(this);
+
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
 
@@ -77,6 +79,11 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         lift.init(hardwareMap);
         lift.gripperInitTeleop();
         lift.anglerInitTeleop();
+
+        climber.init(hardwareMap);
+        climber.climberInitTeleop();
+
+
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
         liftState = LiftState.LIFT_IDLE;
@@ -118,7 +125,7 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-                lift.anglerCarry();
+                climber.tickCalc();
             }
 
             if (gamepad1.dpad_up) {

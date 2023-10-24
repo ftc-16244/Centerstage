@@ -25,7 +25,7 @@ public class Climber_Test extends LinearOpMode {
     ElapsedTime turnerTimer = new ElapsedTime();
 
     Climber_2 climber = new Climber_2(this);
-    Climber_2 winch = new Climber_2(this);
+    //Climber_2 winch = new Climber_2(this);
 
 
     private ElapsedTime teleopTimer = new ElapsedTime();
@@ -106,11 +106,18 @@ public class Climber_Test extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-                winch.winchDeploy();
+                climber.winchDeploy();
+                debounce(500);
+            }
+
+            if (gamepad1.b) {
+                climber.winchStow();
                 debounce(500);
             }
 
             if (gamepad1.back) {
+                climber.winchHang();
+                debounce(500);
 
             }
             if (gamepad1.left_trigger > 0.25) {

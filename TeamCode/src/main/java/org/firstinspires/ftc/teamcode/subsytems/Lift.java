@@ -40,7 +40,7 @@ public class Lift {
     ElapsedTime runtime = new ElapsedTime();
 
     //Constants Lift
-    public  static double           LIFTSPEED                  = 0.30; //
+    public  static double           LIFTSPEED                  = 0.50; //
     public  static double           LIFTSPEEDSLOWER            = 0.5; //
     public static  double           LIFTRESETSPEED                 = -0.2; //
     public static final double      LIFT_LEVEL_1                   = 0; // inches Load pixel level

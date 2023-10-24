@@ -162,4 +162,11 @@ public class Climber_2 {
     public void winchDeploy(){
         setToWinchSpoolOut(WINCH_DEPLOY_DISTANCE, 3);
     }
+    public void winchHang(){
+        setToWinchSpoolOut(WINCH_HANGING_DISTANCE, 3);
+    }
+    public void winchStow(){
+        setToWinchSpoolOut(WINCH_STOWED_DISTANCE, 3);
+    }
+
 }
