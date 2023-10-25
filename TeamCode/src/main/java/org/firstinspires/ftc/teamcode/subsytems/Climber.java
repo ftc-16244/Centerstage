@@ -56,7 +56,6 @@ public void climberInitTeleop(){
         winch.setTargetPosition(winchStowed);
     }
 
-
     public void climberGoToPosition(int climberPosition, double speed) {
         if (opmode.opModeIsActive()) {
             climber.setTargetPosition(climberPosition);
@@ -67,7 +66,6 @@ public void climberInitTeleop(){
             // while (opmode.opModeIsActive() &&
             //       (runtime.seconds() < timeoutS) && slidemotorback.isBusy() && slidemotorfront.isBusy()) {
             // holds up execution to let the slide go up to the right place
-
             // }
         }
     }

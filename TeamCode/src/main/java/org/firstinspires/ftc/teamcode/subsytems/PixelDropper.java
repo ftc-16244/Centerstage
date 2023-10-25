@@ -15,20 +15,14 @@ public class PixelDropper {
     public Servo pixelDropperServo = null;
     public VoltageSensor    voltSensor         = null;
 
-
     //Constants for dropper
-
     public static final double      DROPPER_OPEN       = 0.25; // not dropped
     public static final double      DROPPER_CLOSED      = 0.64 ; // pixel dropped
-
-
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
 
     ElapsedTime runtime = new ElapsedTime();
-
-
 
     /// constructor with opmode passed in
     public PixelDropper(LinearOpMode opmode) {
@@ -36,9 +30,8 @@ public class PixelDropper {
     }
 
     public void init(HardwareMap hwMap)  {
-
         // Initialize the dropper
-        pixelDropperServo = hwMap.get(Servo.class,"pixelDropperServo"); //port 0
+        pixelDropperServo = hwMap.get(Servo.class,"pixelDropperServo");
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

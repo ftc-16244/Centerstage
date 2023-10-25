@@ -29,9 +29,10 @@ public class Lift {
     public static final double      GRIPPER_CLOSED      = 0.45; // pixel gripped
 
     //Constants for angler
+    //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.45; // load and moving the pixel
     public static final double      ANGLER_DEPLOY      = 0.45; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
+    public static final double      ANGLER_LOAD      = 0.4945; // Loading the pixel
 
 
     Telemetry       telemetry;
@@ -40,28 +41,22 @@ public class Lift {
     ElapsedTime runtime = new ElapsedTime();
 
     //Constants Lift
-    public  static double           LIFTSPEED                  = 0.50; //
-    public  static double           LIFTSPEEDSLOWER            = 0.5; //
+    public  static double           LIFTSPEED                  = 1.00; // full speed
+    public  static double           LIFTSPEEDSLOWER            = 0.5; //half speed
     public static  double           LIFTRESETSPEED                 = -0.2; //
     public static final double      LIFT_LEVEL_1                   = 0; // inches Load pixel level
-    public static final double      LIFT_LEVEL_2                   = 2; // inches
-    public static final double      LIFT_LEVEL_3                   = 13.5; // inches
-    public static final double      LIFT_LEVEL_4                   = 10; // inches
+    public static final double      LIFT_LEVEL_1point5             = 1; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_2                   = 3; // inches
+    public static final double      LIFT_LEVEL_3                   = 5; // inches
+    public static final double      LIFT_LEVEL_4                   = 7; // inches
 
-    private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.13;
+    private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
     private static final double     PULLEY_DIA                      = 40; // milimeters
     private static final double     LIFT_DISTANCE_PER_REV           = PULLEY_DIA * Math.PI / (25.4*LIFT_HEIGHT_CORRECTION_FACTOR);
     private static final double     TICKS_PER_LIFT_IN               = TICKS_PER_MOTOR_REV / LIFT_DISTANCE_PER_REV;
 
-    public static double            LIFT_NEW_P                     = 10.0; // 2.5 default
-    public static double            LIFT_NEW_I                     = 0.5;// 0.1 default
-    public static double            LIFT_NEW_D                     = 0.0; // 0.2 default
-    public static double            LIFT_NEW_F                     = 0; // 10 default
-
-
     public double  targetHeight;
-
 
     /// constructor with opmode passed in
     public Lift(LinearOpMode opmode) {
@@ -80,11 +75,9 @@ public class Lift {
         // Initialize the gripper
         gripper = hwMap.get(Servo.class,"gripperServo"); //port 0
 
-
         // Initialize the lift motor
         liftMotor = hwMap.get(DcMotorEx.class,"liftMotor");
         liftMotor.setDirection(DcMotorEx.Direction.FORWARD);
-
 
         PIDFCoefficients pidfOrig = liftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -98,11 +91,8 @@ public class Lift {
         //slidemotorback.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
         //slidemotorfront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
 
-
         liftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-
     }
 
     //Angler methods
@@ -116,8 +106,6 @@ public class Lift {
         angler.setPosition(ANGLER_DEPLOY);//fwd
     }
 
-
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public void gripperInitTeleop(){
@@ -126,84 +114,62 @@ public class Lift {
     public void anglerInitTeleop(){
         angler.setPosition(ANGLER_LOAD);
     }
-
     public void gripperInitAuto(){
         gripper.setPosition(GRIPPER_CLOSED);
     }
     public void gripperClosed(){
         gripper.setPosition(GRIPPER_CLOSED);
-
     }
-
     public void gripperOpen(){
         gripper.setPosition(GRIPPER_OPEN);
     }
-
     public double getWinchPos(){
         double liftPos;
         liftPos = liftMotor.getCurrentPosition()/ TICKS_PER_LIFT_IN; //returns in inches
         return  liftPos;
     }
-
     public void  setSlideLevel1(){
         targetHeight = ( LIFT_LEVEL_1 );
         liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
-
     }
-
     public void setSlideLevel2(){
         targetHeight = ( LIFT_LEVEL_2);
         liftToTargetHeight(targetHeight,3,  LIFTSPEEDSLOWER);
-
     }
-
     public void setSlideLevel3(){
         targetHeight = ( LIFT_LEVEL_3);
         liftToTargetHeight(targetHeight,3, LIFTSPEED);
-
     }
-
     public void setSlideLevel4(){
         targetHeight = ( LIFT_LEVEL_4);
         liftToTargetHeight(targetHeight,3, LIFTSPEED);
-
     }
-
     public void slideMechanicalReset(){
-
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         liftMotor.setPower(LIFTRESETSPEED);
-
 
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop
         // reset for time allowed or until the limit/ touch sensor is pressed.
         while (runtime.seconds() < 2.0) {
-
             //Time wasting loop so slide can retract. Loop ends when time expires or touch sensor is pressed
         }
         liftMotor.setPower(0);
         runtime.reset();
         while ((runtime.seconds() < 0.25)) {
-
             //Time wasting loop to let spring relax
         }
         // set everything back the way is was before reset so encoders can be used
         liftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
         //slideTrainerState = SlideTrainerState.IDLE;// once this is done we are at zero power or idling.
-
     }
 
     public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED){
-
         int newTargetHeight;
-
 
         // Ensure that the opmode is still active
         if (opmode.opModeIsActive()) {
-
             // Determine new target lift height in ticks based on the current position.
             // When the match starts the current position should be reset to zero.
 
@@ -218,13 +184,7 @@ public class Lift {
             // while (opmode.opModeIsActive() &&
             //       (runtime.seconds() < timeoutS) && slidemotorback.isBusy() && slidemotorfront.isBusy()) {
             // holds up execution to let the slide go up to the right place
-
             // }
-
-
         }
-
-
     }
-
 }

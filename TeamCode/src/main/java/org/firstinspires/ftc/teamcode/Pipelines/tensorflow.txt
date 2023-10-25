@@ -1,1 +1,5 @@
 "/data/tensorflow-files" is the path that we could put the tensorflow models
+
+To make the folder we need to do `adb shell` then `su` then `cd /data` then `mkdir tensorflow-files`
+
+To push the models we just need to do `adb push`

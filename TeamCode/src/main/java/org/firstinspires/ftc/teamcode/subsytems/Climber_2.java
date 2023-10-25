@@ -30,9 +30,10 @@ public class Climber_2 {
 
     // Climber Constants - Arm Angles
 
-    private static final double CLIMBER_DEPLOY_ANGLE = 60; // degrees - change this variable to fine tune.
+    private static final double CLIMBER_DEPLOY_ANGLE = 65; // degrees - change this variable to fine tune.
     private static final double CLIMBER_HANGING_ANGLE = 20; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOWED_ANGLE = 0; // degrees - change this variable to fine tune.
+    private static final double CLIMBER_STOW_SPEED = 0.1;
 
     // Climber Constants - Convert to ticks
 
@@ -90,7 +91,6 @@ public class Climber_2 {
     public void setToTargetClimbAngle(double climber_angle, double timeoutS) {
 
         int newTargetClimbAngle;
-
 
         // Ensure that the opmode is still active
         if (opmode.opModeIsActive()) {

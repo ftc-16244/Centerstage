@@ -14,12 +14,13 @@ import org.firstinspires.ftc.teamcode.subsytems.Lift;
 import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.subsytems.Climber_2;
 
+import java.util.HashMap;
 
 
 @Config
 @TeleOp(group = "Teleop")
 
-public class Centerstage_Teleop1 extends LinearOpMode {
+public class Centerstage_Teleop2 extends LinearOpMode {
 // test
 
     ElapsedTime runtime = new ElapsedTime();
@@ -51,7 +52,6 @@ public class Centerstage_Teleop1 extends LinearOpMode {
         ANGLER_DEPLOY,
         ANGLER_CARRY
     }
-
 
     LiftState liftState = LiftState.LIFT_UNKNOWN;
     AnglerState anglerState;
@@ -131,6 +131,7 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
             if (gamepad1.dpad_down) {
                 lift.setAnglerLoad();
+
             }
 
             if (gamepad1.dpad_left) {
@@ -157,10 +158,50 @@ public class Centerstage_Teleop1 extends LinearOpMode {
             if (gamepad1.left_bumper) {
 
             }
+            if (gamepad1.left_stick_button) {
+                speedFactor = 0.5;
+            }
+            if (gamepad1.right_stick_button) {
+                speedFactor = 0.25;
+            }
+            if (gamepad1.a) {
+                speedFactor = 1;
+            }
 //// GAMEPAD #2/////////////////////////
 
+            if (gamepad2.y) {
+                climber.climberDeploy();
+            }
+            if (gamepad2.right_trigger > 0.25) {
+                climber.climberHang();
+                debounce(500);
+            }
+            if (gamepad2.b) {
+                climber.climberStow();
+                debounce(250);
+            }
+            if (gamepad2.back) {
+                lift.slideMechanicalReset();
+            }
+            if (gamepad2.x) {
+                speedFactor = 0.25;
+                debounce(500);
+            }
+            if (gamepad2.dpad_down) {
+                lift.setSlideLevel1();
+                debounce(200);
+            }
+            if (gamepad2.dpad_right) {
+                lift.setSlideLevel2();
+                debounce(200);
+            }
             if (gamepad2.dpad_up) {
-
+                lift.setSlideLevel3();
+                debounce(200);
+            }
+            if (gamepad2.dpad_right) {
+                lift.setSlideLevel4();
+                debounce(200);
             }
             /*
             switch(liftState) {
@@ -287,10 +328,6 @@ public class Centerstage_Teleop1 extends LinearOpMode {
 
             }
              */
-
-            if (gamepad2.back) {
-
-            }
         }
     }
 
