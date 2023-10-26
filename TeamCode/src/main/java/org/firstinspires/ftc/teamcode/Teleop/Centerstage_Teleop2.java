@@ -199,7 +199,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                 lift.setSlideLevel3();
                 debounce(200);
             }
-            if (gamepad2.dpad_right) {
+            if (gamepad2.dpad_left) {
                 lift.setSlideLevel4();
                 debounce(200);
             }

@@ -44,16 +44,16 @@ public class Lift {
     public  static double           LIFTSPEED                  = 1.00; // full speed
     public  static double           LIFTSPEEDSLOWER            = 0.5; //half speed
     public static  double           LIFTRESETSPEED                 = -0.2; //
-    public static final double      LIFT_LEVEL_1                   = 0; // inches Load pixel level
+    public static final double      LIFT_LEVEL_1                   = 0; // Load pixel level
     public static final double      LIFT_LEVEL_1point5             = 1; // auto drop pixel in right spot
-    public static final double      LIFT_LEVEL_2                   = 3; // inches
-    public static final double      LIFT_LEVEL_3                   = 5; // inches
-    public static final double      LIFT_LEVEL_4                   = 7; // inches
+    public static final double      LIFT_LEVEL_2                   = 4;
+    public static final double      LIFT_LEVEL_3                   = 7;
+    public static final double      LIFT_LEVEL_4                   = 10;
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
     private static final double     PULLEY_DIA                      = 40; // milimeters
-    private static final double     LIFT_DISTANCE_PER_REV           = PULLEY_DIA * Math.PI / (25.4*LIFT_HEIGHT_CORRECTION_FACTOR);
+    private static final double     LIFT_DISTANCE_PER_REV           = PULLEY_DIA * Math.PI / (25.4 * LIFT_HEIGHT_CORRECTION_FACTOR);
     private static final double     TICKS_PER_LIFT_IN               = TICKS_PER_MOTOR_REV / LIFT_DISTANCE_PER_REV;
 
     public double  targetHeight;
