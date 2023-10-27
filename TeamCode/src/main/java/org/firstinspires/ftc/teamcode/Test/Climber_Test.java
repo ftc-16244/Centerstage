@@ -10,9 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.Climber_2;
-import org.firstinspires.ftc.teamcode.subsytems.Lift;
-import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
 
 
 @Config
@@ -24,7 +22,7 @@ public class Climber_Test extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     ElapsedTime turnerTimer = new ElapsedTime();
 
-    Climber_2 climber = new Climber_2(this);
+    Climber climber = new Climber(this);
     //Climber_2 winch = new Climber_2(this);
 
 

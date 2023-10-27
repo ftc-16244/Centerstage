@@ -47,22 +47,6 @@ public class WebcamPipeline extends OpenCvPipeline {
         Prop detectableNoncenter;
 
         if (startPosition == StartPosition.RED_AUD) {
-            NONCENTER_ROI = LEFT_ROI_RED;
-            CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
-            lowHSV = RED_LOW_HSV;
-            highHSV = RED_HIGH_HSV;
-        }
-        else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI = RIGHT_ROI_BLUE;
-            CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
-            lowHSV = BLUE_LOW_HSV;
-            highHSV = BLUE_HIGH_HSV;
-        }
-        else if (startPosition == StartPosition.RED_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
             undetectableLocation = Prop.RIGHT;
@@ -70,11 +54,27 @@ public class WebcamPipeline extends OpenCvPipeline {
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
-        else if (startPosition == StartPosition.BLUE_STAGE) {
+        else if (startPosition == StartPosition.BLUE_AUD) {
             NONCENTER_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
             undetectableLocation = Prop.LEFT;
             detectableNoncenter = Prop.RIGHT;
+            lowHSV = BLUE_LOW_HSV;
+            highHSV = BLUE_HIGH_HSV;
+        }
+        else if (startPosition == StartPosition.RED_STAGE) {
+            NONCENTER_ROI = LEFT_ROI_RED;
+            CENTER_ROI = CENTER_ROI_RED;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
+            lowHSV = RED_LOW_HSV;
+            highHSV = RED_HIGH_HSV;
+        }
+        else if (startPosition == StartPosition.BLUE_STAGE) {
+            NONCENTER_ROI = RIGHT_ROI_BLUE;
+            CENTER_ROI = CENTER_ROI_BLUE;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }

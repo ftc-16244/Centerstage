@@ -21,8 +21,6 @@ public class Lift {
 
     public  DcMotorEx       liftMotor;  // config name is "slideMotor"
 
-
-
     //Constants for gripper
 
     public static final double      GRIPPER_OPEN       = 0.25; // not gripped
@@ -108,15 +106,6 @@ public class Lift {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void gripperInitTeleop(){
-        gripper.setPosition(GRIPPER_OPEN);
-    }
-    public void anglerInitTeleop(){
-        angler.setPosition(ANGLER_LOAD);
-    }
-    public void gripperInitAuto(){
-        gripper.setPosition(GRIPPER_CLOSED);
-    }
     public void gripperClosed(){
         gripper.setPosition(GRIPPER_CLOSED);
     }

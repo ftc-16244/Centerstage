@@ -12,9 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
-import org.firstinspires.ftc.teamcode.subsytems.Climber_2;
-
-import java.util.HashMap;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
 
 
 @Config
@@ -29,7 +27,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
     Lift lift = new Lift(this);
     PixelDropper pixelDropper = new PixelDropper(this);
 
-    Climber_2 climber = new Climber_2(this);
+    Climber climber = new Climber(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 130;
@@ -74,15 +72,14 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
         pixelDropper.init(hardwareMap);
-        pixelDropper.dropperInitTeleop();
+        pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
-        lift.gripperInitTeleop();
-        lift.anglerInitTeleop();
+        lift.gripperOpen();
+        lift.setAnglerLoad();
 
         climber.init(hardwareMap);
         climber.climberStow();
-
 
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
@@ -100,7 +97,11 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setSlideLevel1();
+        lift.setAnglerLoad();
+        lift.gripperOpen();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
@@ -122,7 +123,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-
+                pixelDropper.dropperOpen();
             }
 
             if (gamepad1.dpad_up) {
@@ -131,11 +132,10 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             if (gamepad1.dpad_down) {
                 lift.setAnglerLoad();
-
             }
 
             if (gamepad1.dpad_left) {
-
+                pixelDropper.dropperClosed();
             }
 
             if (gamepad1.back) {
@@ -148,7 +148,6 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             if (gamepad1.right_trigger > 0.25) {
                 lift.gripperClosed();
                 debounce(500);
-
             }
 
             if (gamepad1.right_bumper) {

@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.Pipelines.WebcamPipeline;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Lift;
+import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,6 +24,9 @@ public class StageBlue extends LinearOpMode {
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
+
+        Lift lift = new Lift(this);
+        PixelDropper pixelDropper = new PixelDropper(this);
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -40,6 +45,14 @@ public class StageBlue extends LinearOpMode {
             @Override
             public void onError(int errorCode) {}
         });
+
+        pixelDropper.init(hardwareMap);
+        pixelDropper.dropperClosed();
+
+        lift.init(hardwareMap);
+        lift.setSlideLevel1();
+        lift.gripperClosed();
+        lift.setAnglerLoad();
 
         waitForStart();
 
