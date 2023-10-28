@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.Pipelines.WebcamPipeline;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Lift;
+import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,6 +24,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class StageRed extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
+    Lift lift = new Lift(this);
+    PixelDropper pixelDropper = new PixelDropper(this);
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -73,49 +77,91 @@ public class StageRed extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // Start of Roadrunner stuff
-        Pose2d startPos = new Pose2d(60, 24, Math.toRadians(90));
+        //============================
+        // POSE SECTION
+        //============================
+        // Common poses for all 3 Red Stage Prop Positions
+        Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
+        Pose2d RedPark = new Pose2d(7,50,Math.toRadians(90));
 
-        Pose2d StageRedLeft = new Pose2d(30,12,Math.toRadians(90));
-        Pose2d StageRedCenter = new Pose2d(21.5,24,Math.toRadians(90));
-        Pose2d StageRedRight = new Pose2d(30,40,Math.toRadians(90));
+        // Center Prop
+        // pixel drop point
+        Pose2d StageRedCenter = new Pose2d(19,12,Math.toRadians(90));
+        //backstage drop
+        Pose2d StageRedCenterDropoff = new Pose2d(39.5, 55, Math.toRadians(90));
 
+        // Left Prop Poses - this one has an extra motion
+        // Strafe and rotate towards drive team.
+        Pose2d StageRedLeft1 = new Pose2d(31,18, Math.toRadians(0));
+        // Strafe under the truss partially to drop the pixel
+        Pose2d StageRedLeft2 = new Pose2d(31,-6,Math.toRadians(0));
+        // Position on the backstage board to drop yellow pixel
+        Pose2d StageRedLeftDropoff = new Pose2d(23,55, Math.toRadians(90));
 
-        Pose2d StageRedCenterDropoff = new Pose2d(34, 60, Math.toRadians(90));
-        Pose2d StageRedLeftDropoff = new Pose2d(29, 60, Math.toRadians(90));
-        Pose2d StageRedRightDropoff = new Pose2d(39, 60, Math.toRadians(90));
+        // Right Prop Poses
 
-        Pose2d RedPark = new Pose2d(12,60,Math.toRadians(90));
+        Pose2d StageRedRight = new Pose2d(29,25,Math.toRadians(90));
+        Pose2d StageRedRightDropoff = new Pose2d(46.5, 55, Math.toRadians(90));
+
 
         drive.setPoseEstimate(startPos);
 
+        //============================
+        // TRAJECTORIES 
+        //============================
 
         //StageRedLeft
         TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .strafeLeft(27)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageRedLeft1)
+                .lineToLinearHeading(StageRedLeft2)
                 .waitSeconds(1)
-                .back(4)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
+                .lineToLinearHeading(StageRedLeft1)
                 .lineToLinearHeading(StageRedLeftDropoff)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 .lineToLinearHeading(RedPark)
                 .build();
 
         //StageRedCenter
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedCenter)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .strafeLeft(16)
                 .lineToLinearHeading(StageRedCenterDropoff)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 .lineToLinearHeading(RedPark)
                 .build();
 
         //StageRedRight
         TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedRight)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.25)
+                .strafeLeft(16)
                 .lineToLinearHeading(StageRedRightDropoff)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(RedPark)
                 .build();
 
@@ -130,7 +176,7 @@ public class StageRed extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_STAGE_" + location);
+        telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
         switch(location) {

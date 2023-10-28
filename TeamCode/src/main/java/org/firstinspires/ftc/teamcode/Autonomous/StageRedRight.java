@@ -54,14 +54,14 @@ public class StageRedRight extends LinearOpMode {
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
 
-        Pose2d StageRedLeft1 = new Pose2d(31,18, Math.toRadians(0));
-        Pose2d StageRedLeft2 = new Pose2d(31,-6,Math.toRadians(0));
-        Pose2d StageRedCenter = new Pose2d(19,12,Math.toRadians(90));
+        //Pose2d StageRedLeft1 = new Pose2d(31,18, Math.toRadians(0));
+        //Pose2d StageRedLeft2 = new Pose2d(31,-6,Math.toRadians(0));
+        //Pose2d StageRedCenter = new Pose2d(19,12,Math.toRadians(90));
         Pose2d StageRedRight = new Pose2d(29,25,Math.toRadians(90));
 
 
-        Pose2d StageRedCenterDropoff = new Pose2d(39.5, 55, Math.toRadians(90));
-        Pose2d StageRedLeftDropoff = new Pose2d(23,55, Math.toRadians(90));
+        //Pose2d StageRedCenterDropoff = new Pose2d(39.5, 55, Math.toRadians(90));
+        //Pose2d StageRedLeftDropoff = new Pose2d(23,55, Math.toRadians(90));
         Pose2d StageRedRightDropoff = new Pose2d(46.5, 55, Math.toRadians(90));
 
         Pose2d RedPark = new Pose2d(7,50,Math.toRadians(90));
