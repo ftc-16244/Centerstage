@@ -107,7 +107,7 @@ public class StageRed extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         //============================
-        // TRAJECTORIES 
+        // TRAJECTORIES
         //============================
 
         //StageRedLeft
