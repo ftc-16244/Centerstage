@@ -34,14 +34,14 @@ import java.util.List;
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 30/25.4; // in
+    public static double WHEEL_RADIUS = 30/25.4; // in for REV 60mm omni wheel type
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y = 7; // Y is the strafe direction
+    public static double PARALLEL_X = 0.5; // X is the up and down direction
+    public static double PARALLEL_Y = 6.4; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = 2;
-    public static double PERPENDICULAR_Y = -2.0;
+    public static double PERPENDICULAR_X = -3.5;
+    public static double PERPENDICULAR_Y = -1.3;
 
     public static double X_MULTIPLIER = 1;
     public static double Y_MULTIPLIER = 1;
@@ -60,8 +60,12 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         ));
 
         this.drive = drive;
-        // use the LH endoder for now as parallel, Move to center of robot if it works.
-        // forward encoder is now called the perpendicular one.
+        // Ideally these encoders are set to motor port 0 and motor port 3 due to the high
+        // tick count of the REV encoders and that fact that port 0 and 3 are hardware reads and
+        // not software reads. This was presented as a tech tip in Oct 2023.
+        // The REV through bore encoder is the one that is driving this recomendation due to
+        // the high ticks per revolution. The new goBilda encoders pose less problems due to
+        // lower ticks per rev.
         parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
         perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
 
