@@ -16,8 +16,8 @@ public class PixelDropper {
     public VoltageSensor    voltSensor         = null;
 
     //Constants for dropper
-    public static final double      DROPPER_OPEN       = 0.25; // not dropped
-    public static final double      DROPPER_CLOSED      = 0.64 ; // pixel dropped
+    public static final double      DROPPER_OPEN       = 0.80; // not dropped bigger number to go clockwise when looking at servo shaft
+    public static final double      DROPPER_CLOSED      = 0.51 ; // pixel dropped
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
