@@ -43,8 +43,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PERPENDICULAR_X = -3.5;
     public static double PERPENDICULAR_Y = -1.3;
 
-    public static double X_MULTIPLIER = 1;
-    public static double Y_MULTIPLIER = 1;
+    public static double X_MULTIPLIER = 1.008;
+    public static double Y_MULTIPLIER = 1.008;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
@@ -66,8 +66,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         // The REV through bore encoder is the one that is driving this recomendation due to
         // the high ticks per revolution. The new goBilda encoders pose less problems due to
         // lower ticks per rev.
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         parallelEncoder.setDirection(Encoder.Direction.FORWARD);
