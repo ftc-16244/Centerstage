@@ -23,14 +23,14 @@ public class Lift {
 
     //Constants for gripper
 
-    public static final double      GRIPPER_OPEN       = 0.25; // not gripped
+    public static final double      GRIPPER_OPEN       = 0.30; // not gripped
     public static final double      GRIPPER_CLOSED      = 0.45; // pixel gripped
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.45; // load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.45; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.4945; // Loading the pixel
+    public static final double      ANGLER_DEPLOY      = 0.46; // deposit the pixel
+    public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
 
 
     Telemetry       telemetry;
@@ -45,8 +45,8 @@ public class Lift {
     public static final double      LIFT_LEVEL_1                   = 0; // Load pixel level
     public static final double      LIFT_LEVEL_1point5             = 1; // auto drop pixel in right spot
     public static final double      LIFT_LEVEL_2                   = 4;
-    public static final double      LIFT_LEVEL_3                   = 7;
-    public static final double      LIFT_LEVEL_4                   = 10;
+    public static final double      LIFT_LEVEL_3                   = 9;
+    public static final double      LIFT_LEVEL_4                   = 13;
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
