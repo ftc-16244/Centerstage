@@ -14,8 +14,8 @@ public class ConstantsForPositionsCube {
             new Point(255, 125)
     );
     public static final Rect RIGHT_ROI_RED = new Rect(
-            new Point(10, 70),
-            new Point(90, 150)
+            new Point(10, 100),
+            new Point(90, 180)
     );
     public static final Rect LEFT_ROI_BLUE = new Rect(
             new Point(240, 75),

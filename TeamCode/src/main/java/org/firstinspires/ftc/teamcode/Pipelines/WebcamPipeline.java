@@ -47,7 +47,7 @@ public class WebcamPipeline extends OpenCvPipeline {
         Prop detectableNoncenter;
 
         if (startPosition == StartPosition.RED_AUD) {
-            NONCENTER_ROI = RIGHT_ROI_RED;
+            NONCENTER_ROI = LEFT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;
@@ -63,7 +63,7 @@ public class WebcamPipeline extends OpenCvPipeline {
             highHSV = BLUE_HIGH_HSV;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
-            NONCENTER_ROI = LEFT_ROI_RED;
+            NONCENTER_ROI = RIGHT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
             undetectableLocation = Prop.LEFT;
             detectableNoncenter = Prop.RIGHT;
