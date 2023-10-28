@@ -10,12 +10,15 @@ public class ConstantsForPositionsCube {
             new Point(100, 150)
     );
     public static final Rect CENTER_ROI_RED = new Rect(
-            new Point(185, 55),
-            new Point(255, 125)
-    );
-    public static final Rect RIGHT_ROI_RED = new Rect(
+            // Swapped these for Meet 1 Robot Camera Location
+            // The Center and right spike (tape) marks are visible to the camera
             new Point(10, 100),
             new Point(90, 180)
+
+    );
+    public static final Rect RIGHT_ROI_RED = new Rect(
+            new Point(185, 55),
+            new Point(255, 125)
     );
     public static final Rect LEFT_ROI_BLUE = new Rect(
             new Point(240, 75),
