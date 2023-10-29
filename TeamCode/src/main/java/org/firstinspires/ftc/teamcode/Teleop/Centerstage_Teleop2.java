@@ -123,7 +123,8 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-                pixelDropper.dropperOpen();
+                lift.setanglerCarry();
+                sleep(100);
             }
 
             if (gamepad1.dpad_up) {
@@ -132,6 +133,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             if (gamepad1.dpad_down) {
                 lift.setAnglerLoad();
+                sleep(100);
             }
 
             if (gamepad1.dpad_left) {
