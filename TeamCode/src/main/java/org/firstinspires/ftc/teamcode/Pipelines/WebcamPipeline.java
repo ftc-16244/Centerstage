@@ -71,7 +71,7 @@ public class WebcamPipeline extends OpenCvPipeline {
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
-            NONCENTER_ROI = RIGHT_ROI_BLUE;
+            NONCENTER_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;

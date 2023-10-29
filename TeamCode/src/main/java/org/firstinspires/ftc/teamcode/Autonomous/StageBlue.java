@@ -50,9 +50,11 @@ public class StageBlue extends LinearOpMode {
         pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
-        lift.setSlideLevel1();
         lift.gripperClosed();
-        lift.setAnglerLoad();
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setanglerCarry();
+        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
 
@@ -83,45 +85,83 @@ public class StageBlue extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // Start of Roadrunner stuff
-        Pose2d startPos = new Pose2d(-60, 24, Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-8,50,Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-30, 12, Math.toRadians(90));
-        Pose2d StageBlueCenter = new Pose2d(-21.5, 24, Math.toRadians(90));
-        Pose2d StageBlueRight = new Pose2d(-30, 40, Math.toRadians(90));
+        // Center Prop
+        // pixel drop point
+        Pose2d StageBlueCenter = new Pose2d(-17.5,12,Math.toRadians(90));
+        //backstage drop
+        Pose2d StageBlueCenterDropoff = new Pose2d(-38, 50, Math.toRadians(90));
 
+        // Left Prop Poses - this one has an extra motion
+        // Strafe and rotate towards drive team.
+        Pose2d StageBlueRight1 = new Pose2d(-35,18, Math.toRadians(180));
+        // Strafe under the truss partially to drop the pixel
+        Pose2d StageBlueRight2 = new Pose2d(-35,-5.5,Math.toRadians(180));
+        // Position on the backstage board to drop yellow pixel
+        Pose2d StageBlueRightDropoff = new Pose2d(-27.5,51, Math.toRadians(90));
 
-        Pose2d StageBlueCenterDropoff = new Pose2d(-34, 60, Math.toRadians(90));
-        Pose2d StageBlueLeftDropoff = new Pose2d(-29, 60, Math.toRadians(90));
-        Pose2d StageBlueRightDropoff = new Pose2d(-39, 60, Math.toRadians(90));
+        // Right Prop Poses
 
-        Pose2d BluePark = new Pose2d(-12, 60, Math.toRadians(90));
+        Pose2d StageBlueLeft = new Pose2d(-24,25,Math.toRadians(90));
+        Pose2d StageBlueLeftDropoff = new Pose2d(-46, 51, Math.toRadians(90));
+
 
         drive.setPoseEstimate(startPos);
 
-        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .lineToLinearHeading(StageBlueRight)
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageBlueRight1)
+                .lineToLinearHeading(StageBlueRight2)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .lineToLinearHeading(StageBlueRight1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 .lineToLinearHeading(BluePark)
                 .build();
 
         TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageBlueCenter)
                 .waitSeconds(1)
-                .lineToLinearHeading(StageBlueCenterDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
+                .strafeLeft(22)
+                .lineToLinearHeading(StageBlueCenterDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 .lineToLinearHeading(BluePark)
                 .build();
 
-        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .strafeRight(27)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageBlueLeft)
                 .waitSeconds(1)
-                .back(4)
-                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.25)
+                .strafeLeft(19)
                 .lineToLinearHeading(StageBlueLeftDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(BluePark)
                 .build();
 
