@@ -68,6 +68,7 @@ public class StageRed extends LinearOpMode {
 
         waitForStart();
 
+
         detector.toggleTelemetry();
         telemetry.clearAll();
 
@@ -100,26 +101,26 @@ public class StageRed extends LinearOpMode {
         //============================
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
-        Pose2d RedPark = new Pose2d(7,50,Math.toRadians(90));
+        Pose2d RedPark = new Pose2d(8,50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point
-        Pose2d StageRedCenter = new Pose2d(19,12,Math.toRadians(90));
+        Pose2d StageRedCenter = new Pose2d(22,12,Math.toRadians(90));
         //backstage drop
-        Pose2d StageRedCenterDropoff = new Pose2d(39.5, 55, Math.toRadians(90));
+        Pose2d StageRedCenterDropoff = new Pose2d(39.5, 54, Math.toRadians(90));
 
         // Left Prop Poses - this one has an extra motion
         // Strafe and rotate towards drive team.
-        Pose2d StageRedLeft1 = new Pose2d(31,18, Math.toRadians(0));
+        Pose2d StageRedLeft1 = new Pose2d(32,18, Math.toRadians(0));
         // Strafe under the truss partially to drop the pixel
-        Pose2d StageRedLeft2 = new Pose2d(31,-6,Math.toRadians(0));
+        Pose2d StageRedLeft2 = new Pose2d(32,-5.5,Math.toRadians(0));
         // Position on the backstage board to drop yellow pixel
-        Pose2d StageRedLeftDropoff = new Pose2d(23,55, Math.toRadians(90));
+        Pose2d StageRedLeftDropoff = new Pose2d(24,54, Math.toRadians(90));
 
         // Right Prop Poses
 
         Pose2d StageRedRight = new Pose2d(29,25,Math.toRadians(90));
-        Pose2d StageRedRightDropoff = new Pose2d(46.5, 55, Math.toRadians(90));
+        Pose2d StageRedRightDropoff = new Pose2d(47.5, 54, Math.toRadians(90));
 
 
         drive.setPoseEstimate(startPos);
@@ -137,6 +138,7 @@ public class StageRed extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
                 .lineToLinearHeading(StageRedLeft1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageRedLeftDropoff)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
@@ -156,6 +158,7 @@ public class StageRed extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeLeft(16)
                 .lineToLinearHeading(StageRedCenterDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
@@ -174,6 +177,7 @@ public class StageRed extends LinearOpMode {
                 .waitSeconds(0.25)
                 .strafeLeft(16)
                 .lineToLinearHeading(StageRedRightDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
