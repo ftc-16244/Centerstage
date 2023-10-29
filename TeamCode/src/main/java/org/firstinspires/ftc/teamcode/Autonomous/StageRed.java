@@ -31,6 +31,22 @@ public class StageRed extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
+
+        // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        lift.init(hardwareMap);
+
+
+        //sleep(500);
+
+        // Set start positions
+        lift.gripperClosed();
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setanglerCarry();
+        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
+
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
@@ -47,6 +63,8 @@ public class StageRed extends LinearOpMode {
             public void onError(int errorCode) {}
 
         });
+
+
 
         waitForStart();
 
