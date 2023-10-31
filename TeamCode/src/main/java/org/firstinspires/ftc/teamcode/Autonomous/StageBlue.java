@@ -50,11 +50,13 @@ public class StageBlue extends LinearOpMode {
         pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
+        lift.setAnglerLoad();
+        sleep(250);
         lift.gripperClosed();
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setanglerCarry();
-        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
+        sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
 

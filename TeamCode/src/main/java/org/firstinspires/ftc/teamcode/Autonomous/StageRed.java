@@ -40,6 +40,8 @@ public class StageRed extends LinearOpMode {
         //sleep(500);
 
         // Set start positions
+        lift.setAnglerLoad();
+        sleep(250);
         lift.gripperClosed();
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
