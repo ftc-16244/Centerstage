@@ -187,6 +187,9 @@ public class StageBlue extends LinearOpMode {
                 break;
             case RIGHT:
                 drive.followTrajectorySequence(StageBlueRightTraj1);
+                lift.gripperClosed();
+                lift.setSlideLevel1();
+                lift.setAnglerLoad();
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");
