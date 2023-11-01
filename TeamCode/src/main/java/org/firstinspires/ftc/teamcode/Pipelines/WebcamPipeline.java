@@ -22,6 +22,7 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
+// Also heavily modified for telemetry, multiple ROIs, and many other things
 
 public class WebcamPipeline extends OpenCvPipeline {
     boolean telemetryEnabled = true;
