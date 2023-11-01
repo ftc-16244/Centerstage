@@ -125,7 +125,7 @@ public class StageBlue extends LinearOpMode {
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
-                .back(2)
+                .strafeLeft(5)
                 .build();
 
         TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
@@ -159,7 +159,7 @@ public class StageBlue extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
                 .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
-                .strafeLeft(6)
+                .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(BluePark)
                 .build();
