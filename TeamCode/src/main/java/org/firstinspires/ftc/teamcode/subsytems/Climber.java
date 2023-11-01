@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsytems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,10 +31,12 @@ public class Climber {
 
     // Climber Constants - Arm Angles
 
-    private static final double CLIMBER_DEPLOY_ANGLE = 65; // degrees - change this variable to fine tune.
+    private static final double CLIMBER_DEPLOY_ANGLE = 67; // degrees - change this variable to fine tune.
     private static final double CLIMBER_HANGING_ANGLE = 20; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOWED_ANGLE = 0; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOW_SPEED = 0.1;
+
+
 
     // Climber Constants - Convert to ticks
 
@@ -49,11 +52,11 @@ public class Climber {
     public static double WINCH_SPEED = 1.0; // go as fast as possible
     // the drive and driven sprockets are both 14 teeth so no need for a gear ratio here.
     private static final double WINCH_TICKS_PER_MOTOR_REV = 1425.1; // 117 RPM goBilda Motor
-    private static final double WINCH_PULLEY_DIA 	= 30; // milimeters
+    private static final double WINCH_PULLEY_DIA 	= 40; // milimeters
 
     // Winch Constants - String Distances
 
-    private static double WINCH_DEPLOY_DISTANCE 	= 20; // inches (need to test to get correct value here)
+    private static double WINCH_DEPLOY_DISTANCE 	= 16; // inches (need to test to get correct value here)
     private static double WINCH_HANGING_DISTANCE 	= 6; // inches (need to test to get correct value here)
     private static double WINCH_STOWED_DISTANCE 	= 0; // inches - should usually be zero. Can change if needed
 
@@ -74,7 +77,7 @@ public class Climber {
         winch = hardwareMap.get(DcMotorEx.class, "winchMotor");
         // set directions
         climber.setDirection(DcMotorEx.Direction.REVERSE);
-        winch.setDirection(DcMotorEx.Direction.REVERSE);
+        winch.setDirection(DcMotorEx.Direction.FORWARD);
         // set to encoder operation
         climber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -136,11 +139,11 @@ public class Climber {
             // reset the timeout time and start motion.
             runtime.reset();
             winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // while (opmode.opModeIsActive() &&
-            //       (runtime.seconds() < timeoutS) && climber.isBusy()) {
-            // holds up execution to let the climber go up to the right place - leave commented out for now
+            while (opmode.opModeIsActive() &&
+                   (runtime.seconds() < timeoutS) && climber.isBusy()) {
+            //holds up execution to let the climber go up to the right place - leave commented out for now
 
-            // }
+             }
 
 
         }
@@ -148,11 +151,11 @@ public class Climber {
     }
 
     public void climberDeploy(){
-        setToTargetClimbAngle(CLIMBER_DEPLOY_ANGLE, 3);
+        setToTargetClimbAngle(CLIMBER_DEPLOY_ANGLE, 10);
     }
 
     public void climberHang(){
-        setToTargetClimbAngle(CLIMBER_HANGING_ANGLE, 3);
+        setToTargetClimbAngle(CLIMBER_HANGING_ANGLE, 10);
     }
 
     public void climberStow(){
