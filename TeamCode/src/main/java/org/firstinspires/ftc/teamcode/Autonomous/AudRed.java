@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
@@ -18,23 +20,39 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+
 @Autonomous
-public class StageBlue extends LinearOpMode {
+public class AudRed extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
+    Lift lift = new Lift(this);
+    PixelDropper pixelDropper = new PixelDropper(this);
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Lift lift = new Lift(this);
-        PixelDropper pixelDropper = new PixelDropper(this);
-
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
+
+        // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        lift.init(hardwareMap);
+
+
+        //sleep(500);
+
+        // Set start positions
+        lift.setAnglerLoad();
+        sleep(250);
+        lift.gripperClosed();
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setanglerCarry();
+        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
+
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.addData("INFO", "Initializing pipeline");
-        telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -42,23 +60,16 @@ public class StageBlue extends LinearOpMode {
             public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
+
             @Override
             public void onError(int errorCode) {}
+
         });
 
-        pixelDropper.init(hardwareMap);
-        pixelDropper.dropperClosed();
 
-        lift.init(hardwareMap);
-        lift.setAnglerLoad();
-        sleep(250);
-        lift.gripperClosed();
-        pixelDropper.dropperClosed();
-        lift.slideMechanicalReset();
-        lift.setanglerCarry();
-        sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
+
 
         detector.toggleTelemetry();
         telemetry.clearAll();
@@ -87,53 +98,53 @@ public class StageBlue extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
-        Pose2d BluePark = new Pose2d(-8,50,Math.toRadians(90));
+        //============================
+        // POSE SECTION
+        //============================
+        // Common poses for all 3 Red Stage Prop Positions
+        Pose2d startPos = new Pose2d(62.5, -12, Math.toRadians(90));
+        Pose2d RedPark = new Pose2d(8,50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point
-        Pose2d StageBlueCenter = new Pose2d(-17.5,12,Math.toRadians(90));
+        Pose2d AudRedCenter = new Pose2d(22,-12,Math.toRadians(90));
         //backstage drop
-        Pose2d StageBlueCenterDropoff = new Pose2d(-38, 50, Math.toRadians(90));
+        Pose2d AudRedCenterDropoff = new Pose2d(39.5, -54, Math.toRadians(90));
 
         // Left Prop Poses - this one has an extra motion
         // Strafe and rotate towards drive team.
-        Pose2d StageBlueRight1 = new Pose2d(-33.5,18, Math.toRadians(180));
+        Pose2d AudRedRight1 = new Pose2d(32,-18, Math.toRadians(0));
         // Strafe under the truss partially to drop the pixel
-        Pose2d StageBlueRight2 = new Pose2d(-33.5,-5.5,Math.toRadians(180));
+        Pose2d AudRedRight2 = new Pose2d(32,-8.5,Math.toRadians(0));
         // Position on the backstage board to drop yellow pixel
-        Pose2d StageBlueRightDropoff = new Pose2d(-25.5,53, Math.toRadians(90));
+        Pose2d AudRedRightDropoff = new Pose2d(24,-54, Math.toRadians(90));
 
         // Right Prop Poses
 
-        Pose2d StageBlueLeft = new Pose2d(-24,25,Math.toRadians(90));
-        Pose2d StageBlueLeftDropoff = new Pose2d(-46, 51, Math.toRadians(90));
+        Pose2d AudRedLeft = new Pose2d(29,-25,Math.toRadians(90));
+        Pose2d AudRedLeftDropoff = new Pose2d(47.5, -54, Math.toRadians(90));
 
 
         drive.setPoseEstimate(startPos);
 
-        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueRightDropoff)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
-                .lineToLinearHeading(StageBlueRight1)
-                .lineToLinearHeading(StageBlueRight2)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+        //============================
+        // TRAJECTORIES
+        //============================
+
+        //StageRedLeft
+        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+
                 .build();
 
-        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+        //StageRedCenter
+        TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageBlueCenter)
+                .lineToLinearHeading(StageRedCenter)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
-                .strafeLeft(22)
-                .lineToLinearHeading(StageBlueCenterDropoff)
+                .strafeLeft(16)
+                .lineToLinearHeading(StageRedCenterDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
@@ -141,17 +152,18 @@ public class StageBlue extends LinearOpMode {
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                .lineToLinearHeading(BluePark)
+                .lineToLinearHeading(RedPark)
                 .build();
 
-        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+        //StageRedRight
+        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageBlueLeft)
+                .lineToLinearHeading(StageRedRight)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
                 .waitSeconds(0.25)
-                .strafeLeft(19)
-                .lineToLinearHeading(StageBlueLeftDropoff)
+                .strafeLeft(16)
+                .lineToLinearHeading(StageRedRightDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
@@ -159,7 +171,7 @@ public class StageBlue extends LinearOpMode {
                 .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(BluePark)
+                .lineToLinearHeading(RedPark)
                 .build();
 
         detector.toggleTelemetry();
@@ -173,18 +185,18 @@ public class StageBlue extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_STAGE_" + location);
+        telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageBlueLeftTraj1);
+                drive.followTrajectorySequence(StageRedLeftTraj1);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageBlueCenterTraj1);
+                drive.followTrajectorySequence(StageRedCenterTraj1);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageBlueRightTraj1);
+                drive.followTrajectorySequence(StageRedRightTraj1);
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");
