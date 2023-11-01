@@ -100,9 +100,9 @@ public class StageBlue extends LinearOpMode {
         // Strafe and rotate towards drive team.
         Pose2d StageBlueRight1 = new Pose2d(-33.5,18, Math.toRadians(180));
         // Strafe under the truss partially to drop the pixel
-        Pose2d StageBlueRight2 = new Pose2d(-33.5,-5.5,Math.toRadians(180));
+        Pose2d StageBlueRight2 = new Pose2d(-33.5,-4,Math.toRadians(180));
         // Position on the backstage board to drop yellow pixel
-        Pose2d StageBlueRightDropoff = new Pose2d(-25.5,53, Math.toRadians(90));
+        Pose2d StageBlueRightDropoff = new Pose2d(-24.5,53, Math.toRadians(90));
 
         // Right Prop Poses
 
@@ -124,6 +124,8 @@ public class StageBlue extends LinearOpMode {
                 .lineToLinearHeading(StageBlueRight2)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .back(2)
                 .build();
 
         TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
