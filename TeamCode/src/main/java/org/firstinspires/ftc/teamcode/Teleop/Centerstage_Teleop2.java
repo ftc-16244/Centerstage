@@ -172,6 +172,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             if (gamepad2.y) {
                 climber.climberDeploy();
+                climber.winchDeploy();
             }
             if (gamepad2.right_trigger > 0.25) {
                 climber.climberHang();
