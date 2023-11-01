@@ -24,31 +24,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class StageRed extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
-    Lift lift = new Lift(this);
-    PixelDropper pixelDropper = new PixelDropper(this);
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
 
+        Lift lift = new Lift(this);
+        PixelDropper pixelDropper = new PixelDropper(this);
+
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
-
-        // Initialize the sub systems. Note the init method is inside the subsystem class
-        pixelDropper.init(hardwareMap);
-        lift.init(hardwareMap);
-
-
-        //sleep(500);
-
-        // Set start positions
-        lift.setAnglerLoad();
-        sleep(250);
-        lift.gripperClosed();
-        pixelDropper.dropperClosed();
-        lift.slideMechanicalReset();
-        lift.setanglerCarry();
-        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
-
-
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
@@ -60,16 +43,25 @@ public class StageRed extends LinearOpMode {
             public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
-
             @Override
             public void onError(int errorCode) {}
-
         });
 
+        // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        lift.init(hardwareMap);
+        //sleep(500);
 
+        // Set start positions
+        lift.setAnglerLoad();
+        sleep(250);
+        lift.gripperClosed();
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setanglerCarry();
+        sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
-
 
         detector.toggleTelemetry();
         telemetry.clearAll();
