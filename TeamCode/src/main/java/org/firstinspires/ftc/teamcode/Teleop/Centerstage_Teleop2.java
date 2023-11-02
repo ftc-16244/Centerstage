@@ -123,12 +123,12 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-                lift.setanglerCarry();
-                sleep(100);
+
             }
 
             if (gamepad1.dpad_up) {
                 lift.setAnglerDeploy();
+                sleep(100);
             }
 
             if (gamepad1.dpad_down) {
@@ -137,7 +137,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
-                pixelDropper.dropperClosed();
+
             }
 
             if (gamepad1.back) {
@@ -145,11 +145,12 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 lift.gripperOpen();
+                wait(200);
             }
 
             if (gamepad1.right_trigger > 0.25) {
                 lift.gripperClosed();
-                debounce(500);
+                wait(200);
             }
 
             if (gamepad1.right_bumper) {
@@ -167,6 +168,10 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad1.a) {
                 speedFactor = 1;
+            }
+            if (gamepad1.y) {
+                lift.setanglerCarry();
+                sleep(100);
             }
 //// GAMEPAD #2/////////////////////////
 
