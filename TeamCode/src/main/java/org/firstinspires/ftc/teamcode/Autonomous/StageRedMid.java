@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class StageRed extends LinearOpMode {
+public class StageRedMid extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override

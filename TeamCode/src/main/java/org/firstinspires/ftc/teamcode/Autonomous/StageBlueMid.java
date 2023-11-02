@@ -19,7 +19,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class StageBlue extends LinearOpMode {
+public class StageBlueMid extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
