@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,31 +23,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class AudRed extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
-    Lift lift = new Lift(this);
-    PixelDropper pixelDropper = new PixelDropper(this);
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
 
+        Lift lift = new Lift(this);
+        PixelDropper pixelDropper = new PixelDropper(this);
+
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
-
-        // Initialize the sub systems. Note the init method is inside the subsystem class
-        pixelDropper.init(hardwareMap);
-        lift.init(hardwareMap);
-
-
-        //sleep(500);
-
-        // Set start positions
-        lift.setAnglerLoad();
-        sleep(250);
-        lift.gripperClosed();
-        pixelDropper.dropperClosed();
-        lift.slideMechanicalReset();
-        lift.setanglerCarry();
-        sleep(2000); // no sleepy no workie. Need this to let the anger servo have time to move
-
-
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
@@ -60,16 +42,25 @@ public class AudRed extends LinearOpMode {
             public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
-
             @Override
             public void onError(int errorCode) {}
-
         });
 
+        // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        lift.init(hardwareMap);
+        //sleep(500);
 
+        // Set start positions
+        lift.setAnglerLoad();
+        sleep(250);
+        lift.gripperClosed();
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setanglerCarry();
+        sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
-
 
         detector.toggleTelemetry();
         telemetry.clearAll();
@@ -102,27 +93,27 @@ public class AudRed extends LinearOpMode {
         // POSE SECTION
         //============================
         // Common poses for all 3 Red Stage Prop Positions
-        Pose2d startPos = new Pose2d(62.5, -12, Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
         Pose2d RedPark = new Pose2d(8,50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point
-        Pose2d AudRedCenter = new Pose2d(22,-12,Math.toRadians(90));
+        Pose2d StageRedCenter = new Pose2d(-22,12,Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(39.5, -54, Math.toRadians(90));
+        Pose2d StageRedCenterDropoff = new Pose2d(-39.5, 54, Math.toRadians(90));
 
         // Left Prop Poses - this one has an extra motion
         // Strafe and rotate towards drive team.
-        Pose2d AudRedRight1 = new Pose2d(32,-18, Math.toRadians(0));
+        Pose2d StageRedRight1 = new Pose2d(-32,18, Math.toRadians(0));
         // Strafe under the truss partially to drop the pixel
-        Pose2d AudRedRight2 = new Pose2d(32,-8.5,Math.toRadians(0));
+        Pose2d StageRedRight2 = new Pose2d(-32,-5.5,Math.toRadians(0));
         // Position on the backstage board to drop yellow pixel
-        Pose2d AudRedRightDropoff = new Pose2d(24,-54, Math.toRadians(90));
+        Pose2d StageRedRightDropoff = new Pose2d(-24,54, Math.toRadians(90));
 
         // Right Prop Poses
 
-        Pose2d AudRedLeft = new Pose2d(29,-25,Math.toRadians(90));
-        Pose2d AudRedLeftDropoff = new Pose2d(47.5, -54, Math.toRadians(90));
+        Pose2d StageRedLeft = new Pose2d(-29,25,Math.toRadians(90));
+        Pose2d StageRedLeftDropoff = new Pose2d(-47.5, 54, Math.toRadians(90));
 
 
         drive.setPoseEstimate(startPos);
@@ -132,19 +123,38 @@ public class AudRed extends LinearOpMode {
         //============================
 
         //StageRedLeft
-        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-
+        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageRedRight1)
+                .lineToLinearHeading(StageRedRight2)
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .lineToLinearHeading(StageRedRight1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
+                /*
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .lineToLinearHeading(StageRedLeftDropoff)
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .lineToLinearHeading(RedPark)
+                */
                 .build();
 
         //StageRedCenter
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                //.lineToLinearHeading(StageRedCenter)
+                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageRedCenter)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
                 .strafeLeft(16)
-                //.lineToLinearHeading(StageRedCenterDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
+                /*
+                .lineToLinearHeading(StageRedCenterDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
@@ -153,25 +163,28 @@ public class AudRed extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 .lineToLinearHeading(RedPark)
+                 */
                 .build();
 
         //StageRedRight
-        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                //.lineToLinearHeading(StageRedRight)
+        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageRedLeft)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
                 .waitSeconds(0.25)
                 .strafeLeft(16)
-                //.lineToLinearHeading(StageRedRightDropoff)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                /*
+                .lineToLinearHeading(StageRedLeftDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
-                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(RedPark)
+                 */
                 .build();
 
         detector.toggleTelemetry();
