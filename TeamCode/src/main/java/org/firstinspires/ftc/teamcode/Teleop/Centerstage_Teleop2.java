@@ -30,7 +30,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
     Climber climber = new Climber(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
-    private double TELEOP_TIME_OUT = 130;
+    private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
 
 
     FtcDashboard dashboard;
@@ -145,12 +145,12 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 lift.gripperOpen();
-                wait(200);
+                sleep(20);
             }
 
             if (gamepad1.right_trigger > 0.25) {
                 lift.gripperClosed();
-                wait(200);
+                sleep(20);
             }
 
             if (gamepad1.right_bumper) {
@@ -186,8 +186,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                 //debounce(500);
             }
             if (gamepad2.b) {
-                climber.climberStow();
-                debounce(250);
+
             }
             if (gamepad2.back) {
                 lift.slideMechanicalReset();

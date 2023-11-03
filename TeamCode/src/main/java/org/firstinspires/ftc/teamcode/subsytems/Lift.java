@@ -24,14 +24,13 @@ public class Lift {
     //Constants for gripper
 
     public static final double      GRIPPER_OPEN       = 0.30; // not gripped
-    public static final double      GRIPPER_CLOSED      = 0.45; // pixel gripped
+    public static final double      GRIPPER_CLOSED      = 0.46; // pixel gripped
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.442 ; // load and moving the pixel
     public static final double      ANGLER_DEPLOY      = 0.46; // deposit the pixel
     public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
-
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -67,7 +66,7 @@ public class Lift {
         voltSensor = hwMap.voltageSensor.get("Expansion Hub 4");
 
         // Initialize angler
-        angler = hwMap.get(Servo.class,"anglerServo");// port 2
+        angler = hwMap.get(Servo.class,"anglerServo"); // port 2
         //setanglerCarry();
 
         // Initialize the gripper
