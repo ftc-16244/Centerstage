@@ -88,7 +88,7 @@ public class StageBlueWall extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
-        Pose2d BluePark = new Pose2d(-15,50,Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-20,50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point
