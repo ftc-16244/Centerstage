@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
@@ -19,9 +18,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-
 @Autonomous
-public class AudRed extends LinearOpMode {
+public class AudBlue extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -32,9 +30,11 @@ public class AudRed extends LinearOpMode {
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.addData("INFO", "Initializing pipeline");
+        telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -46,12 +46,10 @@ public class AudRed extends LinearOpMode {
             public void onError(int errorCode) {}
         });
 
-        // Initialize the sub systems. Note the init method is inside the subsystem class
         pixelDropper.init(hardwareMap);
-        lift.init(hardwareMap);
-        //sleep(500);
+        pixelDropper.dropperClosed();
 
-        // Set start positions
+        lift.init(hardwareMap);
         lift.setAnglerLoad();
         sleep(250);
         lift.gripperClosed();
@@ -89,101 +87,94 @@ public class AudRed extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //============================
-        // POSE SECTION
-        //============================
-        // Common poses for all 3 Red Stage Prop Positions
-        Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
-        Pose2d RedPark = new Pose2d(8,50,Math.toRadians(90));
+        Pose2d startPos = new Pose2d(-62.5, -12, Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-8,-50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point
-        Pose2d StageRedCenter = new Pose2d(-22,12,Math.toRadians(90));
+        Pose2d StageBlueCenter = new Pose2d(-17.5,-12,Math.toRadians(90));
         //backstage drop
-        Pose2d StageRedCenterDropoff = new Pose2d(-39.5, 54, Math.toRadians(90));
+        Pose2d StageBlueCenterDropoff = new Pose2d(-38, -50, Math.toRadians(90));
 
         // Left Prop Poses - this one has an extra motion
         // Strafe and rotate towards drive team.
-        Pose2d StageRedRight1 = new Pose2d(-32,18, Math.toRadians(0));
+        Pose2d StageBlueLeft1 = new Pose2d(-33.5,-18, Math.toRadians(180));
         // Strafe under the truss partially to drop the pixel
-        Pose2d StageRedRight2 = new Pose2d(-32,-5.5,Math.toRadians(0));
+        Pose2d StageBlueLeft2 = new Pose2d(-30.5,-5, Math.toRadians(180));
         // Position on the backstage board to drop yellow pixel
-        Pose2d StageRedRightDropoff = new Pose2d(-24,54, Math.toRadians(90));
+        Pose2d StageBlueLeftDropoff = new Pose2d(-24.5,-53, Math.toRadians(90));
 
         // Right Prop Poses
 
-        Pose2d StageRedLeft = new Pose2d(-29,25,Math.toRadians(90));
-        Pose2d StageRedLeftDropoff = new Pose2d(-47.5, 54, Math.toRadians(90));
+        Pose2d StageBlueRight = new Pose2d(-24,-25,Math.toRadians(90));
+        Pose2d StageBlueRightDropoff = new Pose2d(-46, -51, Math.toRadians(90));
 
 
         drive.setPoseEstimate(startPos);
 
-        //============================
-        // TRAJECTORIES
-        //============================
-
-        //StageRedLeft
-        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageRedRight1)
-                .lineToLinearHeading(StageRedRight2)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .lineToLinearHeading(StageBlueCenter)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
-                .lineToLinearHeading(StageRedRight1)
+                .strafeRight(10)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                /*
+
+                /*.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageRedLeftDropoff)
+                .lineToLinearHeading(StageBlueLeftDropoff)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .lineToLinearHeading(RedPark)
-                */
-                .build();
-
-        //StageRedCenter
-        TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageRedCenter)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setanglerCarry();})
+                .lineToLinearHeading(StageBlueLeft1)
+                .lineToLinearHeading(StageBlueLeft2)
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
                 .waitSeconds(1)
-                .strafeLeft(16)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                /*
-                .lineToLinearHeading(StageRedCenterDropoff)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
-                .waitSeconds(1)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                .lineToLinearHeading(RedPark)
+                .strafeLeft(5)
                  */
                 .build();
 
-        //StageRedRight
-        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageRedLeft)
+                .lineToLinearHeading(StageBlueCenter)
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
-                .waitSeconds(0.25)
-                .strafeLeft(16)
-                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .strafeLeft(22)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
                 /*
-                .lineToLinearHeading(StageRedLeftDropoff)
+                .lineToLinearHeading(StageBlueCenterDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
                 .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
+                .lineToLinearHeading(BluePark)
+                 */
+                .build();
+
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageBlueRight)
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.25)
+                .strafeLeft(19)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                /*
+                .lineToLinearHeading(StageBlueRightDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .waitSeconds(1)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RedPark)
+                .lineToLinearHeading(BluePark)
                  */
                 .build();
 
@@ -198,18 +189,21 @@ public class AudRed extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " RED_AUD" + location);
+        telemetry.addData("Running path", " BLUE_AUD_" + location);
         telemetry.update();
 
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeftTraj1);
+                drive.followTrajectorySequence(StageBlueLeftTraj1);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenterTraj1);
+                drive.followTrajectorySequence(StageBlueCenterTraj1);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRightTraj1);
+                drive.followTrajectorySequence(StageBlueRightTraj1);
+                lift.gripperClosed();
+                lift.setSlideLevel1();
+                lift.setAnglerLoad();
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");
