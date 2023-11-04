@@ -95,7 +95,7 @@ public class StageRedWall extends LinearOpMode {
         //============================
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
-        Pose2d RedPark = new Pose2d(25,50,Math.toRadians(90));
+        Pose2d RedPark = new Pose2d(64,50,Math.toRadians(90));
 
         // Center Prop
         // pixel drop point

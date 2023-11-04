@@ -30,7 +30,7 @@ public class Lift {
     //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.442 ; // load and moving the pixel
     public static final double      ANGLER_DEPLOY      = 0.46; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
+    public static final double      ANGLER_LOAD      = 0.496; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly

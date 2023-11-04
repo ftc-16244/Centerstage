@@ -31,7 +31,7 @@ public class Climber {
 
     // Climber Constants - Arm Angles
 
-    private static final double CLIMBER_DEPLOY_ANGLE = 70; // degrees - change this variable to fine tune.
+    private static final double CLIMBER_DEPLOY_ANGLE = 75; // degrees - change this variable to fine tune.
     private static final double CLIMBER_HANGING_ANGLE = 10; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOWED_ANGLE = 0; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOW_SPEED = 0.1;
@@ -56,7 +56,7 @@ public class Climber {
 
     // Winch Constants - String Distances
 
-    private static double WINCH_DEPLOY_DISTANCE 	= 16.5 ; // inches (need to test to get correct value here)
+    private static double WINCH_DEPLOY_DISTANCE 	= 18.5 ; // inches (need to test to get correct value here)
     private static double WINCH_HANGING_DISTANCE 	= 5.5; // inches (need to test to get correct value here)
     private static double WINCH_STOWED_DISTANCE 	= 0; // inches - should usually be zero. Can change if needed
 
