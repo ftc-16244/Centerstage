@@ -103,6 +103,7 @@ public class AudBlue extends LinearOpMode {
         Pose2d StageBlueLeft2 = new Pose2d(-30.5,-5, Math.toRadians(180));
         // Position on the backstage board to drop yellow pixel
         Pose2d StageBlueLeftDropoff = new Pose2d(-24.5,-53, Math.toRadians(90));
+        
 
         // Right Prop Poses
 
