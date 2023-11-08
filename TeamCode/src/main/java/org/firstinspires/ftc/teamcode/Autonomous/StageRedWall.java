@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -58,7 +57,7 @@ public class StageRedWall extends LinearOpMode {
         lift.gripperClosed();
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
-        lift.setanglerCarry();
+        lift.setAnglerCarry();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();

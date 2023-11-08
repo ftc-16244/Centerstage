@@ -57,7 +57,7 @@ public class AudRed extends LinearOpMode {
         lift.gripperClosed();
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
-        lift.setanglerCarry();
+        lift.setAnglerCarry();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();

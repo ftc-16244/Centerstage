@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,26 +11,27 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
+import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
 
 
 @Config
 @TeleOp(group = "Teleop")
-@Disabled
 
-public class OutreachTeleop extends LinearOpMode {
+public class Centerstage_Teleop3 extends LinearOpMode {
 // test
 
     ElapsedTime runtime = new ElapsedTime();
     ElapsedTime turnerTimer = new ElapsedTime();
 
     Lift lift = new Lift(this);
+    PixelDropper pixelDropper = new PixelDropper(this);
+
+    Climber climber = new Climber(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
-    private double TELEOP_TIME_OUT = 90;
-
-
+    private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
     FtcDashboard dashboard;
-
 
     //ENUMS
     public enum LiftState {
@@ -40,16 +40,13 @@ public class OutreachTeleop extends LinearOpMode {
         LIFT_LOW,
         LIFT_MED,
         LIFT_HIGH,
-        LIFT_TURNER_FRONT,
-        LIFT_TURNER_BACK,
         LIFT_HOLD
     }
     public enum AnglerState {
-        Deposit,
-        Collect,
-        Other
+        ANGLER_LOAD,
+        ANGLER_DEPLOY,
+        ANGLER_CARRY
     }
-
 
     LiftState liftState = LiftState.LIFT_UNKNOWN;
     AnglerState anglerState;
@@ -57,12 +54,9 @@ public class OutreachTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
         // set up local variables
-
         double  slidePosition;
-        double  speedFactor = 0.5;
+        double  speedFactor = 1.0;
         double expo =   3; // has to be 1 or 3
 
         // set up Mecanum Drive
@@ -70,23 +64,37 @@ public class OutreachTeleop extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
+        pixelDropper.init(hardwareMap);
+        pixelDropper.dropperClosed();
 
+        lift.init(hardwareMap);
+        lift.gripperClosed();
+        //lift.setAnglerLoad();
+
+        climber.init(hardwareMap);
+        climber.climberStow();
 
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
         liftState = LiftState.LIFT_IDLE;
-        anglerState = AnglerState.Deposit;
+        anglerState = AnglerState.ANGLER_LOAD;
         heightLow = false;
         turnerTimer.reset();
 
         // Telemetry
 
-        telemetry.addData("Lift State", null);
-        telemetry.addData("Angler State", anglerState);
-        telemetry.addData("Height Low", heightLow);
+        //telemetry.addData("Lift State", null);
+        //telemetry.addData("Angler State", anglerState);
+        //telemetry.addData("Height Low", heightLow);
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        pixelDropper.dropperClosed();
+        lift.slideMechanicalReset();
+        lift.setSlideLevel1();
+        lift.setAnglerLoad();
+        //lift.gripperOpen();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
@@ -105,22 +113,20 @@ public class OutreachTeleop extends LinearOpMode {
 
             if (teleopTimer.time() > 93){
 
-
             }
 
-
-
             if (gamepad1.dpad_right) {
-
 
             }
 
             if (gamepad1.dpad_up) {
-
+                lift.setAnglerDeploy();
+                sleep(100);
             }
 
             if (gamepad1.dpad_down) {
-
+                lift.setAnglerLoad();
+                sleep(100);
             }
 
             if (gamepad1.dpad_left) {
@@ -130,21 +136,73 @@ public class OutreachTeleop extends LinearOpMode {
             if (gamepad1.back) {
 
             }
-            if (gamepad1.a) {
-                if (speedFactor == 1) speedFactor = 0.5;
-                else speedFactor = 1;
-            }
             if (gamepad1.left_trigger > 0.25) {
-
+                lift.gripperOpen();
+                sleep(20);
             }
 
             if (gamepad1.right_trigger > 0.25) {
+                lift.gripperClosed();
+                sleep(20);
+            }
 
+            if (gamepad1.right_bumper) {
+
+            }
+
+            if (gamepad1.left_bumper) {
+
+            }
+            if (gamepad1.left_stick_button) {
+                speedFactor = 0.5;
+            }
+            if (gamepad1.right_stick_button) {
+                speedFactor = 0.25;
+            }
+            if (gamepad1.a) {
+                speedFactor = 1;
+            }
+            if (gamepad1.y) {
+                lift.setAnglerCarry();
+                sleep(100);
             }
 //// GAMEPAD #2/////////////////////////
 
-            if (gamepad2.dpad_up) {
+            if (gamepad2.y) {
+                climber.climberDeploy();
+                climber.winchDeploy();
 
+            }
+            if (gamepad2.a) {
+                climber.climberHang();
+                climber.winchHang();
+                //debounce(500);
+            }
+            if (gamepad2.b) {
+
+            }
+            if (gamepad2.back) {
+                lift.slideMechanicalReset();
+            }
+            if (gamepad2.x) {
+                speedFactor = 0.25;
+                debounce(500);
+            }
+            if (gamepad2.dpad_down) {
+                lift.setSlideLevel1();
+                debounce(200);
+            }
+            if (gamepad2.dpad_right) {
+                lift.setSlideLevel2();
+                debounce(200);
+            }
+            if (gamepad2.dpad_up) {
+                lift.setSlideLevel3();
+                debounce(200);
+            }
+            if (gamepad2.dpad_left) {
+                lift.setSlideLevel4();
+                debounce(200);
             }
             /*
             switch(liftState) {
@@ -271,10 +329,6 @@ public class OutreachTeleop extends LinearOpMode {
 
             }
              */
-
-            if (gamepad2.back) {
-
-            }
         }
     }
 
@@ -284,6 +338,5 @@ public class OutreachTeleop extends LinearOpMode {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -3,14 +3,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Teleop.Centerstage_Teleop2;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
@@ -47,7 +44,7 @@ public class StageRedCenter extends LinearOpMode {
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-        lift.setanglerCarry();
+        lift.setAnglerCarry();
 
         waitForStart();
 

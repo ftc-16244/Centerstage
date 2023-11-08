@@ -96,7 +96,7 @@ public class Lift {
     public void setAnglerLoad() {
         angler.setPosition(ANGLER_LOAD);//fwd
     }
-    public void setanglerCarry() {
+    public void setAnglerCarry() {
         angler.setPosition(ANGLER_CARRY); // back
     }
     public void setAnglerDeploy() {

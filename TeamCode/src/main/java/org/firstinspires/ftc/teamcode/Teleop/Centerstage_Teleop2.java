@@ -100,7 +100,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-        lift.setanglerCarry();
+        lift.setAnglerCarry();
         //lift.gripperOpen();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +170,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                 speedFactor = 1;
             }
             if (gamepad1.y) {
-                lift.setanglerCarry();
+                lift.setAnglerCarry();
                 sleep(100);
             }
 //// GAMEPAD #2/////////////////////////

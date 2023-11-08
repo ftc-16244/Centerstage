@@ -55,7 +55,7 @@ public class StageBlueMid extends LinearOpMode {
         lift.gripperClosed();
         pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
-        lift.setanglerCarry();
+        lift.setAnglerCarry();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
@@ -119,7 +119,7 @@ public class StageBlueMid extends LinearOpMode {
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setanglerCarry();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .lineToLinearHeading(StageBlueRight1)
                 .lineToLinearHeading(StageBlueRight2)
                 .waitSeconds(1)
