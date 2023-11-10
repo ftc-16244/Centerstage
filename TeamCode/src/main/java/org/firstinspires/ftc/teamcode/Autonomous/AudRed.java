@@ -124,67 +124,42 @@ public class AudRed extends LinearOpMode {
 
         //StageRedLeft
         TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedRight1)
                 .lineToLinearHeading(StageRedRight2)
-                .waitSeconds(1)
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .lineToLinearHeading(StageRedRight1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                /*
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageRedLeftDropoff)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
-                .waitSeconds(1)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .lineToLinearHeading(RedPark)
-                */
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
+                .strafeLeft(0.5)
                 .build();
 
         //StageRedCenter
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedCenter)
-                .waitSeconds(1)
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .strafeLeft(16)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                /*
-                .lineToLinearHeading(StageRedCenterDropoff)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
-                .waitSeconds(1)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                .lineToLinearHeading(RedPark)
-                 */
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
+                .strafeLeft(0.5)
                 .build();
 
         //StageRedRight
         TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedLeft)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
                 .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.5)
                 .strafeLeft(16)
                 .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
-                /*
-                .lineToLinearHeading(StageRedLeftDropoff)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
-                .waitSeconds(1)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RedPark)
-                 */
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
+                .strafeLeft(0.5)
                 .build();
 
         detector.toggleTelemetry();
