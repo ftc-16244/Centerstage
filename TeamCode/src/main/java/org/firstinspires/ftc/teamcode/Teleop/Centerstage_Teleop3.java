@@ -137,7 +137,6 @@ public class Centerstage_Teleop3 extends LinearOpMode {
 
             }
             if (gamepad1.left_trigger > 0.25) {
-                lift.gripperOpen();
                 sleep(20);
             }
 
@@ -147,11 +146,13 @@ public class Centerstage_Teleop3 extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper) {
-
+                lift.gripperRightOpen();
+                sleep(20);
             }
 
             if (gamepad1.left_bumper) {
-
+                lift.gripperLeftOpen();
+                sleep(20);
             }
             if (gamepad1.left_stick_button) {
                 speedFactor = 0.5;

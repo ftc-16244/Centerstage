@@ -76,7 +76,7 @@ public class StageRedRight extends LinearOpMode {
                 .strafeLeft(16)
                 .lineToLinearHeading(StageRedRightDropoff)
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
                 .waitSeconds(1)
                 .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
                 .back(6)

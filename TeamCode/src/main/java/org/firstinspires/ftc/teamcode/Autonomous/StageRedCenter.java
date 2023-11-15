@@ -76,7 +76,7 @@ public class StageRedCenter extends LinearOpMode {
                 .strafeLeft(16)
                 .lineToLinearHeading(StageRedCenterDropoff)
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
                 .waitSeconds(1)
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})

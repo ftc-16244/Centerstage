@@ -16,14 +16,16 @@ public class Lift {
 
     //Define Hardware Objects
     public Servo            angler             = null;
-    public Servo            gripper            = null;
+    public Servo            gripperRight            = null;
+    public Servo            gripperLeft            = null;
     public VoltageSensor    voltSensor         = null;
 
     public  DcMotorEx       liftMotor;  // config name is "slideMotor"
 
     //Constants for gripper
 
-    public static final double      GRIPPER_OPEN       = 0.30; // not gripped
+    public static final double      GRIPPER_RIGHT_OPEN       = 0.30; // not gripped
+    public static final double      GRIPPER_LEFT_OPEN        = 0.4;
     public static final double      GRIPPER_CLOSED      = 0.46; // pixel gripped
 
     //Constants for angler
@@ -70,7 +72,8 @@ public class Lift {
         //setanglerCarry();
 
         // Initialize the gripper
-        gripper = hwMap.get(Servo.class,"gripperServo"); //port 0
+        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 0
+        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 0
 
         // Initialize the lift motor
         liftMotor = hwMap.get(DcMotorEx.class,"liftMotor");
@@ -106,11 +109,14 @@ public class Lift {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public void gripperClosed(){
-        gripper.setPosition(GRIPPER_CLOSED);
+        gripperRight.setPosition(GRIPPER_CLOSED);
+        gripperLeft.setPosition(GRIPPER_CLOSED);
     }
-    public void gripperOpen(){
-        gripper.setPosition(GRIPPER_OPEN);
+    public void gripperRightOpen(){
+        gripperRight.setPosition(GRIPPER_RIGHT_OPEN);
     }
+    public void gripperLeftOpen(){gripperLeft.setPosition(GRIPPER_LEFT_OPEN);}
+
     public double getWinchPos(){
         double liftPos;
         liftPos = liftMotor.getCurrentPosition()/ TICKS_PER_LIFT_IN; //returns in inches

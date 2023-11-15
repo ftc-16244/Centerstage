@@ -144,8 +144,6 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             }
             if (gamepad1.left_trigger > 0.25) {
-                lift.gripperOpen();
-                sleep(20);
             }
 
             if (gamepad1.right_trigger > 0.25) {
