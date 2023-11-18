@@ -24,15 +24,17 @@ public class Lift {
 
     //Constants for gripper
 
-    public static final double      GRIPPER_RIGHT_OPEN       = 0.30; // not gripped
-    public static final double      GRIPPER_LEFT_OPEN        = 0.4;
-    public static final double      GRIPPER_CLOSED      = 0.46; // pixel gripped
+    public static final double      GRIPPER_RIGHT_OPEN       = 0; // not gripped
+    public static final double      GRIPPER_LEFT_OPEN        = 0.9;
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.1; // pixel
+    public static final double      GRIPPER_RIGHT_CLOSED      = 1; //
+
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.442 ; // load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.46; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.496; // Loading the pixel
+    public static final double      ANGLER_CARRY       = 0.1; // load and moving the pixel
+    public static final double      ANGLER_DEPLOY      = 0.445; // deposit the pixel
+    public static final double      ANGLER_LOAD      = 0.5; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -72,8 +74,8 @@ public class Lift {
         //setanglerCarry();
 
         // Initialize the gripper
-        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 0
-        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 0
+        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 1
+        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 2
 
         // Initialize the lift motor
         liftMotor = hwMap.get(DcMotorEx.class,"liftMotor");
@@ -93,6 +95,10 @@ public class Lift {
 
         liftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
     }
 
     //Angler methods
@@ -109,8 +115,8 @@ public class Lift {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public void gripperClosed(){
-        gripperRight.setPosition(GRIPPER_CLOSED);
-        gripperLeft.setPosition(GRIPPER_CLOSED);
+        gripperRight.setPosition(GRIPPER_RIGHT_CLOSED);
+        gripperLeft.setPosition(GRIPPER_LEFT_CLOSED);
     }
     public void gripperRightOpen(){
         gripperRight.setPosition(GRIPPER_RIGHT_OPEN);

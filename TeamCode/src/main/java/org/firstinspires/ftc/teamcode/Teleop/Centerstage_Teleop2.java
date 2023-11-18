@@ -25,7 +25,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
     ElapsedTime turnerTimer = new ElapsedTime();
 
     Lift lift = new Lift(this);
-    PixelDropper pixelDropper = new PixelDropper(this);
+    //PixelDropper pixelDropper = new PixelDropper(this);
 
     Climber climber = new Climber(this);
 
@@ -71,8 +71,8 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        pixelDropper.init(hardwareMap);
-        pixelDropper.dropperClosed();
+        //pixelDropper.init(hardwareMap);
+        //pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
         lift.gripperClosed();
@@ -93,14 +93,15 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         telemetry.addData("Lift State", null);
         telemetry.addData("Angler State", anglerState);
         telemetry.addData("Height Low", heightLow);
+
+
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        pixelDropper.dropperClosed();
+        //pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-        lift.setAnglerCarry();
+        //lift.setAnglerCarry();
         //lift.gripperOpen();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,8 +117,11 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                             Math.pow(-gamepad1.left_stick_x,expo) * speedFactor,
                             Math.pow(-gamepad1.right_stick_x,expo) * speedFactor
                     )
+
             );
 
+            telemetry.addData("anglerDeploy", lift.angler.getPosition());
+            telemetry.update();
             if (teleopTimer.time() > 93){
 
             }
@@ -137,6 +141,9 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
+                lift.gripperClosed();
+                sleep(20);
+
 
             }
 
@@ -144,11 +151,13 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             }
             if (gamepad1.left_trigger > 0.25) {
+                lift.gripperRightOpen();
+                sleep(200);
             }
 
             if (gamepad1.right_trigger > 0.25) {
-                lift.gripperClosed();
-                sleep(20);
+                lift.gripperLeftOpen();
+                sleep(200);
             }
 
             if (gamepad1.right_bumper) {
