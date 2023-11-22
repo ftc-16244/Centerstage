@@ -119,15 +119,13 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                     )
 
             );
-
-            telemetry.addData("anglerDeploy", lift.angler.getPosition());
-            telemetry.update();
             if (teleopTimer.time() > 93){
 
             }
 
             if (gamepad1.dpad_right) {
-
+                lift.setAnglerCarry();
+                sleep(100);
             }
 
             if (gamepad1.dpad_up) {

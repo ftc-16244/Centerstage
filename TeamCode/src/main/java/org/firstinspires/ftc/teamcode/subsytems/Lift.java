@@ -24,17 +24,16 @@ public class Lift {
 
     //Constants for gripper
 
-    public static final double      GRIPPER_RIGHT_OPEN       = 0; // not gripped
-    public static final double      GRIPPER_LEFT_OPEN        = 0.9;
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.1; // pixel
-    public static final double      GRIPPER_RIGHT_CLOSED      = 1; //
-
+    public static final double      GRIPPER_RIGHT_OPEN       = 0.35; // not gripped
+    public static final double      GRIPPER_LEFT_OPEN        = 0.65;
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.4; // pixel
+    public static final double      GRIPPER_RIGHT_CLOSED      = 0.6; //
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.1; // load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.445; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.5; // Loading the pixel
+    public static final double      ANGLER_CARRY       = 0.44; // load and moving the pixel
+    public static final double      ANGLER_DEPLOY      = 0.455; // deposit the pixel
+    public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
