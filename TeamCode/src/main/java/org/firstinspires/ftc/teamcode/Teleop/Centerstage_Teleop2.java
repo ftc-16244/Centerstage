@@ -76,7 +76,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
         lift.init(hardwareMap);
         lift.gripperClosed();
-        //lift.setAnglerLoad();
+        lift.setAnglerLoad();
 
         climber.init(hardwareMap);
         climber.climberStow();
@@ -124,12 +124,12 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-                lift.setAnglerCarry();
+                lift.setAnglerDeploy();
                 sleep(100);
             }
 
             if (gamepad1.dpad_up) {
-                lift.setAnglerDeploy();
+                lift.setAnglerCarry();
                 sleep(100);
             }
 
@@ -139,8 +139,6 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
-                lift.gripperClosed();
-                sleep(20);
 
 
             }
@@ -149,21 +147,22 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             }
             if (gamepad1.left_trigger > 0.25) {
-                lift.gripperRightOpen();
+                lift.gripperClosed();
                 sleep(200);
             }
 
             if (gamepad1.right_trigger > 0.25) {
-                lift.gripperLeftOpen();
-                sleep(200);
+                lift.gripperOpen();
+                sleep(100);
             }
 
             if (gamepad1.right_bumper) {
-
+                lift.gripperRightOpen();
+                sleep(100);
             }
 
             if (gamepad1.left_bumper) {
-
+                lift.gripperLeftOpen();
             }
             if (gamepad1.left_stick_button) {
                 speedFactor = 0.5;

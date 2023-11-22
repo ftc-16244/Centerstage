@@ -26,8 +26,8 @@ public class Lift {
 
     public static final double      GRIPPER_RIGHT_OPEN       = 0.35; // not gripped
     public static final double      GRIPPER_LEFT_OPEN        = 0.65;
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.4; // pixel
-    public static final double      GRIPPER_RIGHT_CLOSED      = 0.6; //
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.355; // pixel
+    public static final double      GRIPPER_RIGHT_CLOSED      = 0.62; //
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
@@ -117,6 +117,11 @@ public class Lift {
         gripperRight.setPosition(GRIPPER_RIGHT_CLOSED);
         gripperLeft.setPosition(GRIPPER_LEFT_CLOSED);
     }
+    public void gripperOpen(){
+        gripperRight.setPosition(GRIPPER_RIGHT_OPEN);
+        gripperLeft.setPosition(GRIPPER_LEFT_OPEN);
+    }
+
     public void gripperRightOpen(){
         gripperRight.setPosition(GRIPPER_RIGHT_OPEN);
     }

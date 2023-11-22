@@ -43,7 +43,7 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 48/25.4; // goBilda mecanum wheels are 96mm dia
+    public static double WHEEL_RADIUS = 24.0/25.4; // goBilda mecanum wheels are 96mm dia
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 13.29;// 13.6 is actual
 
