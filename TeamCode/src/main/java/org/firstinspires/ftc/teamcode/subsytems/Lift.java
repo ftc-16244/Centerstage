@@ -23,20 +23,19 @@ public class Lift {
     public  DcMotorEx       liftMotor;  // config name is "slideMotor"
 
     //Constants for gripper
-
-
-    public static final double      GRIPPER_LEFT_WIDE_OPEN        = 0.65;
-    public static final double      GRIPPER_LEFT_OPEN        = 0.60;
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.5; // pixel
-    public static final double      GRIPPER_RIGHT_CLOSED      = 0.5;// larer numbers are more clockwize
-    public static final double      GRIPPER_RIGHT_OPEN       = 0.40; //
-    public static final double      GRIPPER_RIGHT_WIDE_OPEN       = 0.10; // not gripped
+    //larer numbers are more clockwise
+    public static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.65;
+    public static final double      GRIPPER_LEFT_OPEN        = 0.60; //to open more, increase
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.45; //to close more, decrease
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.5;// to close more, increase
+    public static final double      GRIPPER_RIGHT_OPEN       = 0.40; // too open more, decrease
+    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.10; // not gripped
 
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.44; // load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.455; // deposit the pixel
+    public static final double      ANGLER_CARRY       = 0.43;// load and moving the pixel
+    public static final double      ANGLER_DEPLOY      = 0.44; // deposit the pixel
     public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
 
     Telemetry       telemetry;
