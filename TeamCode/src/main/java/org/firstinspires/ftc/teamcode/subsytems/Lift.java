@@ -16,18 +16,22 @@ public class Lift {
 
     //Define Hardware Objects
     public Servo            angler             = null;
-    public Servo            gripperRight            = null;
-    public Servo            gripperLeft            = null;
+    public Servo            gripperRight       = null;
+    public Servo            gripperLeft        = null;
     public VoltageSensor    voltSensor         = null;
 
     public  DcMotorEx       liftMotor;  // config name is "slideMotor"
 
     //Constants for gripper
 
-    public static final double      GRIPPER_RIGHT_OPEN       = 0.35; // not gripped
-    public static final double      GRIPPER_LEFT_OPEN        = 0.65;
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.355; // pixel
-    public static final double      GRIPPER_RIGHT_CLOSED      = 0.62; //
+
+    public static final double      GRIPPER_LEFT_WIDE_OPEN        = 0.65;
+    public static final double      GRIPPER_LEFT_OPEN        = 0.60;
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.5; // pixel
+    public static final double      GRIPPER_RIGHT_CLOSED      = 0.5;// larer numbers are more clockwize
+    public static final double      GRIPPER_RIGHT_OPEN       = 0.40; //
+    public static final double      GRIPPER_RIGHT_WIDE_OPEN       = 0.10; // not gripped
+
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
@@ -112,6 +116,11 @@ public class Lift {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void gripperWideOpen(){
+        gripperRight.setPosition( GRIPPER_RIGHT_WIDE_OPEN);
+        gripperLeft.setPosition( GRIPPER_LEFT_WIDE_OPEN);
+    }
 
     public void gripperClosed(){
         gripperRight.setPosition(GRIPPER_RIGHT_CLOSED);
