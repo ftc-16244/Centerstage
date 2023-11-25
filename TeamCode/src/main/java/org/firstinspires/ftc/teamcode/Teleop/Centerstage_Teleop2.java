@@ -75,7 +75,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         //pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
-        lift.gripperClosed();
+        lift.gripperOpen();
         lift.setAnglerLoad();
 
         climber.init(hardwareMap);
@@ -101,8 +101,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         //pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-        //lift.setAnglerCarry();
-        //lift.gripperOpen();
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
