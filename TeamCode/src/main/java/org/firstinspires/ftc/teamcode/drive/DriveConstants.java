@@ -59,8 +59,8 @@ public class DriveConstants {
     public static double kStatic = 0.057;
 
      */
-    public static double kV = 0.0175;//1 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0.0004;
+    public static double kV = 0.0165;//1 / rpmToVelocity(MAX_RPM);
+    public static double kA = 0.0030;
     public static double kStatic = 0.057;
 
     /*
