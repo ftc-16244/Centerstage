@@ -45,7 +45,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 24.0/25.4; // goBilda mecanum wheels are 96mm dia
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 13.29;// 13.6 is actual
+    public static double TRACK_WIDTH = 13.07;// 13.6 is actual
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -53,8 +53,14 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
+    /*
     public static double kV = 0.00067;//1 / rpmToVelocity(MAX_RPM);
     public static double kA = 0.017;
+    public static double kStatic = 0.057;
+
+     */
+    public static double kV = 0.0175;//1 / rpmToVelocity(MAX_RPM);
+    public static double kA = 0.0004;
     public static double kStatic = 0.057;
 
     /*
@@ -64,9 +70,9 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 42; // 60 in/sec is the theoretical speed
+    public static double MAX_VEL = 48; // 60 in/sec is the theoretical speed
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(220);
+    public static double MAX_ANG_VEL = Math.toRadians(220);//still need to tune
     public static double MAX_ANG_ACCEL = Math.toRadians(220);
 
 

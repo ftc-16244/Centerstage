@@ -71,7 +71,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         parallelEncoder.setDirection(Encoder.Direction.FORWARD);
-        perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);//both Forward on Robot 2
+        perpendicularEncoder.setDirection(Encoder.Direction.FORWARD);//both Forward on Robot 2
     }
 
 
