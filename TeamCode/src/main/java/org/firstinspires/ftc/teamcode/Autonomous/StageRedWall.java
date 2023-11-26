@@ -28,7 +28,6 @@ public class StageRedWall extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Lift lift = new Lift(this);
-        PixelDropper pixelDropper = new PixelDropper(this);
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -47,7 +46,6 @@ public class StageRedWall extends LinearOpMode {
         });
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        pixelDropper.init(hardwareMap);
         lift.init(hardwareMap);
         //sleep(500);
 
@@ -55,9 +53,7 @@ public class StageRedWall extends LinearOpMode {
         lift.setAnglerLoad();
         sleep(250);
         lift.gripperClosed();
-        pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
-        lift.setAnglerCarry();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
@@ -124,6 +120,8 @@ public class StageRedWall extends LinearOpMode {
 
         //StageRedLeft
         TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .forward(1)
+                 /*
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedLeft1)
                 .lineToLinearHeading(StageRedLeft2)
@@ -143,32 +141,27 @@ public class StageRedWall extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
                 .strafeLeft(0.5)
+                */
                 .build();
+
+
 
         //StageRedCenter
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageRedCenter)
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
-                .waitSeconds(0.5)
-                .strafeLeft(16)
-                .lineToLinearHeading(StageRedCenterDropoff)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .lineToLinearHeading(StageRedCenterDropoff)
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
-                .waitSeconds(0.25)
-                .back(6)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
+                .lineToLinearHeading(StageRedCenter)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .lineToLinearHeading(RedPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
-                .strafeLeft(0.5)
                 .build();
 
         //StageRedRight
         TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .forward(1)
+                /*
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .lineToLinearHeading(StageRedRight)
                 .waitSeconds(0.25)
@@ -187,7 +180,10 @@ public class StageRedWall extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()-> lift.gripperClosed())
                 .strafeLeft(0.5)
+                */
                 .build();
+
+
 
         detector.toggleTelemetry();
         telemetry.clearAll();

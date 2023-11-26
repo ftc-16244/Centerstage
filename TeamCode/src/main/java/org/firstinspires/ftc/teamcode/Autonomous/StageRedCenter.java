@@ -14,19 +14,15 @@ import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous
-@Disabled
 public class StageRedCenter extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     Lift lift = new Lift(this);
-    PixelDropper pixelDropper = new PixelDropper(this);
 
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        pixelDropper.init(hardwareMap);
-        pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
         lift.gripperClosed();
@@ -41,10 +37,9 @@ public class StageRedCenter extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-        lift.setAnglerCarry();
+        lift.setAnglerLoad();
 
         waitForStart();
 
@@ -52,36 +47,33 @@ public class StageRedCenter extends LinearOpMode {
 
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
+        Pose2d RedWallPark = new Pose2d(63,50,Math.toRadians(90));
+        Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(90));
 
-        //Pose2d StageRedLeft1 = new Pose2d(31,18, Math.toRadians(0));
-        //Pose2d StageRedLeft2 = new Pose2d(31,-6,Math.toRadians(0));
-        Pose2d StageRedCenter = new Pose2d(19,12,Math.toRadians(90));
-        //Pose2d StageRedRight = new Pose2d(29,25,Math.toRadians(90));
-
-
-        Pose2d StageRedCenterDropoff = new Pose2d(39.5, 55, Math.toRadians(90));
-        //Pose2d StageRedLeftDropoff = new Pose2d(23,55, Math.toRadians(90));
-        //Pose2d StageRedRightDropoff = new Pose2d(46.5, 55, Math.toRadians(90));
-
-        Pose2d RedPark = new Pose2d(7,50,Math.toRadians(90));
+        //Center Prop
+        Pose2d StageRedCenter = new Pose2d(30, 19, Math.toRadians(180));
+        //backstage drop
+        Pose2d StageRedCenterDropoff = new Pose2d(35, 54, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .lineToLinearHeading(StageRedCenter)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
-                .waitSeconds(1)
-                .strafeLeft(16)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageRedCenterDropoff)
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
-                .waitSeconds(1)
-                .back(6)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
+                .waitSeconds(0.25)
+                .lineToLinearHeading(StageRedCenter)
+                .back(4)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
-                .lineToLinearHeading(RedPark)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
+                .waitSeconds(0.5)
+                .back(4)
+                .lineToLinearHeading(RedWallPark)
                 .build();
 
         drive.followTrajectorySequence(StageRedCenterTraj1);
