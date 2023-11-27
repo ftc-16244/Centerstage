@@ -75,7 +75,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         //pixelDropper.dropperClosed();
 
         lift.init(hardwareMap);
-        lift.gripperOpen();
+        lift.gripperWideOpen();
         lift.setAnglerLoad();
 
         climber.init(hardwareMap);
@@ -108,6 +108,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         ///////////////////////////////////////////////////////////////////////////////////////////
 
         waitForStart();
+        lift.gripperOpen(); // put gripper in open position. Not super wide open
 
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
