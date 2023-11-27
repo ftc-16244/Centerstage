@@ -27,7 +27,7 @@ public class StageRedRight extends LinearOpMode {
 
 
         lift.init(hardwareMap);
-        lift.gripperClosed();
+        lift.gripperWideOpen();
         //lift.setAnglerLoad();
 
 
@@ -45,15 +45,18 @@ public class StageRedRight extends LinearOpMode {
 
         waitForStart();
 
+        lift.gripperClosed();
+        sleep(250);
+
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
-        Pose2d RedWallPark = new Pose2d(63,50,Math.toRadians(90));
+        Pose2d RedWallPark = new Pose2d(60,55,Math.toRadians(270));
         Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(90));
 
-        Pose2d StageRedRight = new Pose2d(33,15,Math.toRadians(90));
-        Pose2d StageRedRightDropoff = new Pose2d(39, 54, Math.toRadians(90));
+        Pose2d StageRedRight = new Pose2d(33,13,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(39, 54, Math.toRadians(90));//backstage
 
 
         drive.setPoseEstimate(startPos);
@@ -71,9 +74,13 @@ public class StageRedRight extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .back(5.5)
-                .strafeRight(12)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .back(3.5)
+                .strafeRight(18)
                 .lineToLinearHeading(RedWallPark)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .waitSeconds(1.0)
                 .build();
 
         drive.followTrajectorySequence(StageRedRightTraj1);

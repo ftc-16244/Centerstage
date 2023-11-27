@@ -49,11 +49,11 @@ public class StageRedLeft extends LinearOpMode {
 
         // Start of Roadrunner stuff
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
-        Pose2d RedWallPark = new Pose2d(63,50,Math.toRadians(270));
+        Pose2d RedWallPark = new Pose2d(60,55,Math.toRadians(270));
         Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(270));
 
-        Pose2d StageRedLeft = new Pose2d(31,15, Math.toRadians(270));
-        Pose2d StageRedLeftDropoff = new Pose2d(30,54, Math.toRadians(90));
+        Pose2d StageRedLeft = new Pose2d(31,19, Math.toRadians(270));
+        Pose2d StageRedLeftDropoff = new Pose2d(26,54, Math.toRadians(90));
 
 
         drive.setPoseEstimate(startPos);
@@ -63,17 +63,18 @@ public class StageRedLeft extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageRedLeftDropoff)
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
                 .lineToLinearHeading(StageRedLeft)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .forward(6)
-                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .forward(6)
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .back(5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
+                .waitSeconds(.25)
                 .lineToLinearHeading(RedWallPark)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .waitSeconds(0.5)
                 .build();
 
         drive.followTrajectorySequence(StageRedLeftTraj1);
