@@ -24,18 +24,20 @@ public class Lift {
 
     //Constants for gripper
     //larer numbers are more clockwise
-    public static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.65;
-    public static final double      GRIPPER_LEFT_OPEN        = 0.60; //to open more, increase
+
     public static final double      GRIPPER_LEFT_CLOSED      = 0.45; //to close more, decrease
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.5;// to close more, increase
-    public static final double      GRIPPER_RIGHT_OPEN       = 0.40; // too open more, decrease
-    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.10; // not gripped
+    public static final double      GRIPPER_LEFT_OPEN        = GRIPPER_LEFT_CLOSED + 0.15; //to open more, increase
+    public static final double      GRIPPER_LEFT_WIDE_OPEN   = GRIPPER_LEFT_CLOSED +.32;
+
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.48;// to close more, increase
+    public static final double      GRIPPER_RIGHT_OPEN       =  GRIPPER_RIGHT_CLOSED -0.15; // too open more, decrease
+    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = GRIPPER_RIGHT_CLOSED -0.32; // not gripped
 
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.43;// load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.44; // deposit the pixel
+    public static final double      ANGLER_DEPLOY      = 0.445; // deposit the pixel
     public static final double      ANGLER_LOAD      = 0.495; // Loading the pixel
 
     Telemetry       telemetry;
@@ -48,8 +50,8 @@ public class Lift {
     public  static double           LIFTSPEEDSLOWER            = 0.5; //half speed
     public static  double           LIFTRESETSPEED                 = -0.2; //
     public static final double      LIFT_LEVEL_1                   = 0; // Load pixel level
-    public static final double      LIFT_LEVEL_1point5             = 1; // auto drop pixel in right spot
-    public static final double      LIFT_LEVEL_2                   = 4;
+    public static final double      LIFT_LEVEL_1point5             = 2; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_2                   = 5;
     public static final double      LIFT_LEVEL_3                   = 9;
     public static final double      LIFT_LEVEL_4                   = 13;
 
@@ -142,6 +144,11 @@ public class Lift {
     }
     public void  setSlideLevel1(){
         targetHeight = ( LIFT_LEVEL_1 );
+        liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
+    }
+
+    public void  setSlideLevel1point5(){
+        targetHeight = (  LIFT_LEVEL_1point5 );
         liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
     }
     public void setSlideLevel2(){
