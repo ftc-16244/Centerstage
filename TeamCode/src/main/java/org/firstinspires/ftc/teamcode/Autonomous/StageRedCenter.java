@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous
+@Disabled
 public class StageRedCenter extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     Lift lift = new Lift(this);
