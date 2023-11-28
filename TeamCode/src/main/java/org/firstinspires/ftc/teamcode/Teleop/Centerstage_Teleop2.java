@@ -136,6 +136,8 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             if (gamepad1.dpad_down) {
                 lift.setAnglerLoad();
                 sleep(100);
+                lift.gripperOpen();
+                speedFactor = 0.5;
             }
 
             if (gamepad1.dpad_left) {
@@ -148,7 +150,9 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 lift.gripperClosed();
-                sleep(200);
+                sleep(500);
+                lift.setAnglerDeploy();
+                speedFactor = 1.0;
             }
 
             if (gamepad1.right_trigger > 0.25) {
@@ -202,14 +206,17 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             if (gamepad2.dpad_down) {
                 lift.setSlideLevel1();
                 debounce(200);
+                speedFactor = 1.0;
             }
             if (gamepad2.dpad_right) {
                 lift.setSlideLevel2();
                 debounce(200);
+                speedFactor = 0.5;
             }
             if (gamepad2.dpad_up) {
                 lift.setSlideLevel3();
                 debounce(200);
+                speedFactor = 0.5;
             }
             if (gamepad2.dpad_left) {
                 lift.setSlideLevel4();
