@@ -21,7 +21,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-@Disabled
 public class StageBlueWall_Meet2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
@@ -33,8 +32,8 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
