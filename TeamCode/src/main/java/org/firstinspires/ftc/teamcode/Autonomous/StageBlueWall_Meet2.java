@@ -109,7 +109,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         //============================
 
         //StageRedLeft
-        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueLeftDropoff)
@@ -131,7 +131,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
 
 
         //StageRedCenter
-        TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
@@ -153,7 +153,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
                 .build();
 
         //StageRedRight
-        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueRightDropoff)
@@ -169,7 +169,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .back(3.5)
-                .strafeRight(18)
+                .strafeLeft(18)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(1.0)
@@ -193,13 +193,13 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
 
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeftTraj1);
+                drive.followTrajectorySequence(StageBlueLeftTraj1);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenterTraj1);
+                drive.followTrajectorySequence(StageBlueCenterTraj1);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRightTraj1);
+                drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");
