@@ -99,8 +99,8 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         Pose2d StageBlueCenter = new Pose2d(-14, 16, Math.toRadians(180));
         Pose2d StageBlueCenterDropoff = new Pose2d(-34, 54, Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-31,19, Math.toRadians(270));
-        Pose2d StageBlueLeftDropoff = new Pose2d(-26,54, Math.toRadians(90));
+        Pose2d StageBlueLeft = new Pose2d(-22,19, Math.toRadians(270));
+        Pose2d StageBlueLeftDropoff = new Pose2d(-22,55, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -112,20 +112,23 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueLeftDropoff)
+                .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueLeft)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .forward(6)
+                .lineToLinearHeading(StageBlueRight)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(.25)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .back(3.5)
+                .strafeLeft(18)
                 .lineToLinearHeading(BlueWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .waitSeconds(1.0)
                 .build();
 
 
@@ -156,23 +159,20 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueRightDropoff)
+                .lineToLinearHeading(StageBlueLeftDropoff)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueRight)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
+                .lineToLinearHeading(StageBlueLeft)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .forward(6)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(3.5)
-                .strafeRight(18)
+                .waitSeconds(.25)
                 .lineToLinearHeading(BlueWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .waitSeconds(1.0)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .waitSeconds(0.5)
                 .build();
 
 
