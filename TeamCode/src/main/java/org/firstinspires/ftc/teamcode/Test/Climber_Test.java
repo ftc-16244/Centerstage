@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.Climber;
+import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
 
 
 @Config
@@ -22,7 +22,7 @@ public class Climber_Test extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     ElapsedTime turnerTimer = new ElapsedTime();
 
-    Climber climber = new Climber(this);
+    Climber_Drone climberDrone = new Climber_Drone(this);
     //Climber_2 winch = new Climber_2(this);
 
 
@@ -49,7 +49,7 @@ public class Climber_Test extends LinearOpMode {
 
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        climber.init(hardwareMap);
+        climberDrone.init(hardwareMap);
 
 
 
@@ -87,34 +87,34 @@ public class Climber_Test extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-                climber.climberDeploy();
+                climberDrone.climberDeploy();
                 debounce(500);
             }
 
             if (gamepad1.dpad_up) {
-                climber.climberHang();
+                climberDrone.climberHang();
                 debounce(500);
 
             }
 
             if (gamepad1.dpad_down) {
-                climber.climberStow();
+                climberDrone.climberStow();
                 debounce(500);
 
             }
 
             if (gamepad1.a) {
-                climber.winchDeploy();
+                climberDrone.winchDeploy();
                 debounce(500);
             }
 
             if (gamepad1.b) {
-                climber.winchStow();
+                climberDrone.winchStow();
                 debounce(500);
             }
 
             if (gamepad1.back) {
-                climber.winchHang();
+                climberDrone.winchHang();
                 debounce(500);
 
             }
