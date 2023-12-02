@@ -38,7 +38,9 @@ public class Climber_Drone {
     private static final double CLIMBER_STOWED_ANGLE = 0; // degrees - change this variable to fine tune.
     private static final double CLIMBER_STOW_SPEED = 0.1;
 
+    public static final double DRONE_GROUNDED = 0.5; // drone locl position
 
+    public static final double DRONE_FLY = 0.3;  // release drone position
 
     // Climber Constants - Convert to ticks
 
@@ -81,12 +83,17 @@ public class Climber_Drone {
 
     }
 
-
+    public void setDroneGrounded() {
+        drone.setPosition(DRONE_GROUNDED);//fwd
+    }
+    public void setDroneFly() {
+        drone.setPosition(DRONE_FLY); // back
+    }
 
     public void init(HardwareMap hardwareMap) {
         climber = hardwareMap.get(DcMotorEx.class, "climberMotor");
         winch = hardwareMap.get(DcMotorEx.class, "winchMotor");
-        //drone = hardwareMap.get(Servo.class,"droneServo");
+        drone = hardwareMap.get(Servo.class,"droneServo");
 
         // set directions
         climber.setDirection(DcMotorEx.Direction.REVERSE);
