@@ -128,7 +128,11 @@ public class Climber_Test extends LinearOpMode {
 //// GAMEPAD #2/////////////////////////
 
             if (gamepad2.dpad_up) {
+                climberDrone.setDroneFly();
+            }
 
+            if (gamepad2.dpad_down){
+                climberDrone.setDroneGrounded();
             }
             /*
             switch(liftState) {
