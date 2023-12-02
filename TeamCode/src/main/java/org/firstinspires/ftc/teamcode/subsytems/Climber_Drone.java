@@ -5,15 +5,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-public class Climber {
+public class Climber_Drone {
     public DcMotorEx climber;
     public DcMotorEx winch;
+    public Servo drone;
     public VoltageSensor voltSensor = null;
 
 
@@ -64,8 +66,17 @@ public class Climber {
     public double targetClimbAngle; // local variable
     public double targetWinchDistance; // local variable
 
+    public double targetDroneAngle; // local variable
+
+
+    /*------------------------------------------drone------------------------------------------*/
+
+    private static final double DRONE_ANGLE = 45; // degrees - change this variable to fine tune.
+
+
+
     // Constructor
-    public Climber(LinearOpMode opmode) {
+    public Climber_Drone(LinearOpMode opmode) {
         this.opmode = opmode;
 
     }
@@ -75,13 +86,15 @@ public class Climber {
     public void init(HardwareMap hardwareMap) {
         climber = hardwareMap.get(DcMotorEx.class, "climberMotor");
         winch = hardwareMap.get(DcMotorEx.class, "winchMotor");
+        drone = hardwareMap.get(Servo.class,"droneServo");
+
         // set directions
         climber.setDirection(DcMotorEx.Direction.REVERSE);
         winch.setDirection(DcMotorEx.Direction.FORWARD);
         // set to encoder operation
         climber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         // stop and rest encoders
         //climber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -172,6 +185,10 @@ public class Climber {
     }
     public void winchStow(){
         setToWinchSpoolOut(WINCH_STOWED_DISTANCE, 3);
+    }
+
+    public void droneDeploy(){
+        setToTargetClimbAngle(DRONE_ANGLE,3);
     }
 
 }
