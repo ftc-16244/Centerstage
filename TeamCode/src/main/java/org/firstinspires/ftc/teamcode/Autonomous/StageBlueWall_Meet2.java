@@ -52,11 +52,13 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         // Set start positions
         lift.setAnglerLoad();
         sleep(250);
-        lift.gripperClosed();
+        lift.gripperWideOpen();
         lift.slideMechanicalReset();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
+        lift.gripperClosed();
+
 
         detector.toggleTelemetry();
         telemetry.clearAll();
@@ -90,17 +92,17 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         //============================
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
-        Pose2d BlueWallPark = new Pose2d(-60,55,Math.toRadians(270));
+        Pose2d BlueWallPark = new Pose2d(-60,54,Math.toRadians(270));
         Pose2d BlueMidPark = new Pose2d(-8,50,Math.toRadians(90));
 
-        Pose2d StageBlueRight = new Pose2d(-33,13,Math.toRadians(90));//spike mark
-        Pose2d StageBlueRightDropoff = new Pose2d(-39, 54, Math.toRadians(90));//backstage
+        Pose2d StageBlueLeft = new Pose2d(-25,12,Math.toRadians(90));//spike mark
+        Pose2d StageBlueLeftDropoff = new Pose2d(-43, 53, Math.toRadians(90));//backstage
 
-        Pose2d StageBlueCenter = new Pose2d(-14, 16, Math.toRadians(180));
-        Pose2d StageBlueCenterDropoff = new Pose2d(-34, 54, Math.toRadians(90));
+        Pose2d StageBlueCenter = new Pose2d(-13, 14, Math.toRadians(180));
+        Pose2d StageBlueCenterDropoff = new Pose2d(-36, 53, Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-22,19, Math.toRadians(270));
-        Pose2d StageBlueLeftDropoff = new Pose2d(-22,55, Math.toRadians(90));
+        Pose2d StageBlueRight = new Pose2d(-32,28, Math.toRadians(270));
+        Pose2d StageBlueRightDropoff = new Pose2d(-30,53.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -109,14 +111,14 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         //============================
 
         //StageRedLeft
-        TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueRightDropoff)
+                .lineToLinearHeading(StageBlueLeftDropoff)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueRight)
+                .lineToLinearHeading(StageBlueLeft)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
@@ -128,13 +130,14 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
                 .strafeLeft(18)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 .waitSeconds(1.0)
                 .build();
 
 
 
         //StageRedCenter
-        TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
@@ -150,23 +153,24 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .back(5)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(.5)
                 .build();
 
         //StageRedRight
-        TrajectorySequence StageRedRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueLeftDropoff)
+                .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueLeft)
+                .lineToLinearHeading(StageBlueRight)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .forward(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
+                .forward(14)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
@@ -193,13 +197,13 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
 
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeftTraj1);
+                drive.followTrajectorySequence(StageBlueLeftTraj1);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenterTraj1);
+                drive.followTrajectorySequence(StageBlueCenterTraj1);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRightTraj1);
+                drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");

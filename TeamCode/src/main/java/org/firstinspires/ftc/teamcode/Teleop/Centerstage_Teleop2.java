@@ -10,9 +10,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
-import org.firstinspires.ftc.teamcode.subsytems.Climber;
+import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
 
 
 @Config
@@ -27,7 +28,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
     Lift lift = new Lift(this);
     //PixelDropper pixelDropper = new PixelDropper(this);
 
-    Climber climber = new Climber(this);
+    Climber_Drone climberDrone = new Climber_Drone(this);
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
@@ -78,8 +79,8 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         lift.gripperWideOpen();
         lift.setAnglerLoad();
 
-        climber.init(hardwareMap);
-        climber.climberStow();
+        climberDrone.init(hardwareMap);
+        climberDrone.climberStow();
 
         // Move servos to start postion. Grippers open and track wheels up (for teleop)
 
@@ -183,13 +184,13 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 //// GAMEPAD #2/////////////////////////
 
             if (gamepad2.y) {
-                climber.climberDeploy();
-                climber.winchDeploy();
+                climberDrone.climberDeploy();
+                climberDrone.winchDeploy();
 
             }
             if (gamepad2.a) {
-                climber.climberHang();
-                climber.winchHang();
+                climberDrone.climberHang();
+                climberDrone.winchHang();
                 //debounce(500);
             }
             if (gamepad2.b) {
