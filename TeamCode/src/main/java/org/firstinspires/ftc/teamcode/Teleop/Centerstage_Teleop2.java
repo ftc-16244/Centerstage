@@ -63,7 +63,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
         // set up local variables
 
         double  slidePosition;
-        double  speedFactor = 1.0;
+        double  speedFactor = 0.75;
         double expo =   3; // has to be 1 or 3
 
         // set up Mecanum Drive
@@ -129,15 +129,11 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-                lift.setAnglerCarry();
-                sleep(100);
+                speedFactor = 1;
             }
 
             if (gamepad1.dpad_down) {
 
-                lift.gripperOpen();
-                speedFactor = 0.5;
-                sleep(100);
             }
 
             if (gamepad1.dpad_left) {
@@ -167,6 +163,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             if (gamepad1.left_bumper) {
                 lift.gripperLeftOpen();
+                sleep(100);
             }
             if (gamepad1.left_stick_button) {
                 speedFactor = 0.5;
@@ -175,7 +172,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                 speedFactor = 0.25;
             }
             if (gamepad1.a) {
-                speedFactor = 1;
+                speedFactor = 0.75;
             }
             if (gamepad1.y) {
                 lift.setAnglerCarry();
@@ -189,9 +186,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 
             }
             if (gamepad2.a) {
-                climberDrone.climberHang();
-                climberDrone.winchHang();
-                //debounce(500);
+
             }
             if (gamepad2.b) {
 
@@ -200,12 +195,12 @@ public class Centerstage_Teleop2 extends LinearOpMode {
                 lift.slideMechanicalReset();
             }
             if (gamepad2.x) {
-                speedFactor = 0.25;
-                sleep(100);
+                climberDrone.climberHang();
+                climberDrone.winchHang();
             }
             if (gamepad2.dpad_down) {
                 lift.setSlideLevel1();
-                speedFactor = 1.0;
+                speedFactor = 0.75;
                 sleep(200);
             }
             if (gamepad2.dpad_right) {
@@ -224,10 +219,13 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad2.left_trigger > 0.25) {
                 lift.setAnglerDeploy();
+                speedFactor = 0.75;
                 sleep(100);
             }
             if (gamepad2.right_trigger > 0.25) {
+                speedFactor = 0.5;
                 lift.setAnglerLoad();
+                lift.gripperOpen();
                 sleep(100);
             }
             /*

@@ -86,7 +86,7 @@ public class Climber_Drone {
     public void init(HardwareMap hardwareMap) {
         climber = hardwareMap.get(DcMotorEx.class, "climberMotor");
         winch = hardwareMap.get(DcMotorEx.class, "winchMotor");
-        drone = hardwareMap.get(Servo.class,"droneServo");
+        //drone = hardwareMap.get(Servo.class,"droneServo");
 
         // set directions
         climber.setDirection(DcMotorEx.Direction.REVERSE);
