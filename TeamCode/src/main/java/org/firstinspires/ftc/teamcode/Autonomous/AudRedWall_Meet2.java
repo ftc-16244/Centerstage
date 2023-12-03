@@ -91,8 +91,8 @@ public class AudRedWall_Meet2 extends LinearOpMode {
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(64.5, -36, Math.toRadians(90));
         Pose2d RedPark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d RallyPoint1 = new Pose2d(10.5,-45,Math.toRadians(90));
-        Pose2d RallyPoint2 = new Pose2d(10.5,-43,Math.toRadians(90));
+        Pose2d RedRallyPoint1 = new Pose2d(10.5,-45,Math.toRadians(90));
+        Pose2d RedRallyPoint2 = new Pose2d(10.5,-43,Math.toRadians(90));
 
 
         //Center Prop
@@ -126,8 +126,8 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RallyPoint1)
-                .lineToLinearHeading(RallyPoint2)
+                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint2)
                 .splineToLinearHeading(AudRedLeftDropoff,Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel2())
@@ -150,8 +150,8 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RallyPoint1)
-                .lineToLinearHeading(RallyPoint2)
+                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint2)
                 .splineToLinearHeading(AudRedCenterDropoff,Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel2())
@@ -175,8 +175,8 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RallyPoint1)
-                .lineToLinearHeading(RallyPoint2)
+                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint2)
                 .splineToLinearHeading(AudRedRightDropoff,Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel2())
