@@ -73,7 +73,7 @@ public class Climber_Drone {
 
     /*------------------------------------------drone------------------------------------------*/
 
-    private static final double DRONE_DEPLOY_ANGLE = 13; // degrees - change this variable to fine tune.
+    private static final double WINCH_DRONE_DEPLOY_ANGLE = 13; // degrees - change this variable to fine tune.
     private static final double DRONE_ANGLE = 45; // degrees - change this variable to fine tune.
 
 
@@ -195,9 +195,11 @@ public class Climber_Drone {
         setToWinchSpoolOut(WINCH_STOWED_DISTANCE, 3);
     }
 
-    public void droneDeploy(){
-        setToTargetClimbAngle(DRONE_DEPLOY_ANGLE,3);
-        setToTargetClimbAngle(DRONE_ANGLE,3);
+    public void winchDroneDeploy(){
+        setToTargetClimbAngle(WINCH_DRONE_DEPLOY_ANGLE,3);
+    }
+    public void setDroneDeploy(){
+        drone.setPosition(DRONE_FLY);
     }
 
 }
