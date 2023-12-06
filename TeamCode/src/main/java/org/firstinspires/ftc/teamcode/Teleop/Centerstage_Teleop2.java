@@ -181,11 +181,13 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 //// GAMEPAD #2/////////////////////////
 
             if (gamepad2.y) {
-                climberDrone.climberDeploy();
-                climberDrone.winchDeploy();
 
+                climberDrone.climberStow();
+                climberDrone.winchStow();
             }
             if (gamepad2.a) {
+                climberDrone.winchDroneDeploy();
+                climberDrone.setDroneDeploy();
 
             }
             if (gamepad2.b) {
