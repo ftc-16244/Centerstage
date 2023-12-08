@@ -193,7 +193,7 @@ public class Centerstage_Teleop2 extends LinearOpMode {
             }
             if (gamepad2.back) {
                 lift.slideMechanicalReset();
-            }
+               }
             if (gamepad2.a) {
                 climberDrone.climberHang();
                 climberDrone.winchHang();
