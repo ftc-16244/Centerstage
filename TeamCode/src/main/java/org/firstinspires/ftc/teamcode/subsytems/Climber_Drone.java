@@ -63,6 +63,7 @@ public class Climber_Drone {
     private static double WINCH_DEPLOY_DISTANCE 	= 18.5 ; // inches (need to test to get correct value here)
     private static double WINCH_HANGING_DISTANCE 	= 5.5; // inches (need to test to get correct value here)
     private static double WINCH_STOWED_DISTANCE 	= 0; // inches - should usually be zero. Can change if needed
+    private static final double WINCH_DRONE_DEPLOY_HEIGHT = 18; // degrees - change this variable to fine tune.
 
 
     public double targetClimbAngle; // local variable
@@ -73,7 +74,7 @@ public class Climber_Drone {
 
     /*------------------------------------------drone------------------------------------------*/
 
-    private static final double WINCH_DRONE_DEPLOY_HEIGHT = 13; // degrees - change this variable to fine tune.
+
     private static final double DRONE_ANGLE = 45; // degrees - change this variable to fine tune.
 
 
