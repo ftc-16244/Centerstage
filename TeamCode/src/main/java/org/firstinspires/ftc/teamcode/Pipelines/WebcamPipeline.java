@@ -9,6 +9,9 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_AUDIENCE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
@@ -19,6 +22,7 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_AUDIENCE;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
@@ -48,18 +52,18 @@ public class WebcamPipeline extends OpenCvPipeline {
         Prop detectableNoncenter;
 
         if (startPosition == StartPosition.RED_AUD) {
-            NONCENTER_ROI = LEFT_ROI_RED;
-            CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            NONCENTER_ROI = RIGHT_ROI_RED_AUDIENCE;
+            CENTER_ROI = CENTER_ROI_RED_AUDIENCE;
+            undetectableLocation = Prop.LEFT;
+            detectableNoncenter = Prop.RIGHT;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
-            CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            NONCENTER_ROI =LEFT_ROI_BLUE_AUDIENCE; // due to start position difference ROI are not the same for both sides
+            CENTER_ROI = CENTER_ROI_BLUE_AUDIENCE;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }
