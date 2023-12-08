@@ -95,7 +95,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
         Pose2d BlueWallPark = new Pose2d(-60,54,Math.toRadians(270));
         Pose2d BlueMidPark = new Pose2d(-8,50,Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-25,12,Math.toRadians(90));//spike mark
+        Pose2d StageBlueLeft = new Pose2d(-25,11,Math.toRadians(90));//spike mark
         Pose2d StageBlueLeftDropoff = new Pose2d(-43, 53, Math.toRadians(90));//backstage
 
         Pose2d StageBlueCenter = new Pose2d(-13, 14, Math.toRadians(180));
