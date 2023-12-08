@@ -33,7 +33,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
         telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_AUD);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -85,18 +85,18 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
 
         Pose2d startPos = new Pose2d(-62.5, -36, Math.toRadians(90));
         Pose2d BluePark = new Pose2d(-13,45,Math.toRadians(90));
-        Pose2d BlueRallyPoint1 = new Pose2d(-5.5,-45,Math.toRadians(90));
-        Pose2d BlueRallyPoint2 = new Pose2d(-5.5,-15,Math.toRadians(90));
+        Pose2d BlueRallyPoint1 = new Pose2d(-7.5,-41,Math.toRadians(90));
+        Pose2d BlueRallyPoint2 = new Pose2d(-7.5,0,Math.toRadians(90));
 
-        Pose2d AudBlueLeftPre = new Pose2d(-26.5,-41,Math.toRadians(90));//spike mark
-        Pose2d AudBlueLeft = new Pose2d(-26.5,-32.5,Math.toRadians(90));//spike mark
+        Pose2d AudBlueLeftPre = new Pose2d(-29.5,-41,Math.toRadians(90));//spike mark
+        Pose2d AudBlueLeft = new Pose2d(-29.5,-32.5,Math.toRadians(90));//spike mark
         Pose2d AudBlueLeftDropoff = new Pose2d(-42, 53, Math.toRadians(90));//backstage
 
         Pose2d AudBlueCenter = new Pose2d(-22, -43, Math.toRadians(90));
         Pose2d AudBlueCenterDropoff = new Pose2d(-36, 52, Math.toRadians(90));
 
-        Pose2d AudBlueRight = new Pose2d(-23,-56, Math.toRadians(90));
-        Pose2d AudBlueRightDropoff = new Pose2d(-27,52, Math.toRadians(90));
+        Pose2d AudBlueRight = new Pose2d(-23,-57, Math.toRadians(90));
+        Pose2d AudBlueRightDropoff = new Pose2d(-34,52, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -116,6 +116,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
                 .forward(2.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.125)
+                .back(3)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(BluePark)
@@ -152,6 +153,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .strafeRight(6)
                 .lineToLinearHeading(BlueRallyPoint1)
                 .lineToLinearHeading(BlueRallyPoint2)
                 .lineToLinearHeading(AudBlueRightDropoff)

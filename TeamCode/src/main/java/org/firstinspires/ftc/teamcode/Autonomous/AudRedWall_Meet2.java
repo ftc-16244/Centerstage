@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,7 +33,7 @@ public class AudRedWall_Meet2 extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_STAGE);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_AUD);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -91,8 +92,10 @@ public class AudRedWall_Meet2 extends LinearOpMode {
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(64.5, -36, Math.toRadians(90));
         Pose2d RedPark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d RedRallyPoint1 = new Pose2d(10.5,-45,Math.toRadians(90));
-        Pose2d RedRallyPoint2 = new Pose2d(10.5,-43,Math.toRadians(90));
+        Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-50,Math.toRadians(90));//left and a bit forward from the left pixel drop
+        Pose2d RedRallyPoint1_CENTER = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
+        Pose2d RedRallyPoint1_RIGHT = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
+        Pose2d RedRallyPoint2 = new Pose2d(10.5,-0,Math.toRadians(90));// near md field on red side
 
 
         //Center Prop
@@ -126,9 +129,9 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint1_LEFT)
                 .lineToLinearHeading(RedRallyPoint2)
-                .splineToLinearHeading(AudRedLeftDropoff,Math.toRadians(0))
+                .splineToLinearHeading(AudRedLeftDropoff,Math.toRadians(110))// was 0
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel2())
                 .forward(2.5)
@@ -150,7 +153,7 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint1_CENTER)
                 .lineToLinearHeading(RedRallyPoint2)
                 .splineToLinearHeading(AudRedCenterDropoff,Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
@@ -158,6 +161,7 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .forward(2.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.125)
+                .back(3)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(RedPark)
@@ -175,7 +179,7 @@ public class AudRedWall_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperLeftOpen();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .lineToLinearHeading(RedRallyPoint1)
+                .lineToLinearHeading(RedRallyPoint1_RIGHT)
                 .lineToLinearHeading(RedRallyPoint2)
                 .splineToLinearHeading(AudRedRightDropoff,Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
