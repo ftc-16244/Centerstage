@@ -181,25 +181,20 @@ public class Centerstage_Teleop2 extends LinearOpMode {
 //// GAMEPAD #2/////////////////////////
 
             if (gamepad2.y) {
-
-                climberDrone.climberStow();
-                climberDrone.winchStow();
-            }
-            if (gamepad2.a ) {
                 climberDrone.climberDeploy(); // turn not climb arm motor to raise hooks
-                climberDrone.winchDroneDeploy(); // partial raise to launce drone
-                climberDrone.setDroneDeploy(); // move servo to let drone go
-                sleep(50); // pause to make sure servo moves
                 climberDrone.winchDeploy(); // winch out to let hooks reach the truss
 
             }
-            if (gamepad2.b) {
+            if (gamepad2.x ) {
+
+                climberDrone.setDroneDeploy(); // move servo to let drone go
+                sleep(50); // pause to make sure servo moves
 
             }
             if (gamepad2.back) {
                 lift.slideMechanicalReset();
             }
-            if (gamepad2.x) {
+            if (gamepad2.a) {
                 climberDrone.climberHang();
                 climberDrone.winchHang();
             }
