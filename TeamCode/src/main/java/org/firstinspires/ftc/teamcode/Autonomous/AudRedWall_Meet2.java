@@ -101,11 +101,11 @@ public class AudRedWall_Meet2 extends LinearOpMode {
         //Center Prop
         Pose2d AudRedCenter = new Pose2d(28.5, -45, Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(36, 51, Math.toRadians(90));
+        Pose2d AudRedCenterDropoff = new Pose2d(39, 51, Math.toRadians(90));
 
         // Left Prop Poses
         Pose2d AudRedLeft = new Pose2d(33.5,-57.5, Math.toRadians(90));
-        Pose2d AudRedLeftDropoff = new Pose2d(28,51, Math.toRadians(90));
+        Pose2d AudRedLeftDropoff = new Pose2d(29,51, Math.toRadians(90));
 
         // Right Prop Poses
         Pose2d AudRedRightDropoff = new Pose2d(44, 51, Math.toRadians(90));//backstage

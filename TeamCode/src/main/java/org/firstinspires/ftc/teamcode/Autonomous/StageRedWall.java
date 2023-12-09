@@ -95,11 +95,11 @@ public class StageRedWall extends LinearOpMode {
         Pose2d RedWallPark = new Pose2d(60,55,Math.toRadians(270));
         Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(90));
 
-        Pose2d StageRedRight = new Pose2d(33,13,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(39, 54, Math.toRadians(90));//backstage
+        Pose2d StageRedRight = new Pose2d(29,13,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(38, 54, Math.toRadians(90));//backstage
 
-        Pose2d StageRedCenter = new Pose2d(38, 16, Math.toRadians(180));
-        Pose2d StageRedCenterDropoff = new Pose2d(34, 54, Math.toRadians(90));
+        Pose2d StageRedCenter = new Pose2d(34, 16, Math.toRadians(180));
+        Pose2d StageRedCenterDropoff = new Pose2d(33.5, 53.5, Math.toRadians(90));
 
         Pose2d StageRedLeft = new Pose2d(31,19, Math.toRadians(270));
         Pose2d StageRedLeftDropoff = new Pose2d(26,54, Math.toRadians(90));

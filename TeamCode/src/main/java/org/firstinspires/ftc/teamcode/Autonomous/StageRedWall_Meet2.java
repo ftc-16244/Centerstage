@@ -103,7 +103,7 @@ public class StageRedWall_Meet2 extends LinearOpMode {
 
         // Right Prop Poses
         Pose2d StageRedRight = new Pose2d(36,12.5,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(40.5, 53, Math.toRadians(90));//backstage
+        Pose2d StageRedRightDropoff = new Pose2d(39, 53, Math.toRadians(90));//backstage
 
 
         drive.setPoseEstimate(startPos);
