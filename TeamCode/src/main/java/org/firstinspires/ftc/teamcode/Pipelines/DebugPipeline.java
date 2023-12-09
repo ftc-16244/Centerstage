@@ -6,11 +6,11 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_STAGE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_STAGE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_STAGE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_STAGE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
@@ -30,19 +30,19 @@ public class DebugPipeline extends OpenCvPipeline {
 
         if (startPosition == StartPosition.RED_AUD) {
             NONCENTER_ROI = LEFT_ROI_RED;
-            CENTER_ROI = CENTER_ROI_RED;
+            CENTER_ROI = CENTER_ROI_RED_STAGE;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
-            CENTER_ROI = CENTER_ROI_BLUE;
+            NONCENTER_ROI = LEFT_ROI_BLUE_STAGE;
+            CENTER_ROI = CENTER_ROI_BLUE_STAGE;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
-            NONCENTER_ROI = RIGHT_ROI_RED;
-            CENTER_ROI = CENTER_ROI_RED;
+            NONCENTER_ROI = RIGHT_ROI_RED_STAGE;
+            CENTER_ROI = CENTER_ROI_RED_STAGE;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
             NONCENTER_ROI = RIGHT_ROI_BLUE;
-            CENTER_ROI = CENTER_ROI_BLUE;
+            CENTER_ROI = CENTER_ROI_BLUE_STAGE;
         }
         else {
             throw new IllegalArgumentException("Invalid start position passed to pipeline!");

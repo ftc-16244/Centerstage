@@ -100,7 +100,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
 
         drive.setPoseEstimate(startPos);
 
-        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5();})
                 .lineToLinearHeading(AudBlueLeftPre)
@@ -146,7 +146,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
                 .waitSeconds(0.125)
                 .build();
 
-        TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5();})
                 .lineToLinearHeading(AudBlueRight)
@@ -194,7 +194,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
                 drive.followTrajectorySequence(StageBlueRightTraj1);
                 break;
             default:
-                throw new IllegalArgumentException("The code is most certainly severely screwed up.");
+                throw new IllegalArgumentException("A hardware error has occurred. Please get a new Control Hub ASAP.");
         }
     }
 }

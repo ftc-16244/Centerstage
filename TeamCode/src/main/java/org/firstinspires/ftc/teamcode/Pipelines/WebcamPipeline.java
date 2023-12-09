@@ -8,21 +8,19 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_STAGE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_AUD;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUD;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUD;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_STAGE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_STAGE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_STAGE;
 
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_AUDIENCE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_AUD;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
@@ -52,32 +50,32 @@ public class WebcamPipeline extends OpenCvPipeline {
         Prop detectableNoncenter;
 
         if (startPosition == StartPosition.RED_AUD) {
-            NONCENTER_ROI = RIGHT_ROI_RED_AUDIENCE;
-            CENTER_ROI = CENTER_ROI_RED_AUDIENCE;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            NONCENTER_ROI = RIGHT_ROI_RED_AUD;
+            CENTER_ROI = CENTER_ROI_RED_AUD;
+            undetectableLocation = Prop.RIGHT;
+            detectableNoncenter = Prop.LEFT;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI =LEFT_ROI_BLUE_AUDIENCE; // due to start position difference ROI are not the same for both sides
-            CENTER_ROI = CENTER_ROI_BLUE_AUDIENCE;
+            NONCENTER_ROI = LEFT_ROI_BLUE_AUD;
+            CENTER_ROI = CENTER_ROI_BLUE_AUD;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
-            NONCENTER_ROI = RIGHT_ROI_RED;
-            CENTER_ROI = CENTER_ROI_RED;
+            NONCENTER_ROI = RIGHT_ROI_RED_STAGE;
+            CENTER_ROI = CENTER_ROI_RED_STAGE;
             undetectableLocation = Prop.LEFT;
             detectableNoncenter = Prop.RIGHT;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
-            CENTER_ROI = CENTER_ROI_BLUE;
+            NONCENTER_ROI = LEFT_ROI_BLUE_STAGE;
+            CENTER_ROI = CENTER_ROI_BLUE_STAGE;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;
             lowHSV = BLUE_LOW_HSV;
