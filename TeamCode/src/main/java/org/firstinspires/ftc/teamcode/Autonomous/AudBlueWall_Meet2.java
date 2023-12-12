@@ -84,7 +84,7 @@ public class AudBlueWall_Meet2 extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         Pose2d startPos = new Pose2d(-62.5, -36, Math.toRadians(90));
-        Pose2d BluePark = new Pose2d(-13,45,Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-9.5,45,Math.toRadians(90));
         Pose2d BlueRallyPoint1 = new Pose2d(-7.5,-41,Math.toRadians(90));
         Pose2d BlueRallyPoint2 = new Pose2d(-7.5,0,Math.toRadians(90));
 
