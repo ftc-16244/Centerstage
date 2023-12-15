@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -110,11 +110,13 @@ public class Centerstage_Teleop3 extends LinearOpMode {
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            Math.pow(-gamepad1.left_stick_y, expo) * speedFactor,
-                            Math.pow(-gamepad1.left_stick_x,expo) * speedFactor,
-                            Math.pow(-gamepad1.right_stick_x,expo) * speedFactor
+                            //Math.pow(-gamepad1.left_stick_y, expo) * speedFactor,
+                            //Math.pow(-gamepad1.left_stick_x,expo) * speedFactor,
+                            //Math.pow(-gamepad1.right_stick_x,expo) * speedFactor
+                            scaleStick(-gamepad1.left_stick_y) * speedFactor,
+                            scaleStick(-gamepad1.left_stick_x) * speedFactor,
+                            scaleStick(-gamepad1.right_stick_x) * speedFactor
                     )
-
             );
             if (teleopTimer.time() > 93){
 
@@ -234,6 +236,7 @@ public class Centerstage_Teleop3 extends LinearOpMode {
     }
     private void gp1righttrigger() {
         Thread gp1righttrigger = new Thread(() -> lift.gripperOpen());
+        gp1righttrigger.start();
     }
     private void gp2dpup() {
         Thread gp2dpup = new Thread(() -> lift.setSlideLevel3());
@@ -275,6 +278,10 @@ public class Centerstage_Teleop3 extends LinearOpMode {
             lift.gripperOpen();
         });
         gp2righttrigger.start();
+    }
+    private double scaleStick(double input) {
+        if(input < 0.75 && input > -0.75) return input / 1.5;
+        else return input;
     }
     void debounce(long debounceTime) {
         try {
