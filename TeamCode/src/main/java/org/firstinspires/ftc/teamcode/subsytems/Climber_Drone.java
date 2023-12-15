@@ -29,7 +29,7 @@ public class Climber_Drone {
     // Climber Constants - Motor and mechanism
     public static double CLIMB_SPEED = 0.40; // dont want this to be too fast
     public static double CLIMB_DRIVE_RATIO = 2; // drive sprocket is 14 teeth and teh driven is 28 teeth
-    private static final double CLIMBER_TICKS_PER_MOTOR_REV = 537.7; // goBilda 435 -->384.5 //312--> RPM  537.7
+    private static final double CLIMBER_TICKS_PER_MOTOR_REV = 751.8;// 223 motor the 312 is 537.7;
 
     // Climber Constants - Arm Angles
 
