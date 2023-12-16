@@ -13,14 +13,12 @@ import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 
-
 @Config
 @TeleOp(group = "Teleop")
 
 public class Centerstage_Teleop3 extends LinearOpMode {
 
     ElapsedTime runtime = new ElapsedTime();
-    ElapsedTime turnerTimer = new ElapsedTime();
 
     Lift lift = new Lift(this);
 
@@ -29,48 +27,18 @@ public class Centerstage_Teleop3 extends LinearOpMode {
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
 
-
     FtcDashboard dashboard;
-
-
-    //ENUMS
-    public enum LiftState {
-        LIFT_UNKNOWN,
-        LIFT_IDLE,
-        LIFT_LOW,
-        LIFT_MED,
-        LIFT_HIGH,
-        LIFT_HOLD
-    }
-    public enum AnglerState {
-        ANGLER_LOAD,
-        ANGLER_DEPLOY,
-        ANGLER_CARRY
-    }
-
-    LiftState liftState = LiftState.LIFT_UNKNOWN;
-    AnglerState anglerState;
-    boolean heightLow;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
         // set up local variables
-
-        double  slidePosition;
         double  speedFactor = 0.75;
-        double expo =   1; // has to be 1 or 3
 
         // set up Mecanum Drive
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap); // this has to be here inside the runopmode. The others go above as class variables
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-        // Initialize the sub systems. Note the init method is inside the subsystem class
-        //pixelDropper.init(hardwareMap);
-        //pixelDropper.dropperClosed();
-
+        // Initialize the subsystems. Note the init method is inside the subsystem class
         lift.init(hardwareMap);
         lift.gripperWideOpen();
         lift.setAnglerLoad();
@@ -78,27 +46,11 @@ public class Centerstage_Teleop3 extends LinearOpMode {
         climberDrone.init(hardwareMap);
         climberDrone.climberStow();
 
-        // Move servos to start postion. Grippers open and track wheels up (for teleop)
-
-        liftState = LiftState.LIFT_IDLE;
-        anglerState = AnglerState.ANGLER_DEPLOY;
-        heightLow = false;
-        turnerTimer.reset();
-
-        // Telemetry
-
-        telemetry.addData("Lift State", null);
-        telemetry.addData("Angler State", anglerState);
-        telemetry.addData("Height Low", heightLow);
-
-
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        //pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
         lift.setSlideLevel1();
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
@@ -110,9 +62,6 @@ public class Centerstage_Teleop3 extends LinearOpMode {
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            //Math.pow(-gamepad1.left_stick_y, expo) * speedFactor,
-                            //Math.pow(-gamepad1.left_stick_x,expo) * speedFactor,
-                            //Math.pow(-gamepad1.right_stick_x,expo) * speedFactor
                             scaleStick(-gamepad1.left_stick_y) * speedFactor,
                             scaleStick(-gamepad1.left_stick_x) * speedFactor,
                             scaleStick(-gamepad1.right_stick_x) * speedFactor
@@ -282,12 +231,5 @@ public class Centerstage_Teleop3 extends LinearOpMode {
     private double scaleStick(double input) {
         if(input < 0.75 && input > -0.75) return input / 1.5;
         else return input;
-    }
-    void debounce(long debounceTime) {
-        try {
-            Thread.sleep(debounceTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

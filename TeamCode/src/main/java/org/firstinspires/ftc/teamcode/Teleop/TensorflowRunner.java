@@ -13,7 +13,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@TeleOp(group = "Concept")
 @Disabled
 public class TensorflowRunner extends LinearOpMode {
 
