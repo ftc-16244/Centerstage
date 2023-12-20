@@ -11,19 +11,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
 import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
 
 
 @Config
 @TeleOp(group = "Teleop")
-@Disabled
 public class Climber_Test extends LinearOpMode {
 // test
 
-    ElapsedTime runtime = new ElapsedTime();
-    ElapsedTime turnerTimer = new ElapsedTime();
 
-    Climber_Drone climberDrone = new Climber_Drone(this);
+    Climber climberDrone = new Climber();
     //Climber_2 winch = new Climber_2(this);
 
 
@@ -88,37 +86,22 @@ public class Climber_Test extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-                climberDrone.climberDeploy();
+                climberDrone.prepForClimb();
                 debounce(500);
             }
 
             if (gamepad1.dpad_up) {
-                climberDrone.climberHang();
+                climberDrone.climb();
                 debounce(500);
 
             }
 
             if (gamepad1.dpad_down) {
-                climberDrone.climberStow();
+                climberDrone.reset();
                 debounce(500);
 
             }
 
-            if (gamepad1.a) {
-                climberDrone.winchDeploy();
-                debounce(500);
-            }
-
-            if (gamepad1.b) {
-                climberDrone.winchStow();
-                debounce(500);
-            }
-
-            if (gamepad1.back) {
-                climberDrone.winchHang();
-                debounce(500);
-
-            }
             if (gamepad1.left_trigger > 0.25) {
 
             }
@@ -128,13 +111,6 @@ public class Climber_Test extends LinearOpMode {
             }
 //// GAMEPAD #2/////////////////////////
 
-            if (gamepad2.dpad_up) {
-                climberDrone.setDroneFly();
-            }
-
-            if (gamepad2.dpad_down){
-                climberDrone.setDroneGrounded();
-            }
             /*
             switch(liftState) {
                 case LIFT_IDLE:
