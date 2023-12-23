@@ -40,6 +40,19 @@ public class MeepMeepTesting {
         Pose2d AudRedRightPre = new Pose2d(35.5,-41, Math.toRadians(90));
         Pose2d AudRedRight = new Pose2d(35.5,-34,Math.toRadians(90));//spike mark
 
+        //Center Prop
+        Pose2d StageRedCenter = new Pose2d(-16, 38, Math.toRadians(180));
+        //backstage drop
+        Pose2d StageRedCenterDropoff = new Pose2d(-54.5, 32, Math.toRadians(0));
+
+        // Left Prop Poses
+        Pose2d StageRedLeft = new Pose2d(-19, 30, Math.toRadians(270));
+        Pose2d StageRedLeftDropoff = new Pose2d(-54, 26, Math.toRadians(90));
+
+        // Right Prop Poses
+        Pose2d StageRedRight = new Pose2d(-12.5, 36,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(-53, 39, Math.toRadians(90));//backstage
+
         Pose2d leftwhitespikemark1 = new Pose2d(0, -33.5, Math.toRadians(180));
         Pose2d leftwhitespikemark2 = new Pose2d(-57.5, -33.5, Math.toRadians(180));
 
@@ -49,15 +62,8 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-36, -64.5, 0))
-                                .splineToLinearHeading(AudRedCenter,Math.toRadians(0))
-                                .splineToLinearHeading(RedRallyPoint1_CENTER, Math.toRadians(0))
-                                .splineToLinearHeading(RedRallyPoint2, Math.toRadians(0))
-                                .splineToLinearHeading(AudRedCenterDropoff,Math.toRadians(0))
-                                .lineToLinearHeading(leftwhitespikemark1)
-                                .lineToLinearHeading(leftwhitespikemark2)
-                                .lineToLinearHeading(AudRedCenterDropoff2)
-                                .lineToLinearHeading(AudRedCenterDropoff)
-                                .lineToLinearHeading(RedPark)
+                                .splineToLinearHeading(StageRedCenterDropoff, Math.toRadians(90))
+                                .splineToLinearHeading(StageRedCenter, Math.toRadians(180))
                                 .build()
                 );
 
