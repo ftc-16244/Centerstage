@@ -11,7 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
 import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
+import org.firstinspires.ftc.teamcode.subsytems.Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 
 @Config
@@ -23,7 +25,10 @@ public class Centerstage_Teleop4 extends LinearOpMode {
 
     Lift lift = new Lift(this);
 
-    Climber_Drone climberDrone = new Climber_Drone(this);
+    //Climber_Drone climberDrone = new Climber_Drone(this);
+    Climber climber = new Climber(this); // replaces climberDone with climber only subsystem
+    Drone drone = new Drone(this); // replaces climberDone with drone only subsystem
+
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
@@ -49,8 +54,12 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         lift.gripperWideOpen();
         lift.setAnglerLoad();
 
-        climberDrone.init(hardwareMap);
-        climberDrone.climberStow();
+        climber.init(hardwareMap);
+        climber.reset();
+        drone.init(hardwareMap);
+        drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
+
+        // no need to power the hook servo until it is time to climb//
 
         dashboard = FtcDashboard.getInstance();
 
@@ -160,7 +169,7 @@ public class Centerstage_Teleop4 extends LinearOpMode {
                 lift.slideMechanicalReset();
                }
             if (gamepad2.x) {
-                climberDrone.setDroneDeploy(); // move servo to let drone go
+                drone.setDroneFly(); // move servo to let drone go
                 sleep(50); // pause to make sure servo moves
 
             }
@@ -214,15 +223,15 @@ public class Centerstage_Teleop4 extends LinearOpMode {
     }
     private void gp2a() {
         Thread gp2a = new Thread(() -> {
-            climberDrone.climberHang();
-            climberDrone.winchHang();
+            climber.climb();
+
         });
         gp2a.start();
     }
     private void gp2y() {
         Thread gp2y = new Thread(() -> {
-            climberDrone.climberDeploy();
-            climberDrone.winchDeploy();
+            climber.prepForClimb();
+
         });
         gp2y.start();
     }
