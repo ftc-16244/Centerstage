@@ -21,7 +21,7 @@ public class Climber_Test extends LinearOpMode {
 // test
 
 
-    Climber climberDrone = new Climber();
+    Climber climberDrone = new Climber(this);
     //Climber_2 winch = new Climber_2(this);
 
 
