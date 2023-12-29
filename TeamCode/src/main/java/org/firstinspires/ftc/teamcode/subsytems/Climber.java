@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsytems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,13 +11,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Climber {
+    private final LinearOpMode opmode;
     public DcMotorEx hangman;
     public Servo manarsFoot;
     public ElapsedTime runtime = new ElapsedTime();
     private static final int CLIMB_DEPLOY_TICKS = 2450;
     private static final int CLIMB_STOW_TICKS = 25;
     private static final double HOOK_DEPLOY = 0.5;
-    private static final double HOOK_STOW = 0.75;
+    private static final double HOOK_STOW = 0.02;
+
+    private static final double CLIMB_POWER = 1.0;
+    public Climber(LinearOpMode opmode) {
+        this.opmode = opmode;
+
+    }
     public void init(HardwareMap hwMap) {
         hangman = hwMap.get(DcMotorEx.class, "hangman");
         manarsFoot = hwMap.get(Servo.class, "manarsFoot");
@@ -39,11 +47,13 @@ public class Climber {
     public void prepForClimb() {
         hangman.setTargetPosition(CLIMB_DEPLOY_TICKS);
         hangman.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        hangman.setPower(CLIMB_POWER);
         manarsFoot.setPosition(HOOK_DEPLOY);
     }
     public void climb() {
         hangman.setTargetPosition(CLIMB_STOW_TICKS);
         hangman.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        hangman.setPower(CLIMB_POWER);
     }
     public void reset() {
         hangman.setTargetPosition(CLIMB_STOW_TICKS);
