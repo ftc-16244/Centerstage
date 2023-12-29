@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.AutoMeet2;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -14,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.Pipelines.WebcamPipeline;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
-import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -22,8 +20,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-@Disabled
-public class StageRedWall extends LinearOpMode {
+public class StageRedWall_Meet2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -54,12 +51,12 @@ public class StageRedWall extends LinearOpMode {
         // Set start positions
         lift.setAnglerLoad();
         sleep(250);
-        lift.gripperClosed();
+        lift.gripperWideOpen();
         lift.slideMechanicalReset();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
-
+        lift.gripperClosed();
         detector.toggleTelemetry();
         telemetry.clearAll();
 
@@ -92,17 +89,22 @@ public class StageRedWall extends LinearOpMode {
         //============================
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(62.5, 12, Math.toRadians(90));
-        Pose2d RedWallPark = new Pose2d(60,55,Math.toRadians(270));
-        Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(90));
+        //Pose2d RedPark = new Pose2d(64,50,Math.toRadians(90));
+        Pose2d RedWallPark = new Pose2d(58,55,Math.toRadians(270));
 
-        Pose2d StageRedRight = new Pose2d(29,13,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(38, 54, Math.toRadians(90));//backstage
+        //Center Prop
+        Pose2d StageRedCenter = new Pose2d(36, 16, Math.toRadians(180)); // x was 38
+        //backstage drop
+        Pose2d StageRedCenterDropoff = new Pose2d(32, 54.5, Math.toRadians(90));
 
-        Pose2d StageRedCenter = new Pose2d(34, 16, Math.toRadians(180));
-        Pose2d StageRedCenterDropoff = new Pose2d(33.5, 53.5, Math.toRadians(90));
-
-        Pose2d StageRedLeft = new Pose2d(31,19, Math.toRadians(270));
+        // Left Prop Poses
+        Pose2d StageRedLeft = new Pose2d(30,20, Math.toRadians(270));
         Pose2d StageRedLeftDropoff = new Pose2d(26,54, Math.toRadians(90));
+
+        // Right Prop Poses
+        Pose2d StageRedRight = new Pose2d(36,12.5,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(39, 53, Math.toRadians(90));//backstage
+
 
         drive.setPoseEstimate(startPos);
 
@@ -118,6 +120,7 @@ public class StageRedWall extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.25)
+                .back(6)
                 .lineToLinearHeading(StageRedLeft)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
@@ -126,7 +129,7 @@ public class StageRedWall extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
                 .lineToLinearHeading(RedWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1(); lift.gripperWideOpen();})
                 .waitSeconds(0.5)
                 .build();
 
@@ -148,9 +151,9 @@ public class StageRedWall extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .lineToLinearHeading(RedWallPark)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1(); lift.gripperWideOpen();})
                 .waitSeconds(.5)
                 .build();
 
@@ -169,11 +172,10 @@ public class StageRedWall extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(3.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
                 .strafeRight(18)
                 .lineToLinearHeading(RedWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1(); lift.gripperWideOpen(); lift.setAnglerLoad();})
                 .waitSeconds(1.0)
                 .build();
 

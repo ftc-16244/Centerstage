@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.AutoMeet1;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.Pipelines.WebcamPipeline;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
-import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -23,7 +22,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 @Disabled
-public class StageRedMid extends LinearOpMode {
+public class StageRedWall extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -95,11 +94,11 @@ public class StageRedMid extends LinearOpMode {
         Pose2d RedWallPark = new Pose2d(60,55,Math.toRadians(270));
         Pose2d RedMidPark = new Pose2d(8,50,Math.toRadians(90));
 
-        Pose2d StageRedRight = new Pose2d(33,13,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(39, 54, Math.toRadians(90));//backstage
+        Pose2d StageRedRight = new Pose2d(29,13,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(38, 54, Math.toRadians(90));//backstage
 
-        Pose2d StageRedCenter = new Pose2d(38, 16, Math.toRadians(180));
-        Pose2d StageRedCenterDropoff = new Pose2d(34, 54, Math.toRadians(90));
+        Pose2d StageRedCenter = new Pose2d(34, 16, Math.toRadians(180));
+        Pose2d StageRedCenterDropoff = new Pose2d(33.5, 53.5, Math.toRadians(90));
 
         Pose2d StageRedLeft = new Pose2d(31,19, Math.toRadians(270));
         Pose2d StageRedLeftDropoff = new Pose2d(26,54, Math.toRadians(90));
@@ -125,7 +124,7 @@ public class StageRedMid extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
-                .lineToLinearHeading(RedMidPark)
+                .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .waitSeconds(0.5)
                 .build();
@@ -149,7 +148,7 @@ public class StageRedMid extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(RedMidPark)
+                .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(.5)
                 .build();
@@ -172,7 +171,7 @@ public class StageRedMid extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .back(3.5)
                 .strafeRight(18)
-                .lineToLinearHeading(RedMidPark)
+                .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(1.0)
                 .build();

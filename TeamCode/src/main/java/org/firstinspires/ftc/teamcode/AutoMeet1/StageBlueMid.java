@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.AutoMeet1;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -7,30 +7,33 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Pipelines.Prop;
 import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.Pipelines.WebcamPipeline;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
+import org.firstinspires.ftc.teamcode.subsytems.PixelDropper;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-
 @Autonomous
-public class StageBlueWall_Meet2 extends LinearOpMode {
+@Disabled
+public class StageBlueMid extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
     public void runOpMode() throws InterruptedException {
 
         Lift lift = new Lift(this);
+        PixelDropper pixelDropper = new PixelDropper(this);
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.addData("INFO", "Initializing pipeline");
+        telemetry.update();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_STAGE);
@@ -45,20 +48,19 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
             public void onError(int errorCode) {}
         });
 
-        // Initialize the sub systems. Note the init method is inside the subsystem class
-        lift.init(hardwareMap);
-        //sleep(500);
+        pixelDropper.init(hardwareMap);
+        pixelDropper.dropperClosed();
 
-        // Set start positions
+        lift.init(hardwareMap);
         lift.setAnglerLoad();
         sleep(250);
-        lift.gripperWideOpen();
+        lift.gripperClosed();
+        pixelDropper.dropperClosed();
         lift.slideMechanicalReset();
+        lift.setAnglerCarry();
         sleep(250); // no sleepy no workie. Need this to let the anger servo have time to move
 
         waitForStart();
-        lift.gripperClosed();
-
 
         detector.toggleTelemetry();
         telemetry.clearAll();
@@ -87,99 +89,82 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //============================
-        // POSE SECTION
-        //============================
-        // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(-62.5, 12, Math.toRadians(90));
-        Pose2d BlueWallPark = new Pose2d(-60,54,Math.toRadians(270));
-        Pose2d BlueMidPark = new Pose2d(-8,50,Math.toRadians(90));
+        Pose2d BluePark = new Pose2d(-8,50,Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-25,11,Math.toRadians(90));//spike mark
-        Pose2d StageBlueLeftDropoff = new Pose2d(-42, 53, Math.toRadians(90));//backstage
+        // Center Prop
+        // pixel drop point
+        Pose2d StageBlueCenter = new Pose2d(-17.5,12,Math.toRadians(90));
+        //backstage drop
+        Pose2d StageBlueCenterDropoff = new Pose2d(-38, 50, Math.toRadians(90));
 
-        Pose2d StageBlueCenter = new Pose2d(-13, 14, Math.toRadians(180));
-        Pose2d StageBlueCenterDropoff = new Pose2d(-36, 53, Math.toRadians(90));
+        // Left Prop Poses - this one has an extra motion
+        // Strafe and rotate towards drive team.
+        Pose2d StageBlueRight1 = new Pose2d(-33.5,18, Math.toRadians(180));
+        // Strafe under the truss partially to drop the pixel
+        Pose2d StageBlueRight2 = new Pose2d(-30.5,-5, Math.toRadians(180));
+        // Position on the backstage board to drop yellow pixel
+        Pose2d StageBlueRightDropoff = new Pose2d(-24.5,53, Math.toRadians(90));
 
-        Pose2d StageBlueRight = new Pose2d(-32,28, Math.toRadians(270));
-        Pose2d StageBlueRightDropoff = new Pose2d(-30,53.5, Math.toRadians(90));
+        // Right Prop Poses
+
+        Pose2d StageBlueLeft = new Pose2d(-24,25,Math.toRadians(90));
+        Pose2d StageBlueLeftDropoff = new Pose2d(-46, 51, Math.toRadians(90));
+
 
         drive.setPoseEstimate(startPos);
 
-        //============================
-        // TRAJECTORIES
-        //============================
-
-        //StageRedLeft
-        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueLeftDropoff)
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueLeft)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(3.5)
-                .strafeLeft(18)
-                .lineToLinearHeading(BlueWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
-                .waitSeconds(1.0)
-                .build();
-
-
-
-        //StageRedCenter
-        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel2();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
-                .lineToLinearHeading(StageBlueCenterDropoff)
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueCenter)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(5)
-                .lineToLinearHeading(BlueWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .waitSeconds(.5)
-                .build();
-
-        //StageRedRight
         TrajectorySequence StageBlueRightTraj1 = drive.trajectorySequenceBuilder(startPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueRightDropoff)
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
                 .waitSeconds(0.25)
-                .lineToLinearHeading(StageBlueRight)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
-                .forward(14)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerCarry();})
+                .lineToLinearHeading(StageBlueRight1)
+                .lineToLinearHeading(StageBlueRight2)
                 .waitSeconds(0.25)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(.25)
-                .lineToLinearHeading(BlueWallPark)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
-                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(1)
+                .strafeLeft(5)
                 .build();
 
+        TrajectorySequence StageBlueCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageBlueCenter)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.5)
+                .strafeLeft(22)
+                .lineToLinearHeading(StageBlueCenterDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
+                .waitSeconds(0.25)
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{pixelDropper.dropperClosed();})
+                .lineToLinearHeading(BluePark)
+                .build();
 
+        TrajectorySequence StageBlueLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
+                .lineToLinearHeading(StageBlueLeft)
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, ()->{pixelDropper.dropperOpen();})
+                .waitSeconds(0.5)
+                .strafeLeft(19)
+                .lineToLinearHeading(StageBlueLeftDropoff)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .waitSeconds(0.25)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperRightOpen();})
+                .waitSeconds(0.25)
+                .UNSTABLE_addDisplacementMarkerOffset(0.0, ()->{pixelDropper.dropperClosed();})
+                .back(6)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .lineToLinearHeading(BluePark)
+                .build();
 
         detector.toggleTelemetry();
         telemetry.clearAll();
@@ -192,7 +177,7 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_STAGE" + location);
+        telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
 
         switch(location) {
@@ -204,6 +189,9 @@ public class StageBlueWall_Meet2 extends LinearOpMode {
                 break;
             case RIGHT:
                 drive.followTrajectorySequence(StageBlueRightTraj1);
+                lift.gripperClosed();
+                lift.setSlideLevel1();
+                lift.setAnglerLoad();
                 break;
             default:
                 throw new IllegalArgumentException("The code is most certainly severely screwed up.");

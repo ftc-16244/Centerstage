@@ -181,7 +181,6 @@ public class Lift {
         // set everything back the way is was before reset so encoders can be used
         liftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         liftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        //slideTrainerState = SlideTrainerState.IDLE;// once this is done we are at zero power or idling.
     }
 
     public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED){
