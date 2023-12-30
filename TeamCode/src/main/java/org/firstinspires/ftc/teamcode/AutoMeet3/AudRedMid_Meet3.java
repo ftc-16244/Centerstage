@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AutoMeet2;
+package org.firstinspires.ftc.teamcode.AutoMeet3;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -20,7 +20,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class AudRedMid_Meet2 extends LinearOpMode {
+public class AudRedMid_Meet3 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -91,8 +91,8 @@ public class AudRedMid_Meet2 extends LinearOpMode {
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(64.5, -36, Math.toRadians(90));
         Pose2d RedPrePark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d RedPark = new Pose2d(13,55,Math.toRadians(270));
-        Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-50,Math.toRadians(90));//left and a bit forward from the left pixel drop
+        Pose2d RedPark = new Pose2d(10,55,Math.toRadians(270));
+        Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-55,Math.toRadians(90));//left and a bit forward from the left pixel drop
         Pose2d RedRallyPoint1_CENTER = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
         Pose2d RedRallyPoint1_RIGHT = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
         Pose2d RedRallyPoint2 = new Pose2d(10.5,-0,Math.toRadians(90));// near md field on red side
@@ -104,7 +104,7 @@ public class AudRedMid_Meet2 extends LinearOpMode {
         Pose2d AudRedCenterDropoff = new Pose2d(36, 51, Math.toRadians(90)); // was 39
 
         // Left Prop Poses
-        Pose2d AudRedLeft = new Pose2d(33.5,-57.5, Math.toRadians(90));
+        Pose2d AudRedLeft = new Pose2d(33.5,-60, Math.toRadians(90)); // y was 57.5
         Pose2d AudRedLeftDropoff = new Pose2d(29,51, Math.toRadians(90));
 
         // Right Prop Poses
@@ -140,7 +140,9 @@ public class AudRedMid_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(RedPrePark)
+                .waitSeconds(0.125)
                 .lineToLinearHeading(RedPark)
+                .back(9)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(0.5)
                 .build();
@@ -168,6 +170,7 @@ public class AudRedMid_Meet2 extends LinearOpMode {
                 .lineToLinearHeading(RedPrePark)
                 .waitSeconds(0.125)
                 .lineToLinearHeading(RedPark)
+                .back(9)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .build();
 
@@ -192,7 +195,9 @@ public class AudRedMid_Meet2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .lineToLinearHeading(RedPrePark)
+                .waitSeconds(0.125)
                 .lineToLinearHeading(RedPark)
+                .back(9)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(0.5)
                 .build();

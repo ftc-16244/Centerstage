@@ -20,15 +20,9 @@ import org.firstinspires.ftc.teamcode.subsytems.Lift;
 @TeleOp(group = "Teleop")
 
 public class Centerstage_Teleop4 extends LinearOpMode {
-
-    ElapsedTime runtime = new ElapsedTime();
-
     Lift lift = new Lift(this);
-
-    //Climber_Drone climberDrone = new Climber_Drone(this);
     Climber climber = new Climber(this); // replaces climberDone with climber only subsystem
     Drone drone = new Drone(this); // replaces climberDone with drone only subsystem
-
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
@@ -54,8 +48,11 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         lift.gripperWideOpen();
         lift.setAnglerLoad();
 
-        climber.init(hardwareMap);
-        climber.reset();
+        Thread climberInit = new Thread(() -> {
+            climber.init(hardwareMap);
+            climber.reset();
+        });
+        climberInit.start();
         drone.init(hardwareMap);
         drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
 
@@ -71,8 +68,8 @@ public class Centerstage_Teleop4 extends LinearOpMode {
 
         preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         main = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-        endgame = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
-        climbAlert = RevBlinkinLedDriver.BlinkinPattern.STROBE_RED;
+        endgame = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+        climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 
         blinkinLedDriver.setPattern(preInit);
 
@@ -81,6 +78,7 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         ///////////////////////////////////////////////////////////////////////////////////////////
 
         waitForStart();
+        teleopTimer.reset();
 
         blinkinLedDriver.setPattern(main);
 
@@ -94,7 +92,7 @@ public class Centerstage_Teleop4 extends LinearOpMode {
                             scaleStick(-gamepad1.right_stick_x) * speedFactor
                     )
             );
-            if (teleopTimer.time() > 90) { // endgame
+            if (teleopTimer.time() > 90 && !(teleopTimer.time() > 110)) { // endgame
                 blinkinLedDriver.setPattern(endgame);
             }
             if (teleopTimer.time() > 110) { // climb alert
@@ -214,29 +212,33 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
-        Thread gp1righttrigger = new Thread(() -> lift.gripperOpen());
+        Thread gp1righttrigger = new Thread(() ->
+                lift.gripperOpen()
+        );
         gp1righttrigger.start();
     }
     private void gp2dpup() {
-        Thread gp2dpup = new Thread(() -> lift.setSlideLevel3());
+        Thread gp2dpup = new Thread(() ->
+                lift.setSlideLevel3()
+        );
         gp2dpup.start();
     }
     private void gp2a() {
-        Thread gp2a = new Thread(() -> {
-            climber.climb();
-
-        });
+        Thread gp2a = new Thread(() ->
+            climber.climb()
+        );
         gp2a.start();
     }
     private void gp2y() {
-        Thread gp2y = new Thread(() -> {
-            climber.prepForClimb();
-
-        });
+        Thread gp2y = new Thread(() ->
+            climber.prepForClimb()
+        );
         gp2y.start();
     }
     private void gp2dpdown() {
-        Thread gp2dpdown = new Thread(() -> lift.setSlideLevel1());
+        Thread gp2dpdown = new Thread(() ->
+                lift.setSlideLevel1()
+        );
         gp2dpdown.start();
     }
     private void gp2dpleft() {

@@ -170,7 +170,7 @@ public class Lift {
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop
         // reset for time allowed or until the limit/ touch sensor is pressed.
-        while (runtime.seconds() < 2.0) {
+        while (runtime.seconds() < 2.5) {
             //Time wasting loop so slide can retract. Loop ends when time expires or touch sensor is pressed
         }
         liftMotor.setPower(0);

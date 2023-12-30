@@ -10,27 +10,25 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
-
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_AUDIENCE;
+//TODO: fix misnamed blue paths and fix pipeline (Mr. Atkinson broke it)
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element
 // Also heavily modified for telemetry, multiple ROIs, and many other things
 
-public class WebcamPipeline extends OpenCvPipeline {
+public class Pipeline extends OpenCvPipeline {
     boolean telemetryEnabled = true;
     Prop location;
     Telemetry telemetry;
@@ -38,12 +36,16 @@ public class WebcamPipeline extends OpenCvPipeline {
     Scalar lowHSV;
     Scalar highHSV;
     Mat mat = new Mat(); // Mat is a matrix
+    RevBlinkinLedDriver blinkinLedDriver;
+    RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+
 
     static double PERCENT_COLOR_THRESHOLD = 0.15;
 
-    public WebcamPipeline(Telemetry t, StartPosition position) {
+    public Pipeline(Telemetry t, StartPosition position, RevBlinkinLedDriver blinkin) {
         telemetry = t;
         startPosition = position;
+        blinkinLedDriver = blinkin;
     }
     @Override
     public Mat processFrame(Mat input) {
@@ -127,6 +129,7 @@ public class WebcamPipeline extends OpenCvPipeline {
 
         Imgproc.rectangle(mat, NONCENTER_ROI, location == detectableNoncenter? colorTSE:colorNone); // the target boxes surround the ROI's
         Imgproc.rectangle(mat, CENTER_ROI, location == Prop.CENTER? colorTSE:colorNone);
+        blinkinLedDriver.setPattern(pipelineReady);
         return mat;
     }
     public Prop getPropLocation() {
