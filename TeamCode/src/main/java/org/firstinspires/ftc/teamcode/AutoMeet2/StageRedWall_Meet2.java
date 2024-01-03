@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -20,6 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
+@Disabled
 public class StageRedWall_Meet2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;

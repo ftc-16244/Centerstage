@@ -21,6 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
+@Disabled
 public class StageBlueWall_Meet2 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;

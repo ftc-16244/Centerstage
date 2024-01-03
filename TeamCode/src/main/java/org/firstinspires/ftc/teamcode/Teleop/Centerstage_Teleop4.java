@@ -68,7 +68,7 @@ public class Centerstage_Teleop4 extends LinearOpMode {
 
         preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         main = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-        endgame = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+        endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
         climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 
         blinkinLedDriver.setPattern(preInit);
@@ -95,8 +95,11 @@ public class Centerstage_Teleop4 extends LinearOpMode {
             if (teleopTimer.time() > 90 && !(teleopTimer.time() > 110)) { // endgame
                 blinkinLedDriver.setPattern(endgame);
             }
-            if (teleopTimer.time() > 110) { // climb alert
+            if (teleopTimer.time() > 110 && !(teleopTimer.time() > 120)) { // climb alert (10 seconds to climb)
                 blinkinLedDriver.setPattern(climbAlert);
+            }
+            if (teleopTimer.time() > 120) {
+                blinkinLedDriver.close();
             }
 
             if (gamepad1.dpad_right) {
@@ -161,15 +164,14 @@ public class Centerstage_Teleop4 extends LinearOpMode {
                 sleep(500);
             }
             if (gamepad2.b) {
-
+                gp2b();
             }
             if (gamepad2.back) {
                 lift.slideMechanicalReset();
-               }
+            }
             if (gamepad2.x) {
                 drone.setDroneFly(); // move servo to let drone go
                 sleep(50); // pause to make sure servo moves
-
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
@@ -229,6 +231,12 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         );
         gp2a.start();
     }
+    private void gp2b() {
+        Thread gp2b = new Thread(() ->
+                climber.reset()
+        );
+        gp2b.start();
+    }
     private void gp2y() {
         Thread gp2y = new Thread(() ->
             climber.prepForClimb()
@@ -242,7 +250,9 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         gp2dpdown.start();
     }
     private void gp2dpleft() {
-        Thread gp2dpleft = new Thread(() -> lift.setSlideLevel4());
+        Thread gp2dpleft = new Thread(() ->
+                lift.setSlideLevel4()
+        );
         gp2dpleft.start();
     }
     private void gp2dpright() {
