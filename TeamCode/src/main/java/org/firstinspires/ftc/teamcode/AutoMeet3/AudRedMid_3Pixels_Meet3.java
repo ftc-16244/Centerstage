@@ -102,12 +102,12 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudRedCenter = new Pose2d(29.5, -45.5, Math.toRadians(90));
         Pose2d AudRedCenterPush = new Pose2d(22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(38.5, 52.5, Math.toRadians(90)); // was 39
+        Pose2d AudRedCenterDropoff = new Pose2d(38.5, 53.5, Math.toRadians(90)); // was 39
 
         // Left Prop Poses
-        Pose2d AudRedLeft = new Pose2d(32.5,-57, Math.toRadians(90)); // y was 57.5
-        Pose2d AudRedLeftPush = new Pose2d(30,-57.5, Math.toRadians(90)); // y was 57.5
-        Pose2d AudRedLeftDropoff = new Pose2d(31.5,52.5, Math.toRadians(90));
+        Pose2d AudRedLeft = new Pose2d(25,-32.5, Math.toRadians(270)); // y was 57.5
+        Pose2d AudRedLeftPush = new Pose2d(20,-32.5, Math.toRadians(270)); // y was 57.5
+        Pose2d AudRedLeftDropoff = new Pose2d(31.5,53.5, Math.toRadians(90));
 
         // Right Prop Poses
         Pose2d AudRedRightDropoff = new Pose2d(45, 53.5, Math.toRadians(90));//backstage
@@ -116,10 +116,9 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudRedRight = new Pose2d(35.5,-35,Math.toRadians(90));//spike mark
 
         //white spike mark
-        Pose2d midwhitespikemark = new Pose2d(20, -51, Math.toRadians(270));
-        Pose2d leftwhitespikemark_RED = new Pose2d(34, -49.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_left1_RED = new Pose2d(58, -54, Math.toRadians(90));
-        Pose2d leftwhitespikemark_left2_RED = new Pose2d(54, -54, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_LEFT = new Pose2d(10, -48.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_CENTER = new Pose2d(12, -47.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_RIGHT = new Pose2d(12, -47.5, Math.toRadians(270));
 
 
         drive.setPoseEstimate(startPos);
@@ -133,21 +132,20 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //set the gripper to close to pixels and move the lift and angler to deploy right
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
-                //go to push the pixel away and then go to left=  position and open the left gripper
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
+                .back(10)
+                //go to push the pixel away and then go to left position and open the left gripper
+                .lineToLinearHeading(AudRedLeftPush)
                 .lineToLinearHeading(AudRedLeft)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .lineToLinearHeading(leftwhitespikemark_left1_RED)
-                .lineToLinearHeading(leftwhitespikemark_left2_RED)
-                .lineToLinearHeading(leftwhitespikemark_RED)
+                .strafeRight(13)
+                .lineToLinearHeading(leftwhitespikemark_RED_LEFT)
                 //pick up the white pixel and then go back
                 .waitSeconds(3)
-                .strafeRight(32)
-                .back(10)
+                .back(4)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
@@ -172,19 +170,18 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //set the gripper to close to pixels and move the lift and angler to deploy right
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
                 //go to push the pixel away and then go to center position and open the left gripper
                 .lineToLinearHeading(AudRedCenterPush)
                 .lineToLinearHeading(AudRedCenter)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .back(3)
-                .splineToLinearHeading(leftwhitespikemark_RED, Math.toRadians(270))
+                .back(12)
+                .lineToLinearHeading(leftwhitespikemark_RED_CENTER)
                 //pick up the white pixel and then go back
                 .waitSeconds(3)
-                .back(4)
+                .back(6.5)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
@@ -218,8 +215,8 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .back(5)
-                .splineToLinearHeading(leftwhitespikemark_RED, Math.toRadians(270))
+                .back(15)
+                .splineToLinearHeading(leftwhitespikemark_RED_RIGHT, Math.toRadians(270))
                 //pick up the white pixel and then go back
                 .waitSeconds(3)
                 .back(4)
