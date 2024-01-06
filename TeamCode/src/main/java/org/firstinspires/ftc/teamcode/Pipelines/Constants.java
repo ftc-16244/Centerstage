@@ -41,7 +41,7 @@ public class Constants {
             new Point(180, 70),
             new Point(255, 140)
     );
-    public static final Rect LEFT_ROI_BLUE_AUDIENCE = new Rect(
+    public static final Rect RIGHT_ROI_BLUE_AUDIENCE = new Rect(
             new Point(0, 90),
             new Point(80, 175)
     );

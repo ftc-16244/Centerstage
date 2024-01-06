@@ -25,11 +25,11 @@ public class Lift {
     //Constants for gripper
     //larer numbers are more clockwise
 
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.45; //to close more, decrease
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.435; //to close more, decrease was 45
     public static final double      GRIPPER_LEFT_OPEN        = GRIPPER_LEFT_CLOSED + 0.15; //to open more, increase
     public static final double      GRIPPER_LEFT_WIDE_OPEN   = GRIPPER_LEFT_CLOSED +.32;
 
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.48;// to close more, increase
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.485;// to close more, increase was 48
     public static final double      GRIPPER_RIGHT_OPEN       =  GRIPPER_RIGHT_CLOSED -0.15; // too open more, decrease
     public static final double      GRIPPER_RIGHT_WIDE_OPEN  = GRIPPER_RIGHT_CLOSED -0.32; // not gripped
 

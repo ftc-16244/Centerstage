@@ -124,22 +124,19 @@ public class Centerstage_Teleop4 extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 gp1lefttrigger();
-                speedFactor = 1.0;
+                speedFactor = 0.75;
             }
 
             if (gamepad1.right_trigger > 0.25) {
                 gp1righttrigger();
-                sleep(100);
             }
 
             if (gamepad1.right_bumper) {
-                lift.gripperRightOpen();
-                sleep(100);
+                gp1rightbumper();
             }
 
             if (gamepad1.left_bumper) {
-                lift.gripperLeftOpen();
-                sleep(100);
+                gp1leftbumper();
             }
             if (gamepad1.left_stick_button) {
                 speedFactor = 0.5;
@@ -157,11 +154,9 @@ public class Centerstage_Teleop4 extends LinearOpMode {
 
             if (gamepad2.a) {
                 gp2a();
-                sleep(500);
             }
             if (gamepad2.y) {
                 gp2y();
-                sleep(500);
             }
             if (gamepad2.b) {
                 gp2b();
@@ -176,32 +171,26 @@ public class Centerstage_Teleop4 extends LinearOpMode {
             if (gamepad2.dpad_down) {
                 gp2dpdown();
                 speedFactor = 0.75;
-                sleep(200);
             }
             if (gamepad2.dpad_right) {
                 gp2dpright();
                 speedFactor = 0.5;
-                sleep(200);
             }
             if (gamepad2.dpad_up) {
                 gp2dpup();
                 speedFactor = 0.5;
-                sleep(200);
             }
             if (gamepad2.dpad_left) {
                 gp2dpleft();
                 speedFactor = 0.5;
-                sleep(200);
             }
             if (gamepad2.left_trigger > 0.25) {
                 gp2lefttrigger();
                 speedFactor = 0.75;
-                sleep(100);
             }
             if (gamepad2.right_trigger > 0.25) {
                 speedFactor = 0.5;
                 gp2righttrigger();
-                sleep(100);
             }
         }
     }
@@ -214,59 +203,88 @@ public class Centerstage_Teleop4 extends LinearOpMode {
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
-        Thread gp1righttrigger = new Thread(() ->
-                lift.gripperOpen()
-        );
+        Thread gp1righttrigger = new Thread(() -> {
+            lift.gripperOpen();
+            sleep(100);
+        });
         gp1righttrigger.start();
     }
-    private void gp2dpup() {
-        Thread gp2dpup = new Thread(() ->
-                lift.setSlideLevel3()
-        );
-        gp2dpup.start();
+    private void gp1leftbumper() {
+        Thread gp1leftbumper = new Thread(() -> {
+            lift.gripperLeftOpen();
+            sleep(100);
+        });
+        gp1leftbumper.start();
+    }
+    private void gp1rightbumper() {
+        Thread gp1rightbumper = new Thread(() -> {
+            lift.gripperRightOpen();
+            sleep(100);
+        });
+        gp1rightbumper.start();
     }
     private void gp2a() {
-        Thread gp2a = new Thread(() ->
-            climber.climb()
-        );
+        Thread gp2a = new Thread(() -> {
+            climber.climb();
+            sleep(500);
+        });
         gp2a.start();
     }
     private void gp2b() {
-        Thread gp2b = new Thread(() ->
-                climber.reset()
-        );
+        Thread gp2b = new Thread(() -> {
+            climber.reset();
+            sleep(500);
+        });
         gp2b.start();
     }
     private void gp2y() {
-        Thread gp2y = new Thread(() ->
-            climber.prepForClimb()
-        );
+        Thread gp2y = new Thread(() -> {
+            climber.prepForClimb();
+            sleep(500);
+        });
         gp2y.start();
     }
+    private void gp2dpup() {
+        Thread gp2dpup = new Thread(() -> {
+            lift.setSlideLevel3();
+            sleep(200);
+        });
+        gp2dpup.start();
+    }
     private void gp2dpdown() {
-        Thread gp2dpdown = new Thread(() ->
-                lift.setSlideLevel1()
-        );
+        Thread gp2dpdown = new Thread(() -> {
+            lift.setSlideLevel1();
+            sleep(200);
+        });
         gp2dpdown.start();
     }
     private void gp2dpleft() {
-        Thread gp2dpleft = new Thread(() ->
-                lift.setSlideLevel4()
-        );
+        Thread gp2dpleft = new Thread(() -> {
+            lift.setSlideLevel4();
+            sleep(200);
+        });
         gp2dpleft.start();
     }
     private void gp2dpright() {
-        Thread gp2dpright = new Thread(() -> lift.setSlideLevel2());
+        Thread gp2dpright = new Thread(() -> {
+            lift.setSlideLevel2();
+            sleep(200);
+        });
         gp2dpright.start();
     }
     private void gp2lefttrigger() {
-        Thread gp2lefttrigger = new Thread(() -> lift.setAnglerDeploy());
+        Thread gp2lefttrigger = new Thread(() -> {
+            lift.setAnglerDeploy();
+            sleep(100);
+        });
         gp2lefttrigger.start();
     }
     private void gp2righttrigger() {
         Thread gp2righttrigger = new Thread(() -> {
             lift.setAnglerLoad();
             lift.gripperOpen();
+
+            sleep(100);
         });
         gp2righttrigger.start();
     }

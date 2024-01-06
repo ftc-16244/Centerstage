@@ -17,9 +17,9 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED_AUDIENCE;
 //TODO: fix misnamed blue paths and fix pipeline (Mr. Atkinson broke it)
@@ -64,7 +64,7 @@ public class Pipeline extends OpenCvPipeline {
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI =LEFT_ROI_BLUE_AUDIENCE; // due to start position difference ROI are not the same for both sides
+            NONCENTER_ROI = RIGHT_ROI_BLUE_AUDIENCE;
             CENTER_ROI = CENTER_ROI_BLUE_AUDIENCE;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;

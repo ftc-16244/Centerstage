@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED_AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
+//import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE_AUDIENCE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
@@ -62,7 +62,8 @@ public class WebcamPipeline extends OpenCvPipeline {
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI =LEFT_ROI_BLUE_AUDIENCE; // due to start position difference ROI are not the same for both sides
+            //NONCENTER_ROI =LEFT_ROI_BLUE_AUDIENCE; // due to start position difference ROI are not the same for both sides
+            NONCENTER_ROI = null;
             CENTER_ROI = CENTER_ROI_BLUE_AUDIENCE;
             undetectableLocation = Prop.RIGHT;
             detectableNoncenter = Prop.LEFT;
