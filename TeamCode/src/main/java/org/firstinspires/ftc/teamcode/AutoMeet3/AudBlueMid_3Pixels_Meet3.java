@@ -104,9 +104,9 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudBlueCenterDropoff = new Pose2d(-38.5, 53.5, Math.toRadians(90)); // was 39
 
         // right Prop Poses
-        Pose2d AudBlueRight = new Pose2d(-32,-32.5, Math.toRadians(270)); // y was 57.5
+        Pose2d AudBlueRight = new Pose2d(-32,-30.5, Math.toRadians(270)); // y was -32.5
         Pose2d AudBlueRightPush = new Pose2d(-25,-32.5, Math.toRadians(270)); // y was 57.5
-        Pose2d AudBlueRightDropoff = new Pose2d(-29,53, Math.toRadians(90));
+        Pose2d AudBlueRightDropoff = new Pose2d(-31.5,53, Math.toRadians(90)); // x was -29
 
         // left Prop Poses
         Pose2d AudBlueLeftDropoff = new Pose2d(-44, 53, Math.toRadians(90));//backstage
@@ -233,7 +233,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
-                .back(4)
+                .back(7)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())

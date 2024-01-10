@@ -55,8 +55,8 @@ public class Lift {
     public static final double      LIFT_LEVEL_1point5_back             = 4.5; // auto drop pixel in right spot
 
     public static final double      LIFT_LEVEL_2                   = 7;
-    public static final double      LIFT_LEVEL_3                   = 11;
-    public static final double      LIFT_LEVEL_4                   = 19;
+    public static final double      LIFT_LEVEL_3                   = 13;
+    public static final double      LIFT_LEVEL_4                   = 19.75;
 
     private static final double     LIFT_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV             = 384.5; // goBilda 435  //312 RPM  537.7
