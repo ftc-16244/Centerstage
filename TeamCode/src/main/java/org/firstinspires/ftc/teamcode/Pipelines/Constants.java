@@ -12,12 +12,12 @@ public class Constants {
             new Point(100, 150)
     );
     public static final Rect CENTER_ROI_RED = new Rect(
-            new Point(25, 60),
-            new Point(85, 130)
+            new Point(55, 40),
+            new Point(115, 110)
     );
     public static final Rect RIGHT_ROI_RED = new Rect(
-            new Point(170, 70),
-            new Point(235, 145)
+            new Point(205, 60),
+            new Point(270, 135)
     );
     public static final Rect LEFT_ROI_BLUE = new Rect(
             new Point(60, 90),
