@@ -98,7 +98,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d BlueRallyPoint2 = new Pose2d(-10.5,-0,Math.toRadians(90));// near md field on red side
 
         //Center Prop
-        Pose2d AudBlueCenter = new Pose2d(-21.5, -47, Math.toRadians(90));
+        Pose2d AudBlueCenter = new Pose2d(-21.5, -45, Math.toRadians(90));
         Pose2d AudBlueCenterPush = new Pose2d(-22.5, -45.5, Math.toRadians(90));
         //backstage drop
         Pose2d AudBlueCenterDropoff = new Pose2d(-38.5, 53.5, Math.toRadians(90)); // was 39
@@ -106,7 +106,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         // right Prop Poses
         Pose2d AudBlueRight = new Pose2d(-32,-30.5, Math.toRadians(270)); // y was -32.5
         Pose2d AudBlueRightPush = new Pose2d(-25,-32.5, Math.toRadians(270)); // y was 57.5
-        Pose2d AudBlueRightDropoff = new Pose2d(-31.5,53, Math.toRadians(90)); // x was -29
+        Pose2d AudBlueRightDropoff = new Pose2d(-33,53, Math.toRadians(90)); // x was -29
 
         // left Prop Poses
         Pose2d AudBlueLeftDropoff = new Pose2d(-44, 53, Math.toRadians(90));//backstage
@@ -117,7 +117,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         //white spike mark
         Pose2d leftwhitespikemark_BLUE_LEFT = new Pose2d(-14, -45.5, Math.toRadians(270));
         Pose2d leftwhitespikemark_BLUE_CENTER = new Pose2d(-14, -47.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-16, -48.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-16.25, -48.5, Math.toRadians(270));
 
 
         drive.setPoseEstimate(startPos);
@@ -233,7 +233,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
-                .back(7)
+                .back(10)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())

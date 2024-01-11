@@ -51,8 +51,8 @@ public class Lift {
     public static  double           LIFTRESETSPEED                 = -0.2; //
     public static final double      LIFT_LEVEL_1                   = 0; // Load pixel level
     public static final double      LIFT_LEVEL_1point5             = 2.5; // auto drop pixel in right spot
-    public static final double      LIFT_LEVEL_1point5_white             = 3.75; // auto drop pixel in right spot
-    public static final double      LIFT_LEVEL_1point5_back             = 4.5; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_1point5_white             = 3.8; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_1point5_back             = 4.75; // auto drop pixel in right spot
 
     public static final double      LIFT_LEVEL_2                   = 7;
     public static final double      LIFT_LEVEL_3                   = 13;
