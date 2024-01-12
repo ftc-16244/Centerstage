@@ -166,6 +166,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 //head over to park
                 .lineToLinearHeading(BluePark)
                 .build();
@@ -210,6 +211,8 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
+
                 //head over to park
                 .lineToLinearHeading(BluePark)
                 .build();
@@ -253,6 +256,8 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
+
                 //head over to park
                 .lineToLinearHeading(BluePark)
                 .build();

@@ -107,18 +107,18 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         // Left Prop Poses
         Pose2d AudRedLeft = new Pose2d(25,-31, Math.toRadians(270)); // y was 57.5
         Pose2d AudRedLeftPush = new Pose2d(15,-40, Math.toRadians(270)); // y was 57.5
-        Pose2d AudRedLeftDropoff = new Pose2d(31.5,47, Math.toRadians(90));
+        Pose2d AudRedLeftDropoff = new Pose2d(29.75,53.5, Math.toRadians(90));
 
         // Right Prop Poses
-        Pose2d AudRedRightDropoff = new Pose2d(45, 53.5, Math.toRadians(90));//backstage
+        Pose2d AudRedRightDropoff = new Pose2d(44, 53, Math.toRadians(90));//backstage
         Pose2d AudRedRightPre = new Pose2d(35.5,-41, Math.toRadians(90));
-        Pose2d AudRedRightPush = new Pose2d(35.5,-31,Math.toRadians(90));//spike mark
-        Pose2d AudRedRight = new Pose2d(35.5,-35,Math.toRadians(90));//spike mark
+        Pose2d AudRedRightPush = new Pose2d(35.5,-35,Math.toRadians(90));//spike mark
+        Pose2d AudRedRight = new Pose2d(35.5,-36,Math.toRadians(90));//spike mark
 
         //white spike mark
         Pose2d leftwhitespikemark_RED_LEFT = new Pose2d(7.25, -48.5, Math.toRadians(270));
         Pose2d leftwhitespikemark_RED_CENTER = new Pose2d(10.25, -47.5, Math.toRadians(270)); //was 12
-        Pose2d leftwhitespikemark_RED_RIGHT = new Pose2d(12, -47.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_RIGHT = new Pose2d(10, -47.5, Math.toRadians(270));
 
 
         drive.setPoseEstimate(startPos);
@@ -168,6 +168,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 //head over to park
                 .lineToLinearHeading(RedPark)
                 .build();
@@ -210,6 +211,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 //head over to park
                 .lineToLinearHeading(RedPark)
                 .build();
@@ -226,12 +228,12 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 .lineToLinearHeading(AudRedRightPush)
                 .lineToLinearHeading(AudRedRight)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.5)
+                .waitSeconds(0.25)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
                 .back(15)
                 .splineToLinearHeading(leftwhitespikemark_RED_RIGHT, Math.toRadians(270))
                 //pick up the white pixel and then go back
-                .forward(9)
+                .forward(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
                 .back(10)
@@ -244,7 +246,8 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 .splineToLinearHeading(AudRedRightDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
-                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
@@ -252,8 +255,9 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 //head over to park
-                .lineToLinearHeading(RedPark)
+                .strafeLeft(4)
                 .build();
 
         detector.toggleTelemetry();
