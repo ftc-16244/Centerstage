@@ -109,13 +109,13 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudBlueRightDropoff = new Pose2d(-33,53, Math.toRadians(90)); // x was -29
 
         // left Prop Poses
-        Pose2d AudBlueLeftDropoff = new Pose2d(-44, 53, Math.toRadians(90));//backstage
+        Pose2d AudBlueLeftDropoff = new Pose2d(-41.4, 53, Math.toRadians(90));//backstage
         Pose2d AudBlueLeftPre = new Pose2d(-32.5,-41, Math.toRadians(90));//pushing the stage prop
         Pose2d AudBlueLeftPush = new Pose2d(-32.5,-25,Math.toRadians(90));//spike mark
         Pose2d AudBlueLeft = new Pose2d(-32.5,-35,Math.toRadians(90));//spike mark
 
         //white spike mark
-        Pose2d leftwhitespikemark_BLUE_LEFT = new Pose2d(-14, -45.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_BLUE_LEFT = new Pose2d(-15.5, -45.5, Math.toRadians(270));
         Pose2d leftwhitespikemark_BLUE_CENTER = new Pose2d(-14, -47.5, Math.toRadians(270));
         Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-16.25, -48.5, Math.toRadians(270));
 
@@ -143,7 +143,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
                 .lineToLinearHeading(leftwhitespikemark_BLUE_LEFT)
                 //pick up the white pixel and then go back
-                .forward(8.25)
+                .forward(12)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
                 .back(10)
