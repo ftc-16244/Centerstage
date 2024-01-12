@@ -102,15 +102,16 @@ public class StageBlueWall_Meet3 extends LinearOpMode {
         Pose2d BlueWallPark = new Pose2d(-62,54,Math.toRadians(270));
         Pose2d BlueMidPark = new Pose2d(-8,50,Math.toRadians(90));
 
-        Pose2d StageBlueLeft = new Pose2d(-25,11,Math.toRadians(90));//spike mark
+        Pose2d StageBlueLeft = new Pose2d(-45,22,Math.toRadians(0));//spike mark
         Pose2d StageBlueLeftDropoff = new Pose2d(-42, 53, Math.toRadians(90));//backstage
 
         Pose2d StageBlueCenter = new Pose2d(-38, 14, Math.toRadians(0));
         Pose2d BluePreParkCenter = new Pose2d(-59, 30, Math.toRadians(270));
-        Pose2d StageBlueCenterDropoff = new Pose2d(-36, 54, Math.toRadians(90));
+        Pose2d StageBlueCenterDropoff = new Pose2d(-37.5, 54, Math.toRadians(90));
 
-        Pose2d StageBlueRight = new Pose2d(-35,29, Math.toRadians(270)); // why is y 29?
-        Pose2d StageBlueRightDropoff = new Pose2d(-30,53.5, Math.toRadians(90));
+        Pose2d StageBlueRight = new Pose2d(-35,15.5, Math.toRadians(270)); // why is y 29?
+        Pose2d StageBlueRightPush = new Pose2d(-35,10, Math.toRadians(270)); // why is y 29?
+        Pose2d StageBlueRightDropoff = new Pose2d(-30,54.25, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
 
@@ -123,19 +124,20 @@ public class StageBlueWall_Meet3 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueLeftDropoff)
-                .waitSeconds(0.25)
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
+                .waitSeconds(1)
+                .lineToLinearHeading(StageBlueLeft)
+                .forward(8)
                 .lineToLinearHeading(StageBlueLeft)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
-                .waitSeconds(0.25)
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.25)
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .back(1.5)
-                .strafeLeft(18)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
@@ -150,9 +152,10 @@ public class StageBlueWall_Meet3 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueCenterDropoff)
-                .waitSeconds(0.25)
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
+                .waitSeconds(1)
+                .back(5)
                 .lineToLinearHeading(StageBlueCenter)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
                 .waitSeconds(0.25)
@@ -174,15 +177,16 @@ public class StageBlueWall_Meet3 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel2();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .lineToLinearHeading(StageBlueRightDropoff)
-                .waitSeconds(0.25)
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
+                .waitSeconds(1)
                 .back(5)
                 .waitSeconds(0.125)
                 .lineToLinearHeading(StageBlueRight)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setAnglerLoad();})
-                .forward(14)
+                .lineToLinearHeading(StageBlueRightPush)
+                .lineToLinearHeading(StageBlueRight)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
