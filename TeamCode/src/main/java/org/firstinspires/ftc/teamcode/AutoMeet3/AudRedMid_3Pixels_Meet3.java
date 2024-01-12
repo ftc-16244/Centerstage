@@ -91,7 +91,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(64.5, -36, Math.toRadians(90));
         Pose2d RedPrePark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d RedPark = new Pose2d(18,51,Math.toRadians(270));
+        Pose2d RedPark = new Pose2d(22,49,Math.toRadians(90));
         Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-55,Math.toRadians(90));//left and a bit forward from the left pixel drop
         Pose2d RedRallyPoint1_CENTER = new Pose2d(10,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
         Pose2d RedRallyPoint1_RIGHT = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
@@ -102,7 +102,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudRedCenter = new Pose2d(29.5, -45.5, Math.toRadians(90));
         Pose2d AudRedCenterPush = new Pose2d(22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(37.5, 51, Math.toRadians(90)); // was 39
+        Pose2d AudRedCenterDropoff = new Pose2d(37, 47, Math.toRadians(90)); // was 51
 
         // Left Prop Poses
         Pose2d AudRedLeft = new Pose2d(25,-32.5, Math.toRadians(270)); // y was 57.5
@@ -173,7 +173,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 //set the gripper to close to pixels and move the lift and angler to deploy right
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white();})
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white_RED();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
                 //go to push the pixel away and then go to center position and open the left gripper
                 .lineToLinearHeading(AudRedCenterPush)
@@ -184,7 +184,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 .back(12)
                 .lineToLinearHeading(leftwhitespikemark_RED_CENTER)
                 //pick up the white pixel and then go back
-                .forward(8.5)
+                .forward(7.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
                 .back(10)
@@ -199,7 +199,8 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(1)
-                .forward(2)
+                .forward(6.25)
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())

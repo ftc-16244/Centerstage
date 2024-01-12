@@ -91,7 +91,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         // Common poses for all 3 Red Stage Prop Positions
         Pose2d startPos = new Pose2d(-62.5, -36, Math.toRadians(90));
         Pose2d RedPrePark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d BluePark = new Pose2d(-18,51,Math.toRadians(270));
+        Pose2d BluePark = new Pose2d(-18,51,Math.toRadians(90));
         Pose2d BlueRallyPoint1_LEFT = new Pose2d(-10.5,-55,Math.toRadians(90));//left and a bit forward from the left pixel drop
         Pose2d BlueRallyPoint1_CENTER = new Pose2d(-9.75,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
         Pose2d BlueRallyPoint1_RIGHT = new Pose2d(-10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop

@@ -52,7 +52,10 @@ public class Lift {
     public static final double      LIFT_LEVEL_1                   = 0; // Load pixel level
     public static final double      LIFT_LEVEL_1point5             = 2.5; // auto drop pixel in right spot
     public static final double      LIFT_LEVEL_1point5_white             = 3.8; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_1point5_white_RED             = 4.15;
     public static final double      LIFT_LEVEL_1point5_back             = 4.75; // auto drop pixel in right spot
+
+    public static final double      LIFT_LEVEL_1point5_back_RED             = 5.25; // auto drop pixel in right spot
 
     public static final double      LIFT_LEVEL_2                   = 7;
     public static final double      LIFT_LEVEL_3                   = 13;
@@ -157,6 +160,16 @@ public class Lift {
 
     public void  setSlideLevel1point5_white(){
         targetHeight = (  LIFT_LEVEL_1point5_white );
+        liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
+    }
+
+    public void  setSlideLevel1point5_white_RED(){
+        targetHeight = (  LIFT_LEVEL_1point5_white_RED );
+        liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
+    }
+
+    public void  setSlideLevel1point5_back_RED(){
+        targetHeight = (  LIFT_LEVEL_1point5_back_RED );
         liftToTargetHeight(targetHeight,3, LIFTSPEEDSLOWER);
     }
 
