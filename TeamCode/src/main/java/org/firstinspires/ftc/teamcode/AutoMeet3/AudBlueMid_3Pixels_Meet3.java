@@ -98,26 +98,26 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d BlueRallyPoint2 = new Pose2d(-10.5,-0,Math.toRadians(90));// near md field on red side
 
         //Center Prop
-        Pose2d AudBlueCenter = new Pose2d(-21.5, -45, Math.toRadians(90));
+        Pose2d AudBlueCenter = new Pose2d(-22.5, -45, Math.toRadians(90));
         Pose2d AudBlueCenterPush = new Pose2d(-22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudBlueCenterDropoff = new Pose2d(-38.5, 53.5, Math.toRadians(90)); // was 39
+        Pose2d AudBlueCenterDropoff = new Pose2d(-37.5, 53.5, Math.toRadians(90)); // was 39
 
         // right Prop Poses
-        Pose2d AudBlueRight = new Pose2d(-32,-30.5, Math.toRadians(270)); // y was -32.5
+        Pose2d AudBlueRight = new Pose2d(-32,-32.5, Math.toRadians(270)); // y was -32.5
         Pose2d AudBlueRightPush = new Pose2d(-25,-32.5, Math.toRadians(270)); // y was 57.5
         Pose2d AudBlueRightDropoff = new Pose2d(-33,53, Math.toRadians(90)); // x was -29
 
         // left Prop Poses
-        Pose2d AudBlueLeftDropoff = new Pose2d(-41.4, 53, Math.toRadians(90));//backstage
+        Pose2d AudBlueLeftDropoff = new Pose2d(-42.5, 53.25, Math.toRadians(90));//backstage
         Pose2d AudBlueLeftPre = new Pose2d(-32.5,-41, Math.toRadians(90));//pushing the stage prop
         Pose2d AudBlueLeftPush = new Pose2d(-32.5,-25,Math.toRadians(90));//spike mark
         Pose2d AudBlueLeft = new Pose2d(-32.5,-35,Math.toRadians(90));//spike mark
 
         //white spike mark
         Pose2d leftwhitespikemark_BLUE_LEFT = new Pose2d(-15.5, -45.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_BLUE_CENTER = new Pose2d(-14, -47.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-16.25, -48.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_BLUE_CENTER = new Pose2d(-15.5, -47.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-17.5, -48.5, Math.toRadians(270));
 
 
         drive.setPoseEstimate(startPos);
@@ -153,7 +153,8 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .lineToLinearHeading(BlueRallyPoint1_LEFT)
                 .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .splineToLinearHeading(AudBlueLeftDropoff,Math.toRadians(90))
+                .forward(30)
+                .lineToLinearHeading(AudBlueLeftDropoff)
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(1)
@@ -198,7 +199,8 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .splineToLinearHeading(BlueRallyPoint1_CENTER, Math.toRadians(90))
                 .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .splineToLinearHeading(AudBlueCenterDropoff,Math.toRadians(90))
+                .forward(30)
+                .lineToLinearHeading(AudBlueCenterDropoff)
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(1)
@@ -243,7 +245,8 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .splineToLinearHeading(BlueRallyPoint1_RIGHT, Math.toRadians(90))
                 .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .splineToLinearHeading(AudBlueRightDropoff,Math.toRadians(90))
+                .forward(30)
+                .lineToLinearHeading(AudBlueRightDropoff)
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(1)
