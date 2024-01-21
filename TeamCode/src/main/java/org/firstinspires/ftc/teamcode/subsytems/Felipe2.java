@@ -22,7 +22,7 @@ public class Felipe2 {
     public VoltageSensor    voltSensor         = null;
     public Servo            SlideWheelServo    = null;
 
-    public  DcMotorEx       slideMotor;  // config name is "slideMotor"
+    public  DcMotorEx       extendMotor;  // config name is "slideMotor"
     public DcMotorEx        turnerMotor; // config name is "turnerMotor"
 
     //Constants for gripper
@@ -105,10 +105,10 @@ public class Felipe2 {
         gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 2
 
         // Initialize the lift motor
-        slideMotor = hwMap.get(DcMotorEx.class,"liftMotor");
-        slideMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
+        extendMotor.setDirection(DcMotorEx.Direction.FORWARD);
 
-        PIDFCoefficients pidfOrig = slideMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+        PIDFCoefficients pidfOrig = extendMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // change coefficients using methods included with DcMotorEx class.
         //PIDFCoefficients pidSlide_New = new PIDFCoefficients(SLIDE_NEW_P, SLIDE_NEW_I, SLIDE_NEW_D, SLIDE_NEW_F);
@@ -120,8 +120,8 @@ public class Felipe2 {
         //slidemotorback.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
         //slidemotorfront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
 
-        slideMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
@@ -162,7 +162,7 @@ public class Felipe2 {
 
     public double getWinchPos(){
         double slidePos;
-        slidePos = slideMotor.getCurrentPosition()/ TICKS_PER_SLIDE_IN; //returns in inches
+        slidePos = extendMotor.getCurrentPosition()/ TICKS_PER_SLIDE_IN; //returns in inches
         return  slidePos;
     }
     public void  setSlideLevel1(){
@@ -217,8 +217,8 @@ public class Felipe2 {
         liftToTargetHeight(targetHeight,3, SLIDESPEED);
     }
     public void slideMechanicalReset(){
-        slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
-        slideMotor.setPower(SLIDERESETSPEED);
+        extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
+        extendMotor.setPower(SLIDERESETSPEED);
 
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop
@@ -226,14 +226,14 @@ public class Felipe2 {
         while (runtime.seconds() < 2.5) {
             //Time wasting loop so slide can retract. Loop ends when time expires or touch sensor is pressed
         }
-        slideMotor.setPower(0);
+        extendMotor.setPower(0);
         runtime.reset();
         while ((runtime.seconds() < 0.25)) {
             //Time wasting loop to let spring relax
         }
         // set everything back the way is was before reset so encoders can be used
-        slideMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED){
@@ -246,12 +246,12 @@ public class Felipe2 {
 
             newTargetHeight = (int)(height *  TICKS_PER_SLIDE_IN);
             // Set the target now that is has been calculated
-            slideMotor.setTargetPosition(newTargetHeight);
+            extendMotor.setTargetPosition(newTargetHeight);
             // Turn On RUN_TO_POSITION
-            slideMotor.setPower(Math.abs(SLIDELIFTSPEED));
+           extendMotor.setPower(Math.abs(SLIDELIFTSPEED));
             // reset the timeout time and start motion.
             runtime.reset();
-            slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            extendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // while (opmode.opModeIsActive() &&
             //       (runtime.seconds() < timeoutS) && slidemotorback.isBusy() && slidemotorfront.isBusy()) {
             // holds up execution to let the slide go up to the right place

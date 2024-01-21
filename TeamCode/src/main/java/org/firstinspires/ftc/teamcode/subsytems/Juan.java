@@ -10,13 +10,15 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
+
 
 public class Juan {
     public DcMotorEx climberRight;
     public DcMotorEx climberLeft;
-    public DcMotorEx winch;
-    public Servo drone;
+    public Servo manarsFootLeft;
+    public Servo manarsFootRight;
+
     public VoltageSensor voltSensor = null;
 
 
@@ -25,60 +27,14 @@ public class Juan {
 
     ElapsedTime runtime = new ElapsedTime();
 
-    //================================ CLIMBER==========================================================
-
-    // Climber Constants - Motor and mechanism
-    public static double CLIMB_SPEED = 0.40; // dont want this to be too fast
-    public static double CLIMB_DRIVE_RATIO = 2; // drive sprocket is 14 teeth and teh driven is 28 teeth
-    private static final double CLIMBER_TICKS_PER_MOTOR_REV = 751.8;// 223 motor the 312 is 537.7;
-
-    // Climber Constants - Arm Angles
-
-    private static final double CLIMBER_DEPLOY_ANGLE = 75; // degrees - change this variable to fine tune.
-    private static final double CLIMBER_HANGING_ANGLE = 10; // degrees - change this variable to fine tune.
-    private static final double CLIMBER_STOWED_ANGLE = 0; // degrees - change this variable to fine tune.
-    private static final double CLIMBER_STOW_SPEED = 0.1;
-
-    public static final double DRONE_GROUNDED = 0.5; // drone locl position
-
-    public static final double DRONE_FLY = 0.3;  // release drone position
-
-    // Climber Constants - Convert to ticks
-
-    //private static final int CLIMBER_DEPLOY_TICKS 	= CLIMB_DRIVE_RATIO*CLIMBER_TICKS_PER_MOTOR_REV*CLIMBER_DEPLOY_ANGLE/360;  // units are ticks
-    //private static final int CLIMBER_HANGING_TICKS 	= CLIMB_DRIVE_RATIO*CLIMBER_TICKS_PER_MOTOR_REV*CLIMBER_HANGING_ANGLE/360;  // units are ticks
-    //private static final int CLIMBER_STOWED_TICKS 	= CLIMB_DRIVE_RATIO*CLIMBER_TICKS_PER_MOTOR_REV*CLIMBER_HANGING_ANGLE/360;  // units are ticks should be zero
+    //================================ DUAL CLIMBER==========================================================
+    private static final int CLIMB_DEPLOY_TICKS = 2100; // a little less than the meet 3 robot
+    private static final int CLIMB_STOW_TICKS = 25;
+    private static final double HOOK_DEPLOY = 0.5;
+    private static final double HOOK_STOW = 0.02;
 
 
-    //================================ WINCH==========================================================
-
-    // Winch Constants - Motor and mechanism
-
-    public static double WINCH_SPEED = 1.0; // go as fast as possible
-    // the drive and driven sprockets are both 14 teeth so no need for a gear ratio here.
-    private static final double WINCH_TICKS_PER_MOTOR_REV = 1425.1; // 117 RPM goBilda Motor
-    private static final double WINCH_PULLEY_DIA 	= 40; // milimeters
-
-    // Winch Constants - String Distances
-
-    private static double WINCH_DEPLOY_DISTANCE 	= 18.5 ; // inches (need to test to get correct value here)
-    private static double WINCH_HANGING_DISTANCE 	= 5.5; // inches (need to test to get correct value here)
-    private static double WINCH_STOWED_DISTANCE 	= 0; // inches - should usually be zero. Can change if needed
-    private static final double WINCH_DRONE_DEPLOY_HEIGHT = 18; // degrees - change this variable to fine tune.
-
-
-    public double targetClimbAngle; // local variable
-    public double targetWinchDistance; // local variable
-
-    public double targetDroneAngle; // local variable
-
-
-    /*------------------------------------------drone------------------------------------------*/
-
-
-    private static final double DRONE_ANGLE = 45; // degrees - change this variable to fine tune.
-
-
+    private static final double CLIMB_POWER = 1.0;
 
     // Constructor
     public Juan(LinearOpMode opmode) {
@@ -86,131 +42,54 @@ public class Juan {
 
     }
 
-    public void setDroneGrounded() {
-        drone.setPosition(DRONE_GROUNDED);//fwd
-    }
-    public void setDroneFly() {
-        drone.setPosition(DRONE_FLY); // back
-    }
+
 
     public void init(HardwareMap hardwareMap) {
         climberRight = hardwareMap.get(DcMotorEx.class, "climberRightMotor");
         climberLeft = hardwareMap.get(DcMotorEx.class, "climberLeftMotor");
-        //drone = hardwareMap.get(Servo.class,"droneServo");
+        manarsFootLeft = hardwareMap.get(Servo.class, "manarsFoot");
+        manarsFootRight = hardwareMap.get(Servo.class, "manarsFoot");
+
 
         // set directions
         climberRight.setDirection(DcMotorEx.Direction.REVERSE);
         climberLeft.setDirection(DcMotorEx.Direction.REVERSE);
-        winch.setDirection(DcMotorEx.Direction.FORWARD);
+
         // set to encoder operation
         climberRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         climberLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // stop and rest encoders
-        //climber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        // current alert
-        winch.setCurrentAlert(9, CurrentUnit.AMPS); // Stall rating is 9.2
-    }
 
 
-
-
-    public void setToTargetClimbAngle(double climber_angle, double timeoutS) {
-
-        int newTargetClimbAngle;
-
-        // Ensure that the opmode is still active
-        if (opmode.opModeIsActive()) {
-
-            // Determine new target lift angle in ticks based on the current position.
-            // When the match starts the current position should be reset to zero.
-
-            newTargetClimbAngle = (int) (CLIMB_DRIVE_RATIO*CLIMBER_TICKS_PER_MOTOR_REV*climber_angle/360); // note newTargetClimbAngle is in ticks not degrees
-            // Set the target now that is has been calculated
-            climberRight.setTargetPosition(newTargetClimbAngle);
-            climberLeft.setTargetPosition(newTargetClimbAngle);
-            // Turn On RUN_TO_POSITION
-            climberRight.setPower(Math.abs(CLIMB_SPEED));
-            climberLeft.setPower(Math.abs(CLIMB_SPEED));
-            // reset the timeout time and start motion.
-            runtime.reset();
-            climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // while (opmode.opModeIsActive() &&
-            //       (runtime.seconds() < timeoutS) && climber.isBusy()) {
-            // holds up execution to let the climber go up to the right place - leave commented out for now
-
-            // }
-
-
-        }
 
     }
 
-    public void setToWinchSpoolOut(double spool_length, double timeoutS) {
-
-        int newTargetSpoolLength;
-
-
-        // Ensure that the opmode is still active
-        if (opmode.opModeIsActive()) {
-
-            // Determine new target lift angle in ticks based on the current position.
-            // When the match starts the current position should be reset to zero.
-
-            newTargetSpoolLength = (int) (spool_length*WINCH_TICKS_PER_MOTOR_REV*25.4/(3.14*WINCH_PULLEY_DIA)); // note newTargetClimbAngle is in ticks not degrees
-            // Set the target now that is has been calculated
-            winch.setTargetPosition(newTargetSpoolLength);
-            // Turn On RUN_TO_POSITION
-            winch.setPower(Math.abs(CLIMB_SPEED));
-            // reset the timeout time and start motion.
-            runtime.reset();
-            winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while (opmode.opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) && climberRight.isBusy() && climberLeft.isBusy()) {
-                //holds up execution to let the climber go up to the right place - leave commented out for now
-
-            }
-
-
-        }
+    public void prepForClimb() {
+        climberLeft.setTargetPosition(CLIMB_DEPLOY_TICKS);
+        climberRight.setTargetPosition(CLIMB_DEPLOY_TICKS);
+        climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberLeft.setPower(CLIMB_POWER);
+        climberRight.setPower(CLIMB_POWER);
+        manarsFootLeft.setPosition(HOOK_DEPLOY);
+        manarsFootRight.setPosition(HOOK_DEPLOY);
+    }
+    public void climb() {
+        climberLeft.setTargetPosition(CLIMB_STOW_TICKS);
+        climberRight.setTargetPosition(CLIMB_STOW_TICKS);
+        climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberLeft.setPower(CLIMB_POWER);
+        climberRight.setPower(CLIMB_POWER);
 
     }
+    public void reset() {
+        climberLeft.setTargetPosition(CLIMB_STOW_TICKS);
+        climberRight.setTargetPosition(CLIMB_STOW_TICKS);
+        climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        climberLeft.setPower(HOOK_STOW);
+        climberRight.setPower(HOOK_STOW);
 
-    public void climberDeploy(){
-        setToTargetClimbAngle(CLIMBER_DEPLOY_ANGLE, 10);
-
-    }
-
-    public void climberHang(){
-        setToTargetClimbAngle(CLIMBER_HANGING_ANGLE, 10);
-    }
-
-    public void climberStow(){
-        setToTargetClimbAngle(CLIMBER_STOWED_ANGLE, 3);
-    }
-
-    public void winchDeploy(){
-        setToWinchSpoolOut(WINCH_DEPLOY_DISTANCE, 3);
-    }
-    public void winchHang(){
-        setToWinchSpoolOut(WINCH_HANGING_DISTANCE, 3);
-    }
-    public void winchStow(){
-        setToWinchSpoolOut(WINCH_STOWED_DISTANCE, 3);
-    }
-
-    public void winchDroneDeploy(){
-        setToWinchSpoolOut(WINCH_DRONE_DEPLOY_HEIGHT,3);
-    }
-    public void setDroneDeploy(){
-        drone.setPosition(DRONE_FLY);
-    }
-
-    public void setDroneLand(){
-        drone.setPosition(DRONE_GROUNDED);
     }
 
 }
