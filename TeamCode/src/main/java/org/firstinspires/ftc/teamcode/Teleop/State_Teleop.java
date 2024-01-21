@@ -4,32 +4,36 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
+import org.firstinspires.ftc.teamcode.subsytems.Climber;
+import org.firstinspires.ftc.teamcode.subsytems.Drone;
+import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
+import org.firstinspires.ftc.teamcode.subsytems.Juan;
 import org.firstinspires.ftc.teamcode.subsytems.Lift;
 
 @Config
-@Disabled
 @TeleOp(group = "Teleop")
 
-public class Centerstage_Teleop3 extends LinearOpMode {
-
-    ElapsedTime runtime = new ElapsedTime();
-
-    Lift lift = new Lift(this);
-
-    Climber_Drone climberDrone = new Climber_Drone(this);
+public class State_Teleop extends LinearOpMode {
+    Juan juan = new Juan(this);
+    Felipe2 felipe = new Felipe2(this); // replaces climberDone with climber only subsystem
+    Drone drone = new Drone(this); // replaces climberDone with drone only subsystem
 
     private ElapsedTime teleopTimer = new ElapsedTime();
     private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
 
     FtcDashboard dashboard;
+    RevBlinkinLedDriver blinkinLedDriver;
+    RevBlinkinLedDriver.BlinkinPattern preInit;
+    RevBlinkinLedDriver.BlinkinPattern main;
+    RevBlinkinLedDriver.BlinkinPattern endgame;
+    RevBlinkinLedDriver.BlinkinPattern climbAlert;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,25 +45,45 @@ public class Centerstage_Teleop3 extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Initialize the subsystems. Note the init method is inside the subsystem class
-        lift.init(hardwareMap);
-        lift.gripperWideOpen();
-        lift.setAnglerLoad();
+        felipe.init(hardwareMap);
+        felipe.gripperWideOpen();
+        felipe.setAnglerLoad();
 
-        climberDrone.init(hardwareMap);
-        climberDrone.climberStow();
+        Thread climberInit = new Thread(() -> {
+            juan.init(hardwareMap);
+            juan.reset();
+        });
+        climberInit.start();
+        drone.init(hardwareMap);
+        drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
+
+        // no need to power the hook servo until it is time to climb//
 
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        lift.slideMechanicalReset();
-        lift.setSlideLevel1();
+        felipe.slideMechanicalReset();
+        felipe.setSlideLevel1();
+
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
+        preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+        main = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+        endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
+        climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+
+        blinkinLedDriver.setPattern(preInit);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
         ///////////////////////////////////////////////////////////////////////////////////////////
 
         waitForStart();
-        lift.gripperOpen(); // put gripper in open position. Not super wide open
+        teleopTimer.reset();
+
+        blinkinLedDriver.setPattern(main);
+
+        felipe.gripperOpen(); // put gripper in open position. Not super wide open
 
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
@@ -69,8 +93,14 @@ public class Centerstage_Teleop3 extends LinearOpMode {
                             scaleStick(-gamepad1.right_stick_x) * speedFactor
                     )
             );
-            if (teleopTimer.time() > 93){
-
+            if (teleopTimer.time() > 90 && !(teleopTimer.time() > 110)) { // endgame
+                blinkinLedDriver.setPattern(endgame);
+            }
+            if (teleopTimer.time() > 110 && !(teleopTimer.time() > 120)) { // climb alert (10 seconds to climb)
+                blinkinLedDriver.setPattern(climbAlert);
+            }
+            if (teleopTimer.time() > 120) {
+                blinkinLedDriver.close();
             }
 
             if (gamepad1.dpad_right) {
@@ -104,12 +134,12 @@ public class Centerstage_Teleop3 extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper) {
-                lift.gripperRightOpen();
+                felipe.gripperRightOpen();
                 sleep(100);
             }
 
             if (gamepad1.left_bumper) {
-                lift.gripperLeftOpen();
+                felipe.gripperLeftOpen();
                 sleep(100);
             }
             if (gamepad1.left_stick_button) {
@@ -135,15 +165,14 @@ public class Centerstage_Teleop3 extends LinearOpMode {
                 sleep(500);
             }
             if (gamepad2.b) {
-
+                gp2b();
             }
             if (gamepad2.back) {
-                lift.slideMechanicalReset();
-               }
+                felipe.slideMechanicalReset();
+            }
             if (gamepad2.x) {
-                climberDrone.setDroneDeploy(); // move servo to let drone go
+                drone.setDroneFly(); // move servo to let drone go
                 sleep(50); // pause to make sure servo moves
-
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
@@ -179,54 +208,66 @@ public class Centerstage_Teleop3 extends LinearOpMode {
     }
     private void gp1lefttrigger() {
         Thread gp1lefttrigger = new Thread(() -> {
-            lift.gripperClosed();
+            felipe.gripperClosed();
             sleep(500);
-            lift.setAnglerDeploy();
+            felipe.setAnglerDeploy();
         });
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
-        Thread gp1righttrigger = new Thread(() -> lift.gripperOpen());
+        Thread gp1righttrigger = new Thread(() ->
+                felipe.gripperOpen()
+        );
         gp1righttrigger.start();
     }
     private void gp2dpup() {
-        Thread gp2dpup = new Thread(() -> lift.setSlideLevel3());
+        Thread gp2dpup = new Thread(() ->
+                felipe.setSlideLevel3()
+        );
         gp2dpup.start();
     }
     private void gp2a() {
-        Thread gp2a = new Thread(() -> {
-            climberDrone.climberHang();
-            climberDrone.winchHang();
-        });
+        Thread gp2a = new Thread(() ->
+            juan.climb()
+        );
         gp2a.start();
     }
+    private void gp2b() {
+        Thread gp2b = new Thread(() ->
+                juan.reset()
+        );
+        gp2b.start();
+    }
     private void gp2y() {
-        Thread gp2y = new Thread(() -> {
-            climberDrone.climberDeploy();
-            climberDrone.winchDeploy();
-        });
+        Thread gp2y = new Thread(() ->
+            juan.prepForClimb()
+        );
         gp2y.start();
     }
     private void gp2dpdown() {
-        Thread gp2dpdown = new Thread(() -> lift.setSlideLevel1());
+        Thread gp2dpdown = new Thread(() ->
+                felipe.setSlideLevel1()
+        );
         gp2dpdown.start();
     }
     private void gp2dpleft() {
-        Thread gp2dpleft = new Thread(() -> lift.setSlideLevel4());
+        Thread gp2dpleft = new Thread(() ->
+                felipe.setSlideLevel4()
+        );
         gp2dpleft.start();
     }
     private void gp2dpright() {
-        Thread gp2dpright = new Thread(() -> lift.setSlideLevel2());
+        Thread gp2dpright = new Thread(() -> felipe.setSlideLevel2());
         gp2dpright.start();
     }
     private void gp2lefttrigger() {
-        Thread gp2lefttrigger = new Thread(() -> lift.setAnglerDeploy());
+        Thread gp2lefttrigger = new Thread(() -> felipe.setAnglerDeploy());
         gp2lefttrigger.start();
     }
     private void gp2righttrigger() {
         Thread gp2righttrigger = new Thread(() -> {
-            lift.setAnglerLoad();
-            lift.gripperOpen();
+            felipe.setAnglerLoad();
+           felipe.gripperOpen();
         });
         gp2righttrigger.start();
     }
