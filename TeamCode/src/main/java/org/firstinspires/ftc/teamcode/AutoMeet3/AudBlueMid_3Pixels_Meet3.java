@@ -109,7 +109,7 @@ public class AudBlueMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudBlueRightDropoff = new Pose2d(-33,53, Math.toRadians(90)); // x was -29
 
         // left Prop Poses
-        Pose2d AudBlueLeftDropoff = new Pose2d(-42.5, 53.25, Math.toRadians(90));//backstage
+        Pose2d AudBlueLeftDropoff = new Pose2d(-41.5, 53.25, Math.toRadians(90));//backstage
         Pose2d AudBlueLeftPre = new Pose2d(-32.5,-41, Math.toRadians(90));//pushing the stage prop
         Pose2d AudBlueLeftPush = new Pose2d(-32.5,-25,Math.toRadians(90));//spike mark
         Pose2d AudBlueLeft = new Pose2d(-32.5,-35,Math.toRadians(90));//spike mark

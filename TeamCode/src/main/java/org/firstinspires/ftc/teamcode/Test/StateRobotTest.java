@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,17 +11,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Climber;
-import org.firstinspires.ftc.teamcode.subsytems.Climber_Drone;
+import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
 
 
 @Config
 @TeleOp(group = "Teleop")
-public class Climber_Test extends LinearOpMode {
+public class StateRobotTest extends LinearOpMode {
 // test
     // random comment
 
 
-    Climber climberDrone = new Climber(this);
+    Felipe2 felipe2 = new Felipe2(this);
     //Climber_2 winch = new Climber_2(this);
 
 
@@ -49,7 +48,7 @@ public class Climber_Test extends LinearOpMode {
 
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
-        climberDrone.init(hardwareMap);
+        felipe2.init(hardwareMap);
 
 
 
@@ -87,24 +86,23 @@ public class Climber_Test extends LinearOpMode {
 
 
             if (gamepad1.dpad_right) {
-                climberDrone.prepForClimb();
                 debounce(500);
             }
 
             if (gamepad1.dpad_up) {
-                climberDrone.climb();
+
                 debounce(500);
 
             }
 
             if (gamepad1.dpad_down) {
-                climberDrone.reset();
                 debounce(500);
 
             }
 
             if (gamepad1.left_trigger > 0.25) {
-
+                felipe2.setSlideLevel2();
+                debounce(500);
             }
 
             if (gamepad1.right_trigger > 0.25) {
