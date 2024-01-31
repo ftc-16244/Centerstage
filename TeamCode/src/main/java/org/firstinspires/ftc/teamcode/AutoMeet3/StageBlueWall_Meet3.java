@@ -103,14 +103,14 @@ public class StageBlueWall_Meet3 extends LinearOpMode {
         Pose2d BlueMidPark = new Pose2d(-8,50,Math.toRadians(90));
 
         Pose2d StageBlueLeft = new Pose2d(-45,22,Math.toRadians(0));//spike mark
-        Pose2d StageBlueLeftDropoff = new Pose2d(-42, 53, Math.toRadians(90));//backstage
+        Pose2d StageBlueLeftDropoff = new Pose2d(-40.5, 53, Math.toRadians(90));//backstage
 
         Pose2d StageBlueCenter = new Pose2d(-38, 14, Math.toRadians(0));
         Pose2d BluePreParkCenter = new Pose2d(-59, 30, Math.toRadians(270));
         Pose2d StageBlueCenterDropoff = new Pose2d(-37.5, 54, Math.toRadians(90));
 
-        Pose2d StageBlueRight = new Pose2d(-35,15.5, Math.toRadians(270)); // why is y 29?
-        Pose2d StageBlueRightPush = new Pose2d(-35,10, Math.toRadians(270)); // why is y 29?
+        Pose2d StageBlueRight = new Pose2d(-35,15.5, Math.toRadians(270));
+        Pose2d StageBlueRightPush = new Pose2d(-35,10, Math.toRadians(270));
         Pose2d StageBlueRightDropoff = new Pose2d(-30,54.25, Math.toRadians(90));
 
         drive.setPoseEstimate(startPos);
