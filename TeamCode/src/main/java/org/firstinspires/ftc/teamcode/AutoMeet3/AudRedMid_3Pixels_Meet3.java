@@ -102,15 +102,15 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
         Pose2d AudRedCenter = new Pose2d(29.5, -45.5, Math.toRadians(90));
         Pose2d AudRedCenterPush = new Pose2d(22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(37, 47, Math.toRadians(90)); // was 51
+        Pose2d AudRedCenterDropoff = new Pose2d(37, 46, Math.toRadians(90)); // was 51
 
         // Left Prop Poses
         Pose2d AudRedLeft = new Pose2d(25,-31, Math.toRadians(270)); // y was 57.5
         Pose2d AudRedLeftPush = new Pose2d(15,-40, Math.toRadians(270)); // y was 57.5
-        Pose2d AudRedLeftDropoff = new Pose2d(30.25,53.5, Math.toRadians(90));
+        Pose2d AudRedLeftDropoff = new Pose2d(31.25,52.5, Math.toRadians(90));
 
         // Right Prop Poses
-        Pose2d AudRedRightDropoff = new Pose2d(44, 53, Math.toRadians(90));//backstage
+        Pose2d AudRedRightDropoff = new Pose2d(43, 52, Math.toRadians(90));//backstage
         Pose2d AudRedRightPre = new Pose2d(35.5,-41, Math.toRadians(90));
         Pose2d AudRedRightPush = new Pose2d(35.5,-35,Math.toRadians(90));//spike mark
         Pose2d AudRedRight = new Pose2d(35.5,-36,Math.toRadians(90));//spike mark
@@ -154,6 +154,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .lineToLinearHeading(RedRallyPoint1_LEFT)
                 .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
                 .splineToLinearHeading(AudRedLeftDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
                 .waitSeconds(0.5)
@@ -197,6 +198,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .splineToLinearHeading(RedRallyPoint1_CENTER, Math.toRadians(90))
                 .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
                 .splineToLinearHeading(AudRedCenterDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
                 .waitSeconds(0.5)
@@ -242,6 +244,7 @@ public class AudRedMid_3Pixels_Meet3 extends LinearOpMode {
                 //spline to backboard
                 .splineToLinearHeading(RedRallyPoint1_RIGHT, Math.toRadians(90))
                 .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
                 .splineToLinearHeading(AudRedRightDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
