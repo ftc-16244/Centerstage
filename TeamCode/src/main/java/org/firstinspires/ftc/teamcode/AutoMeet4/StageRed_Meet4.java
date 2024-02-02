@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AutoMeet3;
+package org.firstinspires.ftc.teamcode.AutoMeet4;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -21,9 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-@Disabled
-
-public class StageRedWall_Meet3 extends LinearOpMode {
+public class StageRed_Meet4 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override

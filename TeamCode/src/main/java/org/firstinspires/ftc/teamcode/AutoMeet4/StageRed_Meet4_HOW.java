@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AutoMeet3;
+package org.firstinspires.ftc.teamcode.AutoMeet4;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -21,9 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-@Disabled
-
-public class StageRedWall_Meet3 extends LinearOpMode {
+public class StageRed_Meet4_HOW extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -131,6 +129,7 @@ public class StageRedWall_Meet3 extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
+                .back(24)
                 .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1(); lift.gripperWideOpen();})
                 .waitSeconds(0.5)
@@ -155,6 +154,7 @@ public class StageRedWall_Meet3 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .back(27)
                 .lineToLinearHeading(RedWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1(); lift.gripperWideOpen();})
                 .waitSeconds(.5)
