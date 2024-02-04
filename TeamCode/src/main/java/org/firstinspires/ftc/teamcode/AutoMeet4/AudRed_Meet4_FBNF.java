@@ -20,7 +20,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class AudBlue_Meet4 extends LinearOpMode {
+public class AudRed_Meet4_FBNF extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -31,8 +31,8 @@ public class AudBlue_Meet4 extends LinearOpMode {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.BLUE_AUD);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
+        WebcamPipeline detector = new WebcamPipeline(telemetry, StartPosition.RED_AUD);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -89,35 +89,36 @@ public class AudBlue_Meet4 extends LinearOpMode {
         // POSE SECTION
         //============================
         // Common poses for all 3 Red Stage Prop Positions
-        Pose2d startPos = new Pose2d(-62.5, -36, Math.toRadians(90));
+        Pose2d startPos = new Pose2d(64.5, -36, Math.toRadians(90));
         Pose2d RedPrePark = new Pose2d(13,45,Math.toRadians(90));
-        Pose2d BluePark = new Pose2d(-18,51,Math.toRadians(90));
-        Pose2d BlueRallyPoint1_LEFT = new Pose2d(-10.5,-55,Math.toRadians(90));//left and a bit forward from the left pixel drop
-        Pose2d BlueRallyPoint1_CENTER = new Pose2d(-9.75,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
-        Pose2d BlueRallyPoint1_RIGHT = new Pose2d(-10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
-        Pose2d BlueRallyPoint2 = new Pose2d(-10.5,-0,Math.toRadians(90));// near md field on red side
+        Pose2d RedPark = new Pose2d(22,49,Math.toRadians(90));
+        Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-55,Math.toRadians(90));//left and a bit forward from the left pixel drop
+        Pose2d RedRallyPoint1_CENTER = new Pose2d(10,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
+        Pose2d RedRallyPoint1_RIGHT = new Pose2d(10.5,-40,Math.toRadians(90));//left and a bit forward from the center pixel drop
+        Pose2d RedRallyPoint2 = new Pose2d(10.5,-0,Math.toRadians(90));// near md field on red side
+
 
         //Center Prop
-        Pose2d AudBlueCenter = new Pose2d(-22.5, -45, Math.toRadians(90));
-        Pose2d AudBlueCenterPush = new Pose2d(-22.5, -45.5, Math.toRadians(90));
+        Pose2d AudRedCenter = new Pose2d(29.5, -45.5, Math.toRadians(90));
+        Pose2d AudRedCenterPush = new Pose2d(22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudBlueCenterDropoff = new Pose2d(-39, 53.5, Math.toRadians(90)); // was 39
+        Pose2d AudRedCenterDropoff = new Pose2d(37, 46, Math.toRadians(90)); // was 51
 
-        // right Prop Poses
-        Pose2d AudBlueRight = new Pose2d(-32,-32.5, Math.toRadians(270)); // y was -32.5
-        Pose2d AudBlueRightPush = new Pose2d(-25,-32.5, Math.toRadians(270)); // y was 57.5
-        Pose2d AudBlueRightDropoff = new Pose2d(-33,53, Math.toRadians(90)); // x was -29
+        // Left Prop Poses
+        Pose2d AudRedLeft = new Pose2d(25,-31, Math.toRadians(270)); // y was 57.5
+        Pose2d AudRedLeftPush = new Pose2d(15,-40, Math.toRadians(270)); // y was 57.5
+        Pose2d AudRedLeftDropoff = new Pose2d(31.25,52.5, Math.toRadians(90));
 
-        // left Prop Poses
-        Pose2d AudBlueLeftDropoff = new Pose2d(-42.5, 53.25, Math.toRadians(90));//backstage
-        Pose2d AudBlueLeftPre = new Pose2d(-32.5,-41, Math.toRadians(90));//pushing the stage prop
-        Pose2d AudBlueLeftPush = new Pose2d(-32.5,-25,Math.toRadians(90));//spike mark
-        Pose2d AudBlueLeft = new Pose2d(-32.5,-35,Math.toRadians(90));//spike mark
+        // Right Prop Poses
+        Pose2d AudRedRightDropoff = new Pose2d(43, 52, Math.toRadians(90));//backstage
+        Pose2d AudRedRightPre = new Pose2d(35.5,-41, Math.toRadians(90));
+        Pose2d AudRedRightPush = new Pose2d(35.5,-35,Math.toRadians(90));//spike mark
+        Pose2d AudRedRight = new Pose2d(35.5,-36,Math.toRadians(90));//spike mark
 
         //white spike mark
-        Pose2d leftwhitespikemark_BLUE_LEFT = new Pose2d(-15.5, -45.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_BLUE_CENTER = new Pose2d(-15.5, -47.5, Math.toRadians(270));
-        Pose2d leftwhitespikemark_BLUE_RIGHT = new Pose2d(-17.5, -48.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_LEFT = new Pose2d(7.25, -47.5, Math.toRadians(270));
+        Pose2d leftwhitespikemark_RED_CENTER = new Pose2d(10.25, -47, Math.toRadians(270)); //was 12
+        Pose2d leftwhitespikemark_RED_RIGHT = new Pose2d(9.75, -47.5, Math.toRadians(270));
 
 
         drive.setPoseEstimate(startPos);
@@ -130,93 +131,92 @@ public class AudBlue_Meet4 extends LinearOpMode {
         TrajectorySequence StageRedLeftTraj1 = drive.trajectorySequenceBuilder(startPos)
                 //set the gripper to close to pixels and move the lift and angler to deploy right
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
-                //go to push the pixel away and then go to left=  position and open the left gripper
-                .lineToLinearHeading(AudBlueLeftPre)
-                .lineToLinearHeading(AudBlueLeftPush)
-                .lineToLinearHeading(AudBlueLeft)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white_RED();})
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
+                .back(10)
+                .waitSeconds(1)
+                //go to push the pixel away and then go to left position and open the left gripper
+                .lineToLinearHeading(AudRedLeftPush)
+                .lineToLinearHeading(AudRedLeft)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.75)
+                .waitSeconds(0.5)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .lineToLinearHeading(leftwhitespikemark_BLUE_LEFT)
+                .strafeRight(13)
+                .lineToLinearHeading(leftwhitespikemark_RED_LEFT)
                 //pick up the white pixel and then go back
-                .forward(12)
+                .forward(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
-                .back(10)
+                .back(20)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
-                //spline to backboard
-                .lineToLinearHeading(BlueRallyPoint1_LEFT)
-                .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .forward(30)
-                .lineToLinearHeading(AudBlueLeftDropoff)
-                //set slide to 2 and open right gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
-                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                //spline to backboard
+                .lineToLinearHeading(RedRallyPoint1_LEFT)
+                .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
+                .splineToLinearHeading(AudRedLeftDropoff,Math.toRadians(90))
+                //set slide to 2 and open right gripper
+                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.5)
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.5)
+                .waitSeconds(0.25)
                 //go back 6 in and then set slide level to 1
-                .back(6)
+                .back(5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
                 //head over to park
-                .lineToLinearHeading(BluePark)
+                .back(3)
+                .strafeLeft(4)
                 .build();
 
         //StageRedCenter
         TrajectorySequence StageRedCenterTraj1 = drive.trajectorySequenceBuilder(startPos)
                 //set the gripper to close to pixels and move the lift and angler to deploy right
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white();})
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerDeploy())
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white_RED();})
+                .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
+                .waitSeconds(1)
                 //go to push the pixel away and then go to center position and open the left gripper
-                .lineToLinearHeading(AudBlueCenter)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
-                .waitSeconds(0.5)
+                .lineToLinearHeading(AudRedCenterPush)
+                .lineToLinearHeading(AudRedCenter)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .back(3)
-                //.splineToLinearHeading(leftwhitespikemark_BLUE, Math.toRadians(270))
-                .lineToLinearHeading(leftwhitespikemark_BLUE_CENTER)
+                .back(12)
+                .lineToLinearHeading(leftwhitespikemark_RED_CENTER)
                 //pick up the white pixel and then go back
-                .forward(7)
+                .forward(7.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
                 .waitSeconds(0.25)
-                .back(6.5)
+                .back(10)
                 //set slide to 1 and put angler in carry position
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 //spline to backboard
-                .splineToLinearHeading(BlueRallyPoint1_CENTER, Math.toRadians(90))
-                .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .forward(30)
-                .lineToLinearHeading(AudBlueCenterDropoff)
+                .splineToLinearHeading(RedRallyPoint1_CENTER, Math.toRadians(90))
+                .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
+                .splineToLinearHeading(AudRedCenterDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
+                .forward(6.25)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.5)
                 //go back 6 in and then set slide level to 1
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
-
                 //head over to park
-                .lineToLinearHeading(BluePark)
+                .lineToLinearHeading(RedPark)
                 .build();
 
 
@@ -226,14 +226,16 @@ public class AudBlue_Meet4 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->{lift.setSlideLevel1point5_white();})
                 .UNSTABLE_addTemporalMarkerOffset(0.5,()->lift.setAnglerLoad())
+                .waitSeconds(1)
                 //go to push the pixel away and then go to right position and open the left gripper
-                .lineToLinearHeading(AudBlueRightPush)
-                .lineToLinearHeading(AudBlueRight)
+                .lineToLinearHeading(AudRedRightPre)
+                .lineToLinearHeading(AudRedRightPush)
+                .lineToLinearHeading(AudRedRight)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
-                .waitSeconds(0.5)
+                .waitSeconds(0.25)
                 //head back to avoid hitting pixels and then spline to white pixel spike mark
-                .strafeLeft(13)
-                .lineToLinearHeading(leftwhitespikemark_BLUE_RIGHT)
+                .back(15)
+                .splineToLinearHeading(leftwhitespikemark_RED_RIGHT, Math.toRadians(270))
                 //pick up the white pixel and then go back
                 .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperClosed())
@@ -243,13 +245,12 @@ public class AudBlue_Meet4 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerCarry())
                 //spline to backboard
-                .splineToLinearHeading(BlueRallyPoint1_RIGHT, Math.toRadians(90))
-                .splineToLinearHeading(BlueRallyPoint2, Math.toRadians(90))
-                .forward(30)
-                .lineToLinearHeading(AudBlueRightDropoff)
+                .splineToLinearHeading(RedRallyPoint1_RIGHT, Math.toRadians(90))
+                .splineToLinearHeading(RedRallyPoint2, Math.toRadians(90))
+                .forward(24)
+                .splineToLinearHeading(AudRedRightDropoff,Math.toRadians(90))
                 //set slide to 2 and open right gripper
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1point5_back())
-                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
@@ -260,9 +261,8 @@ public class AudBlue_Meet4 extends LinearOpMode {
                 .back(6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setSlideLevel1())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
-
                 //head over to park
-                .lineToLinearHeading(BluePark)
+                .strafeLeft(4)
                 .build();
 
         detector.toggleTelemetry();
@@ -276,7 +276,7 @@ public class AudBlue_Meet4 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_AUD" + location);
+        telemetry.addData("Running path", " RED_AUD" + location);
         telemetry.update();
 
         switch(location) {

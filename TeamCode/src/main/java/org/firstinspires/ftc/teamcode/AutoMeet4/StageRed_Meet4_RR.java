@@ -21,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class StageRed_Meet4 extends LinearOpMode {
+public class StageRed_Meet4_RR extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvCamera webcam;
     @Override
@@ -96,15 +96,15 @@ public class StageRed_Meet4 extends LinearOpMode {
         //Center Prop
         Pose2d StageRedCenter = new Pose2d(36, 17, Math.toRadians(180)); // x was 38
         //backstage drop
-        Pose2d StageRedCenterDropoff = new Pose2d(32, 54.5, Math.toRadians(90));
+        Pose2d StageRedCenterDropoff = new Pose2d(33.5, 54.5, Math.toRadians(90));
 
         // Left Prop Poses
         Pose2d StageRedLeft = new Pose2d(30,22, Math.toRadians(270));
         Pose2d StageRedLeftDropoff = new Pose2d(27,54, Math.toRadians(90));
 
         // Right Prop Poses
-        Pose2d StageRedRight = new Pose2d(36,13.5,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(37.5, 53, Math.toRadians(90));//backstage
+        Pose2d StageRedRight = new Pose2d(36,14,Math.toRadians(90));//spike mark
+        Pose2d StageRedRightDropoff = new Pose2d(38.5, 53, Math.toRadians(90));//backstage
 
 
         drive.setPoseEstimate(startPos);
@@ -120,8 +120,8 @@ public class StageRed_Meet4 extends LinearOpMode {
                 .lineToLinearHeading(StageRedLeftDropoff)
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperRightOpen())
-                .waitSeconds(0.25)
-                .back(6)
+                .waitSeconds(2)
+                .back(20)
                 .lineToLinearHeading(StageRedLeft)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1point5();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())

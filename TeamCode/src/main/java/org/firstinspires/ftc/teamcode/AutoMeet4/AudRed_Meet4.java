@@ -102,7 +102,7 @@ public class AudRed_Meet4 extends LinearOpMode {
         Pose2d AudRedCenter = new Pose2d(29.5, -45.5, Math.toRadians(90));
         Pose2d AudRedCenterPush = new Pose2d(22.5, -45.5, Math.toRadians(90));
         //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(37, 46, Math.toRadians(90)); // was 51
+        Pose2d AudRedCenterDropoff = new Pose2d(39.5, 46, Math.toRadians(90)); // was 51
 
         // Left Prop Poses
         Pose2d AudRedLeft = new Pose2d(25,-31, Math.toRadians(270)); // y was 57.5

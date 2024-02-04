@@ -137,7 +137,7 @@ public class StageBlue_Meet4 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(1.5)
+                .back(24)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperWideOpen())
@@ -164,11 +164,12 @@ public class StageBlue_Meet4 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerDeploy())
-                .back(5)
+                .back(20)
                 .lineToLinearHeading(BluePreParkCenter)
                 .waitSeconds(0.125)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.setAnglerLoad())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperWideOpen();})
                 .waitSeconds(.5)
                 .build();
 
@@ -190,8 +191,11 @@ public class StageBlue_Meet4 extends LinearOpMode {
                 .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->lift.gripperLeftOpen())
                 .waitSeconds(.25)
+                .back(10)
+                .strafeRight(20)
                 .lineToLinearHeading(BlueWallPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.setSlideLevel1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{lift.gripperWideOpen();})
                 .waitSeconds(0.5)
                 .build();
 

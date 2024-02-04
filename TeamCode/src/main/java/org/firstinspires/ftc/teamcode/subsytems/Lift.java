@@ -25,11 +25,11 @@ public class Lift {
     //Constants for gripper
     //larer numbers are more clockwise
 
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.45; //to close more, decrease
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.44; //to close more, decrease was 0.45
     public static final double      GRIPPER_LEFT_OPEN        = GRIPPER_LEFT_CLOSED + 0.15; //to open more, increase
     public static final double      GRIPPER_LEFT_WIDE_OPEN   = GRIPPER_LEFT_CLOSED +.32;
 
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.48;// to close more, increase
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.49;// to close more, increase was 0.48
     public static final double      GRIPPER_RIGHT_OPEN       =  GRIPPER_RIGHT_CLOSED -0.15; // too open more, decrease
     public static final double      GRIPPER_RIGHT_WIDE_OPEN  = GRIPPER_RIGHT_CLOSED -0.32; // not gripped
 
@@ -38,7 +38,7 @@ public class Lift {
     //NOTE: lower values make the angler go higher, higher values make it go lower
     public static final double      ANGLER_CARRY       = 0.44;// load and moving the pixel
     public static final double      ANGLER_DEPLOY      = 0.45; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.493; // Loading the pixel
+    public static final double      ANGLER_LOAD      = 0.4912; // Loading the pixel was 0.493
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -53,9 +53,9 @@ public class Lift {
     public static final double      LIFT_LEVEL_1point5             = 2.5; // auto drop pixel in right spot
     public static final double      LIFT_LEVEL_1point5_white             = 3.8; // auto drop pixel in right spot
     public static final double      LIFT_LEVEL_1point5_white_RED             = 4.15;
-    public static final double      LIFT_LEVEL_1point5_back             = 4.75; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_1point5_back             = 5.5; // auto drop pixel in right spot
 
-    public static final double      LIFT_LEVEL_1point5_back_RED             = 5.25; // auto drop pixel in right spot
+    public static final double      LIFT_LEVEL_1point5_back_RED             = 6.5; // auto drop pixel in right spot
 
     public static final double      LIFT_LEVEL_2                   = 7;
     public static final double      LIFT_LEVEL_3                   = 13;
