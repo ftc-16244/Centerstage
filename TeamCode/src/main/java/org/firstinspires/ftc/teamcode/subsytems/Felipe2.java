@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import static java.lang.Thread.sleep;
+
 @Config // this is so the dashboard will pick up variables
 public class Felipe2 {
 
@@ -19,6 +21,7 @@ public class Felipe2 {
     public Servo            angler             = null;
     public Servo            gripperRight       = null;
     public Servo            gripperLeft        = null;
+    public Servo            armWheel            = null;
     public VoltageSensor    voltSensor         = null;
     public Servo            SlideWheelServo    = null;
 
@@ -38,9 +41,9 @@ public class Felipe2 {
 
     //Constants for slidewheel
 
-    public static final double      SLIDEWHEEL_POS_1        = 1; //to open more, increase
-    public static final double      SLIDEWHEEL_POS_2        = 1; //to open more, increase
-    public static final double      SLIDEWHEEL_POS_3        = 1; //to open more, increase
+    public static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
+    public static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
+    public static final double      ARM_WHEEL_STOW        = 1; //pick up 4th and 5th pixel on stack
 
 
     //Constants for angler
@@ -57,33 +60,41 @@ public class Felipe2 {
     //Constants Lift
     public  static double           SLIDESPEED                  = 1.00; // full speed
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
-    public static  double           SLIDERESETSPEED                 = -0.2; //
-    public static final double      SLIDE_LEVEL_1                   = 0; // Load pixel level
-    public static final double      SLIDE_LEVEL_1point5             = 2.5; // auto drop pixel in right spot
-    public static final double      SLIDE_LEVEL_1point5_white             = 3.8; // auto drop pixel in right spot
-    public static final double      SLIDE_LEVEL_1point5_white_RED             = 4.15;
-    public static final double      SLIDE_LEVEL_1point5_back             = 4.75; // auto drop pixel in right spot
+    public static  double           SLIDERESETSPEED             = -0.2; // only used to retract and reset slide encoder
+    public static final double      SLIDE_LEVEL_0               = 0.25;// Extension fully retracted but not to mechanical stop
+    public static final double      SLIDE_LEVEL_ROW_1           = 3; // First yellow autp high accuracy
+    public static final double      SLIDE_LEVEL_ROW_2           = 6; // Second row of pixels
+    public static final double      SLIDE_LEVEL_ROW_4           = 12; // reserve
+    public static final double      SLIDE_LEVEL_ROW_6           = 18; // auto drop pixel in right spot
 
-    public static final double      SLIDE_LEVEL_1point5_back_RED             = 5.25; // auto drop pixel in right spot
+    public static final double      SLIDE_REACH_1         = 2; // Used to reach out horizontally to drop purple ot get white
+    public static final double      SLIDE_REACH_2         = 4; // Yellow pixel gentle drop (first yellow)
+    public static final double      SLIDE_REACH_3          = 6;
+    public static final double      SLIDE_REACH_4         = 10;
 
-    public static final double      SLIDE_LEVEL_2                   = 10;
-    public static final double      SLIDE_LEVEL_3                   = 13;
-    public static final double      SLIDE_LEVEL_4                   = 19.75;
+    private static final double     SLIDE_HEIGHT_CORRECTION_FACTOR   =   1.00;
+    private static final double     TICKS_PER_MOTOR_REV_SLIDE             = 145.1 * 2; // goBilda 1150 RPM MOTOR and 2:1 Bevel Gear
 
-    private static final double    SLIDE_HEIGHT_CORRECTION_FACTOR   =   1.00;
-    private static final double     TICKS_PER_MOTOR_REV             = 290.2; // goBilda 435  //312 RPM  537.7
+    /////////////
+    // TURNER ARM ROTATOR
+
     private static final double     TICKS_PER_MOTOR_REV_TURNER       = 2850.2; // (1425.1 * 2) goBilda 435  //312 RPM  537.7
     private static final double     PULLEY_DIA                      = 38.2; // milimeters
     private static final double     SLIDE_DISTANCE_PER_REV           = PULLEY_DIA * Math.PI / (25.4 * SLIDE_HEIGHT_CORRECTION_FACTOR);
-    private static final double     TICKS_PER_SLIDE_IN               = TICKS_PER_MOTOR_REV / SLIDE_DISTANCE_PER_REV;
-    private static final double     TICKS_PER_TURNER_IN               = TICKS_PER_MOTOR_REV_TURNER / 360;
+    private static final double     TICKS_PER_SLIDE_IN               = TICKS_PER_MOTOR_REV_SLIDE / SLIDE_DISTANCE_PER_REV;
+    private static final double     TICKS_PER_TURNER_DEGREE             = TICKS_PER_MOTOR_REV_TURNER / 360;
 
+    private static final double     TURNER_SPEED = 0.35;
+    public static final double     TURNER_PRECISE_SPEED = 0.20; // used to help the arm float with arm wheel
 
-    public double  targetHeight;
 
     //Constants for Turner
-    public static final double      TURNER_DEPLOY      = 145; // deposit the pixel
-    public static final double      TURNER_LOAD      = 0; // Loading the pixel
+    public static final double      TURNER_DEPLOY_ANGLE =  145; // deposit the pixel
+    public static final double      TURNER_LOAD_ANGLE      = 0; // Loading the pixel
+    public static final double     PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
+    public static final double     PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
+    public double  targetHeight;
+    public double  targetAngle;
 
 
     /// constructor with opmode passed in
@@ -103,6 +114,8 @@ public class Felipe2 {
         // Initialize the gripper
         gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 1
         gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 2
+
+        armWheel = hwMap.get(Servo.class,"armWheelServo"); //port 2
 
         // Initialize the lift motor
         extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
@@ -165,57 +178,74 @@ public class Felipe2 {
         slidePos = extendMotor.getCurrentPosition()/ TICKS_PER_SLIDE_IN; //returns in inches
         return  slidePos;
     }
-    public void  setSlideLevel1(){
-        targetHeight = ( SLIDE_LEVEL_1 );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlideLevel_0(){
+        targetHeight = ( SLIDE_LEVEL_0 );
+        liftToTargetHeight(targetHeight,3);
+
     }
 
-    public void  setSlideLevel1point5(){
-        targetHeight = (  SLIDE_LEVEL_1point5 );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlideRow_1(){
+        targetHeight = (SLIDE_LEVEL_ROW_1 );
+        liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlideLevel1point5_white(){
-        targetHeight = (  SLIDE_LEVEL_1point5_white );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlideRow_2(){
+        targetHeight = (  SLIDE_LEVEL_ROW_2 );
+        liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlideLevel1point5_white_RED(){
-        targetHeight = (  SLIDE_LEVEL_1point5_white_RED );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlideRow_4(){
+        targetHeight = ( SLIDE_LEVEL_ROW_4 );
+        liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlideLevel1point5_back_RED(){
-        targetHeight = (  SLIDE_LEVEL_1point5_back_RED );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlideRow_6(){
+        targetHeight = ( SLIDE_LEVEL_ROW_6 );
+        liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlideLevel1point5_back(){
-        targetHeight = (  SLIDE_LEVEL_1point5_back );
-        liftToTargetHeight(targetHeight,3, SLIDESPEEDSLOWER);
+    public void  setSlidReach_1(){
+        targetHeight = (  SLIDE_REACH_1 );
+        liftToTargetHeight(targetHeight,3);
     }
-    public void setSlideLevel2(){
-        targetHeight = ( SLIDE_LEVEL_2);
-        liftToTargetHeight(targetHeight,3,  SLIDESPEEDSLOWER);
+
+    public void  setSlidReach_2(){
+        targetHeight = (  SLIDE_REACH_2 );
+        liftToTargetHeight(targetHeight,3);
     }
-    public void setSlideLevel3(){
-        targetHeight = ( SLIDE_LEVEL_3);
-        liftToTargetHeight(targetHeight,3, SLIDESPEED);
-    }
-    public void setSlideLevel4(){
-        targetHeight = ( SLIDE_LEVEL_4);
-        liftToTargetHeight(targetHeight,3, SLIDESPEED);
+    public void  setSlidReach_3(){
+        targetHeight = ( SLIDE_REACH_3);
+        liftToTargetHeight(targetHeight,3);
     }
 
     public void setTurnerLoad(){
-        targetHeight = ( TURNER_LOAD );
-        rotateToTargetAngle(targetHeight,3, SLIDESPEED);
+        targetAngle = ( TURNER_LOAD_ANGLE );
+        rotateToTargetAngle( targetAngle,3, TURNER_SPEED);
     }
 
     public void setTurnerDeploy(){
-        targetHeight = ( TURNER_DEPLOY );
-        liftToTargetHeight(targetHeight,3, SLIDESPEED);
+        targetAngle = ( TURNER_DEPLOY_ANGLE );
+        rotateToTargetAngle( targetAngle,3, TURNER_SPEED);
     }
+
+
+    /// Get white pixel methods
+
+    public void getPixel_4(){
+        angler.setPosition(0.55); // this will change slightly as the arm extends.
+        armWheel.setPosition(ARM_WHEEL_PIXEL_4);// use servo and wheel to fine tune height of arm
+        rotateToPreciseAngle(PIXEL_4_ANGLE,2);
+        liftToTargetHeight(SLIDE_REACH_2,2);
+    }
+
+    public void getPixel_5(){
+        angler.setPosition(0.55); // this will change slightly as the arm extends.
+        armWheel.setPosition(ARM_WHEEL_PIXEL_5);// use servo and wheel to fine tune height of arm
+        rotateToPreciseAngle(PIXEL_5_ANGLE,2);
+        liftToTargetHeight(SLIDE_REACH_2,2);
+    }
+
+
     public void slideMechanicalReset(){
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(SLIDERESETSPEED);
@@ -223,20 +253,21 @@ public class Felipe2 {
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop
         // reset for time allowed or until the limit/ touch sensor is pressed.
-        while (runtime.seconds() < 2.5) {
+        while (runtime.seconds() < 2.0) {
             //Time wasting loop so slide can retract. Loop ends when time expires or touch sensor is pressed
         }
         extendMotor.setPower(0);
-        runtime.reset();
-        while ((runtime.seconds() < 0.25)) {
+        // Don't use the "delay loop" when the lift is belt driven (no spring to relax).
+        //runtime.reset();
+        //while ((runtime.seconds() < 0.25)) {
             //Time wasting loop to let spring relax
-        }
+        //}
         // set everything back the way is was before reset so encoders can be used
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void liftToTargetHeight(double height, double timeoutS, double SLIDELIFTSPEED){
+    public void liftToTargetHeight(double height, double timeoutS){
         int newTargetHeight;
 
         // Ensure that the opmode is still active
@@ -248,7 +279,7 @@ public class Felipe2 {
             // Set the target now that is has been calculated
             extendMotor.setTargetPosition(newTargetHeight);
             // Turn On RUN_TO_POSITION
-           extendMotor.setPower(Math.abs(SLIDELIFTSPEED));
+           extendMotor.setPower(Math.abs(SLIDESPEEDSLOWER));
             // reset the timeout time and start motion.
             runtime.reset();
             extendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -259,26 +290,52 @@ public class Felipe2 {
         }
     }
 
-    public void rotateToTargetAngle(double degree, double timeoutS, double SLIDELIFTSPEED){
+    public void rotateToTargetAngle(double degree, double timeoutS, double TURNER_SPEED){
         int newTargetAngle;
 
         // Ensure that the opmode is still active
         if (opmode.opModeIsActive()) {
-            // Determine new target lift height in ticks based on the current position.
-            // When the match starts the current position should be reset to zero.
+            // This is the rotational euivalent of a lift to height
+            // The "0" point for the arm on this robot is 25 degrees below horizontal
+            // deploy is 120 degrees from horizontal or 145 degrees from start position.
 
-            newTargetAngle = (int)(degree *  TICKS_PER_TURNER_IN);
+            newTargetAngle = (int)(degree *  TICKS_PER_TURNER_DEGREE);
             // Set the target now that is has been calculated
+            armWheel.setPosition(ARM_WHEEL_STOW);// use servo and wheel to fine tune height of arm
             turnerMotor.setTargetPosition(newTargetAngle);
             // Turn On RUN_TO_POSITION
-            turnerMotor.setPower(Math.abs(SLIDELIFTSPEED));
+            turnerMotor.setPower(Math.abs(TURNER_SPEED));
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // while (opmode.opModeIsActive() &&
-            //       (runtime.seconds() < timeoutS) && slidemotorback.isBusy() && slidemotorfront.isBusy()) {
-            // holds up execution to let the slide go up to the right place
-            // }
+             while (opmode.opModeIsActive() &&
+                   (runtime.seconds() < timeoutS) &&  turnerMotor.isBusy() ) {
+            // holds up execution to let the arm turner do its thing.
+            }
+        }
+    }
+    public void rotateToPreciseAngle(double degree, double timeoutS){
+        int newTargetAngle;
+
+        // Ensure that the opmode is still active
+        if (opmode.opModeIsActive()) {
+            // This is the rotational euivalent of a lift to height
+            // The "0" point for the arm on this robot is 25 degrees below horizontal
+            // deploy is 120 degrees from horizontal or 145 degrees from start position.
+
+            newTargetAngle = (int)(degree *  TICKS_PER_TURNER_DEGREE);
+            // Set the target now that is has been calculated
+
+            turnerMotor.setTargetPosition(newTargetAngle);
+            // Turn On RUN_TO_POSITION
+            turnerMotor.setPower(Math.abs(TURNER_PRECISE_SPEED)); // this is a LOW power not enough to make the aem go far
+            // reset the timeout time and start motion.
+            runtime.reset();
+            turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while (opmode.opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&  turnerMotor.isBusy() ) {
+                // holds up execution to let the arm turner do its thing.
+            }
         }
     }
 }
