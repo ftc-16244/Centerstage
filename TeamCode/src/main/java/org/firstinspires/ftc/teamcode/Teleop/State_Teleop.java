@@ -11,11 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.Climber;
 import org.firstinspires.ftc.teamcode.subsytems.Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
 import org.firstinspires.ftc.teamcode.subsytems.Juan;
-import org.firstinspires.ftc.teamcode.subsytems.Lift;
 
 @Config
 @TeleOp(group = "Teleop")
