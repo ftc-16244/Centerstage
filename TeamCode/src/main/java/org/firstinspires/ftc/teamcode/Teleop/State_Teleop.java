@@ -63,7 +63,7 @@ public class State_Teleop extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         felipe.slideMechanicalReset();
-        felipe.setSlideLevel1();
+        felipe.setSlideLevel_0();
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -222,7 +222,7 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpup() {
         Thread gp2dpup = new Thread(() ->
-                felipe.setSlideLevel3()
+                felipe.setSlideRow_2()
         );
         gp2dpup.start();
     }
@@ -246,18 +246,18 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpdown() {
         Thread gp2dpdown = new Thread(() ->
-                felipe.setSlideLevel1()
+                felipe.setSlideLevel_0()
         );
         gp2dpdown.start();
     }
     private void gp2dpleft() {
         Thread gp2dpleft = new Thread(() ->
-                felipe.setSlideLevel4()
+                felipe.setSlideRow_6()
         );
         gp2dpleft.start();
     }
     private void gp2dpright() {
-        Thread gp2dpright = new Thread(() -> felipe.setSlideLevel2());
+        Thread gp2dpright = new Thread(() -> felipe.setSlideRow_4());
         gp2dpright.start();
     }
     private void gp2lefttrigger() {
