@@ -13,6 +13,10 @@ import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.subsytems.Climber;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
 
+import static org.firstinspires.ftc.teamcode.subsytems.Felipe2.PIXEL_4_ANGLE;
+
+import static org.firstinspires.ftc.teamcode.subsytems.Felipe2.TURNER_PRECISE_SPEED;
+
 
 @Config
 @TeleOp(group = "Teleop")
@@ -78,31 +82,37 @@ public class StateRobotTest extends LinearOpMode {
                     )
             );
 
-            if (teleopTimer.time() > 93){
 
+
+            if (gamepad2.back) {
+                felipe2.slideMechanicalReset();
+            }
+            if (gamepad1.dpad_down) {
+                felipe2.setSlideRow_1();
 
             }
 
+            if (gamepad1.dpad_left) {
+                felipe2.setSlideRow_2();
 
-
-            if (gamepad1.dpad_right) {
-                debounce(500);
             }
 
             if (gamepad1.dpad_up) {
-
-                debounce(500);
-
-            }
-
-            if (gamepad1.dpad_down) {
-                debounce(500);
+                felipe2.setSlideRow_4();
 
             }
+
+            if (gamepad1.dpad_right) {
+                felipe2.setSlideRow_6();
+
+
+
+
 
             if (gamepad1.left_trigger > 0.25) {
-                felipe2.setSlideLevel2();
-                debounce(500);
+
+                felipe2.getPixel_4();
+
             }
 
             if (gamepad1.right_trigger > 0.25) {
@@ -236,18 +246,10 @@ public class StateRobotTest extends LinearOpMode {
             }
              */
 
-            if (gamepad2.back) {
 
-            }
         }
     }
 
-    void debounce(long debounceTime) {
-        try {
-            Thread.sleep(debounceTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-    }
+}
 }
