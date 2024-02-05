@@ -10,12 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.subsytems.Climber;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
-
-import static org.firstinspires.ftc.teamcode.subsytems.Felipe2.PIXEL_4_ANGLE;
-
-import static org.firstinspires.ftc.teamcode.subsytems.Felipe2.TURNER_PRECISE_SPEED;
 
 
 @Config
