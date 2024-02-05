@@ -23,16 +23,15 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
-import org.firstinspires.ftc.teamcode.util.AxisDirection;
-import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -77,6 +76,9 @@ public class MecanumDriveBase extends MecanumDrive {
 
     private IMU             imu         = null;      // Control/Expansion Hub IMU
     private VoltageSensor batteryVoltageSensor;
+
+    AngularVelocity angularVelocity;
+
 
     public MecanumDriveBase(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -309,17 +311,23 @@ public class MecanumDriveBase extends MecanumDrive {
         rightRear.setPower(v2);
         rightFront.setPower(v3);
     }
-
+    // TODO: verify this is correct for the new type of IMU with Univeral Driver. Not sure what the "55" is in the return line?
     @Override
     public double getRawExternalHeading() {
         //return imu.getAngularOrientation().firstAngle;
-        return 55.0;
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        //return 55.0;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
+
         //return (double) imu.getAngularVelocity().xRotationRate;
-        return 55.0;
+        angularVelocity = imu.getRobotAngularVelocity(AngleUnit.RADIANS);
+        float zRotationRate = angularVelocity.zRotationRate;
+        return  (double) zRotationRate;
+        //return 55.0;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
