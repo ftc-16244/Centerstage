@@ -26,6 +26,6 @@ public class Drone {
 
     public void init(HardwareMap hwmap) {
         teachers = hwmap.get(Servo.class, "droneServo");
-    }
+    }// Exp Hub port 5
 
 }
