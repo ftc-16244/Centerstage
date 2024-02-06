@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
 
 @Config
 @TeleOp(group = "Teleop")
-public class StateRobotTest extends LinearOpMode {
+public class ImplementTest extends LinearOpMode {
 // test
     // random comment
 
