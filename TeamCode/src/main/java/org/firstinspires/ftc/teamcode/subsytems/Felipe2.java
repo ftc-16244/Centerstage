@@ -108,14 +108,14 @@ public class Felipe2 {
         //voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
         // Initialize angler
-        angler = hwMap.get(Servo.class,"anglerServo"); // port 2
+        angler = hwMap.get(Servo.class,"anglerServo"); // port 0
         //setanglerCarry();
 
         // Initialize the gripper
-        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 1
-        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 2
+        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //port 2
+        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //port 4
 
-        armWheel = hwMap.get(Servo.class,"armWheelServo"); //port 2
+        armWheel = hwMap.get(Servo.class,"armWheelServo"); //port 0
 
         // Initialize the lift motor
         extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
