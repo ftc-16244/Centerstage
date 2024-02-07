@@ -37,14 +37,14 @@ public class Juan {
     private static final double CLIMB_POWER = 1.0;
 
     // Constructor
-    public Juan(LinearOpMode opmode) {
+    public Juan(LinearOpMode opmode) { 
         this.opmode = opmode;
 
     }
 
 
 
-    public void init(HardwareMap hardwareMap) { 
+    public void init(HardwareMap hardwareMap) {
         climberRight = hardwareMap.get(DcMotorEx.class, "climberRightMotor"); // EXP Hub Motor Port
         climberLeft = hardwareMap.get(DcMotorEx.class, "climberLeftMotor");// EXP hub mtor port
         manarsFootLeft = hardwareMap.get(Servo.class, "manarsLeftFoot"); // CH servo port 0
