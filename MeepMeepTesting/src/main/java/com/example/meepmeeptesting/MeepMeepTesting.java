@@ -18,43 +18,6 @@ import javax.imageio.ImageIO;
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
-        Pose2d RedPark = new Pose2d(45, -13,Math.toRadians(0));
-        Pose2d RedRallyPoint1_LEFT = new Pose2d(10.5,-50,Math.toRadians(0));//left and a bit forward from the left pixel drop
-        Pose2d RedRallyPoint1_CENTER = new Pose2d(-40, -10.5,Math.toRadians(0));//left and a bit forward from the center pixel drop
-        Pose2d RedRallyPoint1_RIGHT = new Pose2d(10.5,-40,Math.toRadians(0));//left and a bit forward from the center pixel drop
-        Pose2d RedRallyPoint2 = new Pose2d(0, -10.5,Math.toRadians(0));// near md field on red side
-
-
-        //Center Prop
-        Pose2d AudRedCenter = new Pose2d(-45, -28.5, Math.toRadians(0));
-        //backstage drop
-        Pose2d AudRedCenterDropoff = new Pose2d(51, -39, Math.toRadians(0));
-        Pose2d AudRedCenterDropoff2 = new Pose2d(35, -39, Math.toRadians(180));
-
-        // Left Prop Poses
-        Pose2d AudRedLeft = new Pose2d(33.5,-57.5, Math.toRadians(90));
-        Pose2d AudRedLeftDropoff = new Pose2d(29,51, Math.toRadians(90));
-
-        // Right Prop Poses
-        Pose2d AudRedRightDropoff = new Pose2d(44, 51, Math.toRadians(90));//backstage
-        Pose2d AudRedRightPre = new Pose2d(35.5,-41, Math.toRadians(90));
-        Pose2d AudRedRight = new Pose2d(35.5,-34,Math.toRadians(90));//spike mark
-
-        //Center Prop
-        Pose2d StageRedCenter = new Pose2d(-16, 38, Math.toRadians(180));
-        //backstage drop
-        Pose2d StageRedCenterDropoff = new Pose2d(-54.5, 32, Math.toRadians(0));
-
-        // Left Prop Poses
-        Pose2d StageRedLeft = new Pose2d(-19, 30, Math.toRadians(270));
-        Pose2d StageRedLeftDropoff = new Pose2d(-54, 26, Math.toRadians(90));
-
-        // Right Prop Poses
-        Pose2d StageRedRight = new Pose2d(-12.5, 36,Math.toRadians(90));//spike mark
-        Pose2d StageRedRightDropoff = new Pose2d(-53, 39, Math.toRadians(90));//backstage
-
-        Pose2d leftwhitespikemark1 = new Pose2d(0, -33.5, Math.toRadians(180));
-        Pose2d leftwhitespikemark2 = new Pose2d(-57.5, -33.5, Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -62,8 +25,7 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-36, -64.5, 0))
-                                .splineToLinearHeading(StageRedCenterDropoff, Math.toRadians(90))
-                                .splineToLinearHeading(StageRedCenter, Math.toRadians(180))
+
                                 .build()
                 );
 
