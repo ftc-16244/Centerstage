@@ -31,26 +31,27 @@ public class Felipe2 {
     //Constants for gripper
     //larer numbers are more clockwise
 
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.45; //to close more, decrease
-    public static final double      GRIPPER_LEFT_OPEN        = GRIPPER_LEFT_CLOSED + 0.15; //to open more, increase
-    public static final double      GRIPPER_LEFT_WIDE_OPEN   = GRIPPER_LEFT_CLOSED +.32;
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.46; //to close more, decrease
+    public static final double      GRIPPER_LEFT_OPEN        = 0.7; //to open more, increase
+    public static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.8;
 
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.48;// to close more, increase
-    public static final double      GRIPPER_RIGHT_OPEN       =  GRIPPER_RIGHT_CLOSED -0.15; // too open more, decrease
-    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = GRIPPER_RIGHT_CLOSED -0.32; // not gripped
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.54;// to close more, increase
+    public static final double      GRIPPER_RIGHT_OPEN       = 0.3; // too open more, decrease
+    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.2; // not gripped
 
     //Constants for slidewheel
 
     public static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
     public static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
-    public static final double      ARM_WHEEL_STOW        = 1; //pick up 4th and 5th pixel on stack
+    public static final double      ARM_WHEEL_STOW        = 0.64; //pick up 4th and 5th pixel on stack
+    public static final double      ARM_WHEEL_PIXEL_1     = 0.58; //pick up ground pixel
 
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.44;// load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.45; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.493; // Loading the pixel
+    public static final double      ANGLER_CARRY       = 0.5;// load and moving the pixel
+    public static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
+    public static final double      ANGLER_LOAD      = 0.66; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
