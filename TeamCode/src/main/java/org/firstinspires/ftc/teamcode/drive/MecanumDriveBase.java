@@ -160,7 +160,7 @@ public class MecanumDriveBase extends MecanumDrive {
         // Change back to reguar two wheel loaclizer for robot 1
 
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         // Localizer for Robot 2
         //setLocalizer(new TwoWheelTrackingLocalizer2(hardwareMap,this));
