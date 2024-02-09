@@ -232,9 +232,6 @@ public class Felipe2 {
         targetAngle = ( TURNER_DEPLOY_ANGLE );
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
     }
-    private void setTurnerLiftReset() {
-        rotateToPreciseAngle(30, 2);
-    }
     /// Get white pixel methods
 
     public void getPixel_4(){
@@ -251,7 +248,7 @@ public class Felipe2 {
         liftToTargetHeight(SLIDE_REACH_2,2);
     }
     public void slideMechanicalReset(){
-        setTurnerLiftReset();
+        rotateToPreciseAngle(50, 2);
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(SLIDERESETSPEED);
 
@@ -259,7 +256,7 @@ public class Felipe2 {
         // opmode is not active during init so take that condition out of the while loop
         // reset for time allowed or until the limit/ touch sensor is pressed.
         while (runtime.seconds() < 2.0) {
-            //Time wasting loop so slide can retract. Loop ends when time expires or touch sensor is pressed
+            //Time wasting loop so slide can retract. Loop ends when time expires
         }
         extendMotor.setPower(0);
         // Don't use the "delay loop" when the lift is belt driven (no spring to relax).
@@ -287,7 +284,7 @@ public class Felipe2 {
             // Set the target now that is has been calculated
             extendMotor.setTargetPosition(newTargetHeight);
             // Turn On RUN_TO_POSITION
-           extendMotor.setPower(Math.abs(SLIDESPEEDSLOWER));
+           extendMotor.setPower(Math.abs(SLIDESPEED));
             // reset the timeout time and start motion.
             runtime.reset();
             extendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
