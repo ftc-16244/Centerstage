@@ -1,4 +1,4 @@
-/* package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -36,7 +36,7 @@ public class State_Teleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // set up local variables
-        double  speedFactor = 0.75;
+        double  speedFactor = 0.85;
 
         // set up Mecanum Drive
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap); // this has to be here inside the runopmode. The others go above as class variables
@@ -52,16 +52,16 @@ public class State_Teleop extends LinearOpMode {
             juan.reset();
         });
         climberInit.start();
+
         drone.init(hardwareMap);
         drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
 
-        // no need to power the hook servo until it is time to climb//
+        // no need to power the hook servo until it is time to climb
 
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         felipe.slideMechanicalReset();
-        felipe.setSlideLevel_0();
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -147,7 +147,7 @@ public class State_Teleop extends LinearOpMode {
                 speedFactor = 0.25;
             }
             if (gamepad1.a) {
-                speedFactor = 0.75;
+                speedFactor = 0.85;
             }
             if (gamepad1.y) {
                 speedFactor = 1.0;
@@ -156,11 +156,9 @@ public class State_Teleop extends LinearOpMode {
 
             if (gamepad2.a) {
                 gp2a();
-                sleep(500);
             }
             if (gamepad2.y) {
                 gp2y();
-                sleep(500);
             }
             if (gamepad2.b) {
                 gp2b();
@@ -174,33 +172,35 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
-                speedFactor = 0.75;
-                sleep(200);
+                speedFactor = 0.85;
             }
             if (gamepad2.dpad_right) {
                 gp2dpright();
                 speedFactor = 0.5;
-                sleep(200);
             }
             if (gamepad2.dpad_up) {
                 gp2dpup();
                 speedFactor = 0.5;
-                sleep(200);
             }
             if (gamepad2.dpad_left) {
                 gp2dpleft();
                 speedFactor = 0.5;
-                sleep(200);
+            }
+            if (gamepad2.left_bumper) {
+                gp2leftbumper();
+                speedFactor = 0.85;
+            }
+            if (gamepad2.right_bumper) {
+                gp2rightbumper();
+                speedFactor = 0.25;
             }
             if (gamepad2.left_trigger > 0.25) {
                 gp2lefttrigger();
-                speedFactor = 0.75;
-                sleep(100);
+                speedFactor = 0.85;
             }
             if (gamepad2.right_trigger > 0.25) {
                 speedFactor = 0.5;
                 gp2righttrigger();
-                sleep(100);
             }
         }
     }
@@ -213,66 +213,90 @@ public class State_Teleop extends LinearOpMode {
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
-        Thread gp1righttrigger = new Thread(() ->
-                felipe.gripperOpen()
-        );
+        Thread gp1righttrigger = new Thread(() -> {
+            felipe.gripperOpen();
+        });
         gp1righttrigger.start();
     }
-    private void gp2dpup() {
-        Thread gp2dpup = new Thread(() ->
-                felipe.setSlideRow_2()
-        );
-        gp2dpup.start();
-    }
     private void gp2a() {
-        Thread gp2a = new Thread(() ->
-            juan.climb()
-        );
+        Thread gp2a = new Thread(() -> {
+            juan.climb();
+            sleep(500);
+        });
         gp2a.start();
     }
     private void gp2b() {
-        Thread gp2b = new Thread(() ->
-                juan.reset()
-        );
+        Thread gp2b = new Thread(() -> {
+            juan.reset();
+        });
         gp2b.start();
     }
     private void gp2y() {
-        Thread gp2y = new Thread(() ->
-            juan.prepForClimb()
-        );
+        Thread gp2y = new Thread(() -> {
+            juan.prepForClimb();
+            sleep(500);
+        });
         gp2y.start();
     }
+    private void gp2dpup() {
+        Thread gp2dpup = new Thread(() -> {
+            felipe.setSlideRow_2();
+            sleep(200);
+        });
+        gp2dpup.start();
+    }
     private void gp2dpdown() {
-        Thread gp2dpdown = new Thread(() ->
-                felipe.setSlideLevel_0()
-        );
+        Thread gp2dpdown = new Thread(() -> {
+            felipe.setSlideLevel_0();
+            sleep(200);
+        });
         gp2dpdown.start();
     }
     private void gp2dpleft() {
-        Thread gp2dpleft = new Thread(() ->
-                felipe.setSlideRow_6()
-        );
+        Thread gp2dpleft = new Thread(() -> {
+            felipe.setSlideRow_6();
+            sleep(200);
+        });
         gp2dpleft.start();
     }
     private void gp2dpright() {
-        Thread gp2dpright = new Thread(() -> felipe.setSlideRow_4());
+        Thread gp2dpright = new Thread(() -> {
+            felipe.setSlideRow_4();
+            sleep(200);
+        });
         gp2dpright.start();
     }
     private void gp2lefttrigger() {
-        Thread gp2lefttrigger = new Thread(() -> felipe.setAnglerDeploy());
+        Thread gp2lefttrigger = new Thread(() -> {
+            felipe.setAnglerDeploy();
+            sleep(100);
+        });
         gp2lefttrigger.start();
     }
     private void gp2righttrigger() {
         Thread gp2righttrigger = new Thread(() -> {
             felipe.setAnglerLoad();
-           felipe.gripperOpen();
+            felipe.gripperOpen();
+            sleep(100);
         });
         gp2righttrigger.start();
+    }
+    private void gp2leftbumper() {
+        Thread gp2leftbumper = new Thread(() -> {
+            felipe.setTurnerLoad();
+            sleep(300);
+        });
+        gp2leftbumper.start();
+    }
+    private void gp2rightbumper() {
+        Thread gp2rightbumper = new Thread(() -> {
+            felipe.setTurnerDeploy();
+            sleep(300);
+        });
+        gp2rightbumper.start();
     }
     private double scaleStick(double input) {
         if(input < 0.75 && input > -0.75) return input / 1.5;
         else return input;
     }
 }
-
- */

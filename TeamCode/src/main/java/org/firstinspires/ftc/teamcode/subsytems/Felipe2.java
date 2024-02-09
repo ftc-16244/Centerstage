@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -23,7 +25,6 @@ public class Felipe2 {
     public Servo            gripperLeft        = null;
     public Servo            armWheel            = null;
     public VoltageSensor    voltSensor         = null;
-    public Servo            SlideWheelServo    = null;
 
     public  DcMotorEx       extendMotor;  // config name is "slideMotor"
     public DcMotorEx        turnerMotor; // config name is "turnerMotor"
@@ -86,7 +87,7 @@ public class Felipe2 {
     private static final double     TICKS_PER_SLIDE_IN               = TICKS_PER_MOTOR_REV_SLIDE / SLIDE_DISTANCE_PER_REV;
     private static final double     TICKS_PER_TURNER_DEGREE             = TICKS_PER_MOTOR_REV_TURNER / 360;
 
-    private static final double     TURNER_SPEED = 0.35;
+    private static final double     TURNER_SPEED = 0.45;
     public static final double     TURNER_PRECISE_SPEED = 0.20; // used to help the arm float with arm wheel
 
 
@@ -107,7 +108,7 @@ public class Felipe2 {
 
     public void init(HardwareMap hwMap)  {
 
-        //voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
+        voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
         // Initialize angler
         angler = hwMap.get(Servo.class,"anglerServo"); // Exp Hub port 0
@@ -121,7 +122,11 @@ public class Felipe2 {
 
         // Initialize the lift motor
         extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
-        extendMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        turnerMotor = hwMap.get(DcMotorEx.class, "turnerMotor");
+        extendMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        turnerMotor.setDirection(DcMotorEx.Direction.FORWARD);
+
+        turnerMotor.setCurrentAlert(6.0, CurrentUnit.AMPS);
 
         PIDFCoefficients pidfOrig = extendMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -137,10 +142,9 @@ public class Felipe2 {
 
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-
+        turnerMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        armWheel.setPosition(ARM_WHEEL_STOW);
     }
 
     //Angler methods
@@ -183,7 +187,6 @@ public class Felipe2 {
     public void  setSlideLevel_0(){
         targetHeight = ( SLIDE_LEVEL_0 );
         liftToTargetHeight(targetHeight,3);
-
     }
 
     public void  setSlideRow_1(){
@@ -222,15 +225,16 @@ public class Felipe2 {
 
     public void setTurnerLoad(){
         targetAngle = ( TURNER_LOAD_ANGLE );
-        rotateToTargetAngle( targetAngle,3, TURNER_SPEED);
+        rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
     }
 
     public void setTurnerDeploy(){
         targetAngle = ( TURNER_DEPLOY_ANGLE );
-        rotateToTargetAngle( targetAngle,3, TURNER_SPEED);
+        rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
     }
-
-
+    private void setTurnerLiftReset() {
+        rotateToPreciseAngle(30, 2);
+    }
     /// Get white pixel methods
 
     public void getPixel_4(){
@@ -246,9 +250,8 @@ public class Felipe2 {
         rotateToPreciseAngle(PIXEL_5_ANGLE,2);
         liftToTargetHeight(SLIDE_REACH_2,2);
     }
-
-
     public void slideMechanicalReset(){
+        setTurnerLiftReset();
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(SLIDERESETSPEED);
 
@@ -267,9 +270,12 @@ public class Felipe2 {
         // set everything back the way is was before reset so encoders can be used
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        setSlideLevel_0();
+        setTurnerLoad();
     }
 
     public void liftToTargetHeight(double height, double timeoutS){
+        extendMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int newTargetHeight;
 
         // Ensure that the opmode is still active
@@ -310,8 +316,7 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             while (opmode.opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&  turnerMotor.isBusy() ) {
+             while (opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
             }
         }
@@ -334,8 +339,7 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while (opmode.opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&  turnerMotor.isBusy() ) {
+            while (opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
                 // holds up execution to let the arm turner do its thing.
             }
         }
