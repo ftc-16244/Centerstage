@@ -19,13 +19,21 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(45,-37,0);
+        Pose2d PurplePixelDropOff_CENTER = new Pose2d(10,-37,90);
+        Pose2d SplinePt1 = new Pose2d(10,-56,180);
+        Pose2d SplinePt2 = new Pose2d(10,-56,180);
+
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-36, -64.5, 0))
-
+                        drive.trajectorySequenceBuilder(new Pose2d(10, -56, 0))
+                                .lineToLinearHeading(YellowPixelDropOff_CENTER)
+                                .lineToLinearHeading(PurplePixelDropOff_CENTER)
+                                .splineToSplineHeading(SplinePt1,180)
+                                .splineToSplineHeading(SplinePt2,180)
                                 .build()
                 );
 
