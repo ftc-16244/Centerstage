@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.StatePipelines;
+package org.firstinspires.ftc.teamcode.Pipelines;
 
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -31,6 +31,6 @@ public class Constants {
     );
     public static final Scalar RED_LOW_HSV = new Scalar(0, 155,  115);
     public static final Scalar RED_HIGH_HSV = new Scalar(25, 255, 255);
-    public static final Scalar BLUE_LOW_HSV = new Scalar(105, 85, 40);
-    public static final Scalar BLUE_HIGH_HSV = new Scalar(115, 225, 225);
+    public static final Scalar BLUE_LOW_HSV = new Scalar(95, 100, 15);
+    public static final Scalar BLUE_HIGH_HSV = new Scalar(125, 255, 255);
 }

@@ -44,7 +44,7 @@ public class Felipe2 {
 
     public static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
     public static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
-    public static final double      ARM_WHEEL_STOW        = 0.64; //pick up 4th and 5th pixel on stack
+    public static final double      ARM_WHEEL_STOW        = 0.62; //pick up 4th and 5th pixel on stack
     public static final double      ARM_WHEEL_PIXEL_1     = 0.58; //pick up ground pixel
 
 
@@ -60,10 +60,10 @@ public class Felipe2 {
     ElapsedTime runtime = new ElapsedTime();
 
     //Constants Lift
-    public  static double           SLIDESPEED                  = 1.00; // full speed
+    public  static double           SLIDESPEED                  = 0.75; // full speed
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
     public static  double           SLIDERESETSPEED             = -0.2; // only used to retract and reset slide encoder
-    public static final double      SLIDE_LEVEL_0               = 0.25;// Extension fully retracted but not to mechanical stop
+    public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
     public static final double      SLIDE_LEVEL_ROW_1           = 4; // First yellow autp high accuracy -measured 2/7
     public static final double      SLIDE_LEVEL_ROW_2           = 8; // Second row of pixels
     public static final double      SLIDE_LEVEL_ROW_4           = 9; // check wire mgt before making 16
@@ -145,6 +145,8 @@ public class Felipe2 {
         turnerMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armWheel.setPosition(ARM_WHEEL_STOW);
+
+        //slideMechanicalReset();
     }
 
     //Angler methods
@@ -248,7 +250,8 @@ public class Felipe2 {
         liftToTargetHeight(SLIDE_REACH_2,2);
     }
     public void slideMechanicalReset(){
-        rotateToPreciseAngle(50, 2);
+        rotateToTargetAngle(40, 0.5, 25);
+
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(SLIDERESETSPEED);
 
@@ -258,15 +261,17 @@ public class Felipe2 {
         while (runtime.seconds() < 2.0) {
             //Time wasting loop so slide can retract. Loop ends when time expires
         }
-        extendMotor.setPower(0);
+        //extendMotor.setPower(0);
         // Don't use the "delay loop" when the lift is belt driven (no spring to relax).
         //runtime.reset();
         //while ((runtime.seconds() < 0.25)) {
             //Time wasting loop to let spring relax
         //}
         // set everything back the way is was before reset so encoders can be used
-        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        extendMotor.setPower(0);
+        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
         setSlideLevel_0();
         setTurnerLoad();
     }
@@ -276,7 +281,7 @@ public class Felipe2 {
         int newTargetHeight;
 
         // Ensure that the opmode is still active
-        if (opmode.opModeIsActive()) {
+        if ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive()) {
             // Determine new target lift height in ticks based on the current position.
             // When the match starts the current position should be reset to zero.
 
@@ -288,10 +293,9 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             extendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // while (opmode.opModeIsActive() &&
-            //       (runtime.seconds() < timeoutS) && slidemotorback.isBusy() && slidemotorfront.isBusy()) {
+            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the slide go up to the right place
-            // }
+            }
         }
     }
 
@@ -299,7 +303,7 @@ public class Felipe2 {
         int newTargetAngle;
 
         // Ensure that the opmode is still active
-        if (opmode.opModeIsActive()) {
+        if ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive()) {
             // This is the rotational euivalent of a lift to height
             // The "0" point for the arm on this robot is 25 degrees below horizontal
             // deploy is 120 degrees from horizontal or 145 degrees from start position.
@@ -313,7 +317,7 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             while (opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+             while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
             }
         }

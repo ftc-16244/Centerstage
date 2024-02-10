@@ -46,10 +46,16 @@ public class State_Teleop extends LinearOpMode {
         felipe.init(hardwareMap);
         felipe.gripperWideOpen();
         felipe.setAnglerLoad();
+        Thread mainInit = new Thread(() -> {
+            felipe.slideMechanicalReset();
+            sleep(4000);
+        });
+        mainInit.start();
 
         Thread climberInit = new Thread(() -> {
             juan.init(hardwareMap);
             juan.reset();
+            sleep(5000);
         });
         climberInit.start();
 
@@ -61,7 +67,7 @@ public class State_Teleop extends LinearOpMode {
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        felipe.slideMechanicalReset();
+        //felipe.slideMechanicalReset();
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 

@@ -81,22 +81,29 @@ public class Juan {
     public void prepForClimb() {
         manarsFootLeft.setPwmEnable();
         manarsFootRight.setPwmEnable();
+
         climberLeft.setTargetPosition(CLIMB_DEPLOY_TICKS);
         climberRight.setTargetPosition(CLIMB_DEPLOY_TICKS);
+
         climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         climberLeft.setPower(CLIMB_POWER);
         climberRight.setPower(CLIMB_POWER);
+
         manarsFootLeft.setPosition(HOOK_DEPLOY);
         manarsFootRight.setPosition(HOOK_DEPLOY);
     }
     public void climb() {
         manarsFootLeft.setPwmDisable();
         manarsFootRight.setPwmDisable();
+
         climberLeft.setTargetPosition(CLIMB_STOW_TICKS);
         climberRight.setTargetPosition(CLIMB_STOW_TICKS);
+
         climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         climberLeft.setPower(CLIMB_POWER);
         climberRight.setPower(CLIMB_POWER);
 
@@ -104,10 +111,13 @@ public class Juan {
     public void reset() {
         manarsFootLeft.setPwmEnable();
         manarsFootRight.setPwmEnable();
+
         climberLeft.setTargetPosition(CLIMB_STOW_TICKS);
         climberRight.setTargetPosition(CLIMB_STOW_TICKS);
+
         climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         climberLeft.setPower(HOOK_STOW_LEFT);
         climberRight.setPower(HOOK_STOW_RIGHT);
 

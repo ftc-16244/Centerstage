@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.StatePipelines;
+package org.firstinspires.ftc.teamcode.Pipelines;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
@@ -10,15 +10,15 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.BLUE_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.BLUE_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.CENTER_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.CENTER_ROI_RED;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.LEFT_ROI_BLUE;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.LEFT_ROI_RED;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.RED_HIGH_HSV;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.RED_LOW_HSV;
-import static org.firstinspires.ftc.teamcode.StatePipelines.Constants.RIGHT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.BLUE_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.CENTER_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
 // 16244 modified for webcam and for the Centerstage team element

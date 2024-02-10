@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.StatePipelines.Pipeline;
-import org.firstinspires.ftc.teamcode.StatePipelines.StartPosition;
+import org.firstinspires.ftc.teamcode.Pipelines.Pipeline;
+import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
