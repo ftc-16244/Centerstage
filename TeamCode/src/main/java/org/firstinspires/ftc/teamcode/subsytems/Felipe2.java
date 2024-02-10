@@ -32,27 +32,27 @@ public class Felipe2 {
     //Constants for gripper
     //larer numbers are more clockwise
 
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.46; //to close more, decrease
+    public static final double      GRIPPER_LEFT_CLOSED      = 0.44; //to close more, decrease
     public static final double      GRIPPER_LEFT_OPEN        = 0.7; //to open more, increase
     public static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.8;
 
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.54;// to close more, increase
+    public static final double      GRIPPER_RIGHT_CLOSED     = 0.52;// to close more, increase
     public static final double      GRIPPER_RIGHT_OPEN       = 0.3; // too open more, decrease
-    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.2; // not gripped
+    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.15; // not gripped
 
     //Constants for slidewheel
 
     public static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
     public static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
     public static final double      ARM_WHEEL_STOW        = 0.62; //pick up 4th and 5th pixel on stack
-    public static final double      ARM_WHEEL_PIXEL_1     = 0.58; //pick up ground pixel
+    public static final double      ARM_WHEEL_PIXEL_1      = 0.58; //pick up ground pixel
 
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.5;// load and moving the pixel
+    public static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
     public static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.66; // Loading the pixel
+    public static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -64,10 +64,10 @@ public class Felipe2 {
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
     public static  double           SLIDERESETSPEED             = -0.2; // only used to retract and reset slide encoder
     public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
-    public static final double      SLIDE_LEVEL_ROW_1           = 4; // First yellow autp high accuracy -measured 2/7
+    public static final double      SLIDE_LEVEL_ROW_1           = 4 ; // First yellow auto high accuracy -measured 2/7
     public static final double      SLIDE_LEVEL_ROW_2           = 8; // Second row of pixels
-    public static final double      SLIDE_LEVEL_ROW_4           = 9; // check wire mgt before making 16
-    public static final double      SLIDE_LEVEL_ROW_6           = 10; // check wire mgt before making 24
+    public static final double      SLIDE_LEVEL_ROW_4           = 15; // check wire mgt before making 16
+    public static final double      SLIDE_LEVEL_ROW_6           = 20; // check wire mgt before making 24
 
     public static final double      SLIDE_REACH_0         = 0.25; // Used to reach out horizontally to drop purple ot get white
     public static final double      SLIDE_REACH_1         = 4; // Used to reach out horizontally to drop purple ot get white
@@ -92,8 +92,8 @@ public class Felipe2 {
 
 
     //Constants for Turner
-    public static final double      TURNER_DEPLOY_ANGLE =  145; // deposit the pixel
-    public static final double      TURNER_LOAD_ANGLE      = 0; // Loading the pixel
+    public static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
+    public static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
     public static final double     PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
     public static final double     PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
     public double  targetHeight;
@@ -117,14 +117,13 @@ public class Felipe2 {
         // Initialize the gripper
         gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //Exp Hub port 4
         gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //Exp Hub port 2
-
         armWheel = hwMap.get(Servo.class,"armWheelServo"); //Exp Hub port 3
 
         // Initialize the lift motor
         extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
         turnerMotor = hwMap.get(DcMotorEx.class, "turnerMotor");
         extendMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        turnerMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        turnerMotor.setDirection(DcMotorEx.Direction.FORWARD); // was forward
 
         turnerMotor.setCurrentAlert(6.0, CurrentUnit.AMPS);
 
@@ -225,6 +224,7 @@ public class Felipe2 {
         liftToTargetHeight(targetHeight,3);
     }
 
+    //PASS IN A DOUBLE NO INTEGERS has to have a decimal
     public void setTurnerLoad(){
         targetAngle = ( TURNER_LOAD_ANGLE );
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
@@ -293,33 +293,38 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             extendMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            /* while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the slide go up to the right place
             }
+             */
         }
     }
 
-    public void rotateToTargetAngle(double degree, double timeoutS, double TURNER_SPEED){
+    public void
+    rotateToTargetAngle(double degree, double timeoutS, double TURNER_SPEED){
+        turnerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int newTargetAngle;
 
         // Ensure that the opmode is still active
         if ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive()) {
-            // This is the rotational euivalent of a lift to height
+            // This is the rotational equivalent of a lift to height
             // The "0" point for the arm on this robot is 25 degrees below horizontal
             // deploy is 120 degrees from horizontal or 145 degrees from start position.
 
             newTargetAngle = (int)(degree *  TICKS_PER_TURNER_DEGREE);
-            // Set the target now that is has been calculated
-            armWheel.setPosition(ARM_WHEEL_STOW);// use servo and wheel to fine tune height of arm
+            // Set the target now that is has been calculated//
+            //armWheel.setPosition(ARM_WHEEL_STOW);// use servo and wheel to fine tune height of arm
             turnerMotor.setTargetPosition(newTargetAngle);
             // Turn On RUN_TO_POSITION
             turnerMotor.setPower(Math.abs(TURNER_SPEED));
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-             while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            /* while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
             }
+
+             */
         }
     }
     public void rotateToPreciseAngle(double degree, double timeoutS){

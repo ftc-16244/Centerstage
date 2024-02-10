@@ -37,9 +37,9 @@ public class ImplementTest extends LinearOpMode {
 
         // set up local variables
 
-        double  slidePosition;
-        double  speedFactor = 1.0;
-        double expo =   3; // has to be 1 or 3
+        double slidePosition;
+        double speedFactor = 1.0;
+        double expo = 3; // has to be 1 or 3
 
         // set up Mecanum Drive
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap); // this has to be here inside the runopmode. The others go above as class variables
@@ -48,18 +48,19 @@ public class ImplementTest extends LinearOpMode {
 
         // Initialize the sub systems. Note the init method is inside the subsystem class
         felipe2.init(hardwareMap);
-
-
+        felipe2.gripperWideOpen();
+        felipe2.setAnglerLoad();
+        felipe2.setSlideLevel_0();
+        //felipe2.rotateToTargetAngle(145,1,0.5);
 
         // Telemetry
 
-        //telemetry.addData("Lift State", null);
+        telemetry.addData("Lift State", null);
         //telemetry.addData("Angler State", anglerState);
         //telemetry.addData("Height Low", heightLow);
         //dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,179 +73,89 @@ public class ImplementTest extends LinearOpMode {
             drive.setWeightedDrivePower(
                     new Pose2d(
                             Math.pow(-gamepad1.left_stick_y, expo) * speedFactor,
-                            Math.pow(-gamepad1.left_stick_x,expo) * speedFactor,
-                            Math.pow(-gamepad1.right_stick_x,expo) * speedFactor
+                            Math.pow(-gamepad1.left_stick_x, expo) * speedFactor,
+                            Math.pow(-gamepad1.right_stick_x, expo) * speedFactor
                     )
             );
 
+            ////////////////////////////////////////////////////////////////////////////////
+                                             //GAMEPAD 1//
+            ///////////////////////////////////////////////////////////////////////////////
 
 
-            if (gamepad2.back) {
-                felipe2.slideMechanicalReset();
-            }
             if (gamepad1.dpad_down) {
-                felipe2.setSlideRow_1();
-
+                felipe2.setSlideLevel_0();
             }
 
             if (gamepad1.dpad_left) {
-                felipe2.setSlideRow_2();
-
+                felipe2.setSlideRow_1();
             }
 
             if (gamepad1.dpad_up) {
-                felipe2.setSlideRow_4();
-
             }
 
             if (gamepad1.dpad_right) {
-                felipe2.setSlideRow_6();
 
-
-
-
-
+            }
             if (gamepad1.left_trigger > 0.25) {
 
-                felipe2.getPixel_4();
+                felipe2.gripperOpen();
 
             }
 
             if (gamepad1.right_trigger > 0.25) {
 
+                felipe2.gripperClosed();
             }
-//// GAMEPAD #2/////////////////////////
 
-            /*
-            switch(liftState) {
-                case LIFT_IDLE:
-                    //do nothing, waiting for driver input
+            if (gamepad1.right_bumper){
+                felipe2.setTurnerDeploy();
+                //felipe2.rotateToTargetAngle(145,1,0.45);
+            }
 
-                    //event and exit condition
-                    if (gamepad2.dpad_right) {
-                        slideTrainer.setSlideLevel5();
-                        liftState = LiftState.LIFT_HIGH;
-                    }
-                    else if (gamepad2.dpad_up) {
-                        slideTrainer.setSlideLevel4();
-                        liftState = LiftState.LIFT_MED;
-                    }
-                    else if (gamepad2.dpad_left) {
-                        slideTrainer.setSlideLevel3();
-                        liftState = LiftState.LIFT_LOW;
-                    }
-                    else if (gamepad2.left_trigger > 0.25 || gamepad2.right_trigger > 0.25) {
-                        slideTrainer.setSlideLevel1();
-                        liftState = LiftState.LIFT_GET_CONE;
-                    }
-                    break;
+            if (gamepad1.left_bumper){
+                felipe2.setTurnerLoad();
+                //felipe2.rotateToTargetAngle(145,1,0.45);
+            }
 
-                case LIFT_HIGH:
 
-                    //action: check if height is within half inch of target, if not wait until it is
-                    if (Math.abs(slideTrainer.getSlidePos() - slideTrainer.SLIDE_LEVEL_5) < 24) {
-                        if (turnerState != TurnerState.FORWARD) {
-                            turnerTimer.reset();
-                            gripper.turnerSetPosition2(); //fwd
-                            liftState = LiftState.LIFT_TURNER_FRONT;
-                        }
-                        else {
-                            liftState = LiftState.LIFT_HOLD;
-                        }
-                    }
-                    break;
+            ////////////////////////////////////////////////////////////////////////////////
+                                             //GAMEPAD 2//
+            ///////////////////////////////////////////////////////////////////////////////
 
-                case LIFT_MED:
-                    //action: check if height is within half inch of target, if not wait until it is
-                    if (Math.abs(slideTrainer.getSlidePos() - slideTrainer.SLIDE_LEVEL_4) < 12) {
-                        if (turnerState != TurnerState.FORWARD) {
-                            turnerTimer.reset();
-                            gripper.turnerSetPosition2(); //fwd
-                            liftState = LiftState.LIFT_TURNER_FRONT;
-                        }
-                        else {
-                            liftState = LiftState.LIFT_HOLD;
-                        }
-                    }
-                    break;
+            if (gamepad2.dpad_down) {
+                felipe2.setSlideLevel_0();
+            }
 
-                case LIFT_LOW:
-                    //action: check if height is within half inch of target, if not wait until it is
-                    if (Math.abs(slideTrainer.getSlidePos() - slideTrainer.SLIDE_LEVEL_3) < 0.5) {
+            if (gamepad2.dpad_right) {
+                felipe2.setSlideRow_1();
+            }
 
-                        heightLow = true;
+            if (gamepad2.dpad_up) {
+                //felipe2.setSlideRow_2();
+            }
 
-                        if (turnerState != TurnerState.FORWARD) {
-                            turnerTimer.reset();
-                            gripper.turnerSetPosition2(); //fwd
-                            liftState = LiftState.LIFT_TURNER_FRONT;
-                        }
-                        else {
-                            liftState = LiftState.LIFT_HOLD;
-                        }
-                    }
-                    break;
-
-                case LIFT_TURNER_FRONT:
-                    //action: check if enough time has passed to turn
-                    if (turnerTimer.seconds() >= 0.2) {
-                        turnerState = TurnerState.FORWARD;
-                        liftState = LiftState.LIFT_HOLD;
-                    }
-                    break;
-
-                case LIFT_HOLD:
-                    if (gamepad2.left_trigger > 0.25 || gamepad2.right_trigger > 0.25) {
-                        turnerTimer.reset();
-                        gripper.turnerSetPosition1(); //back
-                        liftState = LiftState.LIFT_TURNER_BACK;
-                    }
-                    else if (gamepad2.dpad_right) {
-                        slideTrainer.setSlideLevel5();
-                        liftState = LiftState.LIFT_HIGH;
-                        heightLow = false;
-                    }
-                    else if (gamepad2.dpad_up) {
-                        slideTrainer.setSlideLevel4();
-                        liftState = LiftState.LIFT_MED;
-                        heightLow = false;
-                    }
-                    else if (gamepad2.dpad_left) {
-                        slideTrainer.setSlideLevel3();
-                        liftState = LiftState.LIFT_LOW;
-                    }
-                    break;
-
-                case LIFT_TURNER_BACK:
-                    double timeValue = 0.2;
-                    //action: check if enough time has passed to turn
-                    if (heightLow == true) {
-                        timeValue = 1;
-                    }
-                    if (turnerTimer.seconds() >= timeValue) {
-                        turnerState = TurnerState.BACK;
-                        slideTrainer.setSlideLevel1(); //this function already has lower power on way down
-                        liftState = LiftState.LIFT_GET_CONE;
-                        heightLow = false;
-                    }
-                    break;
-
-                case LIFT_GET_CONE:
-                    //action: check if the lift is within half inch of fully lowered
-                    if (Math.abs(slideTrainer.getSlidePos() - slideTrainer.SLIDE_LEVEL_1) < 0.5) {
-                        slideTrainer.slidemotorback.setPower(0);
-                        slideTrainer.slidemotorfront.setPower(0);
-                        liftState = LiftState.LIFT_IDLE;
-                    }
-                    break;
+            if (gamepad2.dpad_left) {
 
             }
-             */
+            if (gamepad2.left_trigger > 0.25) {
+                felipe2.setAnglerDeploy();
 
+            }
+
+            if (gamepad2.right_trigger > 0.25) {
+                felipe2.setAnglerLoad();
+            }
+
+            if (gamepad2.right_bumper){
+
+            }
+            if (gamepad2.left_bumper){
+
+            }
 
         }
-    }
+            }
 
 
-}
-}
+            }

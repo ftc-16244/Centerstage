@@ -17,6 +17,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -135,7 +136,8 @@ public class MecanumDriveBase extends MecanumDrive {
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
