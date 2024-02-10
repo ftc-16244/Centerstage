@@ -75,7 +75,7 @@ public class MecanumDriveBase extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
-    private IMU             imu         = null;      // Control/Expansion Hub IMU
+    private IMU imu = null;      // Control/Expansion Hub IMU
     private VoltageSensor batteryVoltageSensor;
 
     AngularVelocity angularVelocity;
@@ -96,7 +96,7 @@ public class MecanumDriveBase extends MecanumDrive {
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
