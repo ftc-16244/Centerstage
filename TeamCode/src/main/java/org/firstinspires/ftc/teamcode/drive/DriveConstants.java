@@ -45,7 +45,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 24.0/25.4; // goBilda mecanum wheels are 96mm dia
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 12.5;// 13.6 is actual
+    public static double TRACK_WIDTH = 13.3;// 13.6 is actual
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -59,7 +59,7 @@ public class DriveConstants {
     public static double kStatic = 0.057;
 
      */
-    public static double kV = 0.0165;//1 / rpmToVelocity(MAX_RPM);
+    public static double kV = 0.0155;//1 / rpmToVelocity(MAX_RPM); was 0.165 on first robot
     public static double kA = 0.0030;
     public static double kStatic = 0.057;
 
@@ -72,8 +72,8 @@ public class DriveConstants {
      */
     public static double MAX_VEL = 46; // 60 in/sec is theoretical
     public static double MAX_ACCEL = 32;
-    public static double MAX_ANG_VEL = Math.toRadians(230); // was 220
-    public static double MAX_ANG_ACCEL = Math.toRadians(230); // was 220
+    public static double MAX_ANG_VEL = Math.toRadians(270); // was 230
+    public static double MAX_ANG_ACCEL = Math.toRadians(190); // was 220
 
 
     public static double encoderTicksToInches(double ticks) {
