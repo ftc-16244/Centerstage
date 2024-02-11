@@ -33,11 +33,9 @@ public class State_Teleop extends LinearOpMode {
     RevBlinkinLedDriver.BlinkinPattern endgame;
     RevBlinkinLedDriver.BlinkinPattern climbAlert;
 
+    double speedFactor = 0.85;
     @Override
     public void runOpMode() throws InterruptedException {
-        // set up local variables
-        double  speedFactor = 0.85;
-
         // set up Mecanum Drive
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap); // this has to be here inside the runopmode. The others go above as class variables
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -46,18 +44,6 @@ public class State_Teleop extends LinearOpMode {
         felipe.init(hardwareMap);
         felipe.gripperWideOpen();
         felipe.setAnglerLoad();
-        Thread mainInit = new Thread(() -> {
-            felipe.slideMechanicalReset();
-            sleep(4000);
-        });
-        mainInit.start();
-
-        Thread climberInit = new Thread(() -> {
-            juan.init(hardwareMap);
-            juan.reset();
-            sleep(5000);
-        });
-        climberInit.start();
 
         drone.init(hardwareMap);
         drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
@@ -67,7 +53,6 @@ public class State_Teleop extends LinearOpMode {
         dashboard = FtcDashboard.getInstance();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        //felipe.slideMechanicalReset();
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
@@ -84,6 +69,18 @@ public class State_Teleop extends LinearOpMode {
 
         waitForStart();
         teleopTimer.reset();
+
+        Thread liftInit = new Thread(() -> {
+            felipe.slideMechanicalReset();
+            sleep(4000);
+        });
+        liftInit.start();
+
+        Thread climberInit = new Thread(() -> {
+            juan.init(hardwareMap);
+            sleep(5000);
+        });
+        climberInit.start();
 
         blinkinLedDriver.setPattern(main);
 
@@ -129,12 +126,11 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 gp1lefttrigger();
-                speedFactor = 1.0;
+                setManarMode(0.85, true);
             }
 
             if (gamepad1.right_trigger > 0.25) {
                 gp1righttrigger();
-                sleep(100);
             }
 
             if (gamepad1.right_bumper) {
@@ -178,49 +174,59 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
-                speedFactor = 0.85;
+                setManarMode(0.85, true);
+                sleep(100);
             }
             if (gamepad2.dpad_right) {
                 gp2dpright();
-                speedFactor = 0.5;
+                setManarMode(0.5, false);
+                sleep(100);
             }
             if (gamepad2.dpad_up) {
                 gp2dpup();
-                speedFactor = 0.5;
+                setManarMode(0.5, false);
+                sleep(100);
             }
             if (gamepad2.dpad_left) {
                 gp2dpleft();
-                speedFactor = 0.5;
+                setManarMode(0.5, false);
+                sleep(100);
             }
             if (gamepad2.left_bumper) {
                 gp2leftbumper();
-                speedFactor = 0.85;
+                setManarMode(0.85, true);
+                sleep(100);
             }
             if (gamepad2.right_bumper) {
                 gp2rightbumper();
-                speedFactor = 0.25;
+                setManarMode(0.25, false);
+                sleep(100);
             }
             if (gamepad2.left_trigger > 0.25) {
                 gp2lefttrigger();
-                speedFactor = 0.85;
+                setManarMode(0.85, true);
+                sleep(100);
             }
             if (gamepad2.right_trigger > 0.25) {
-                speedFactor = 0.5;
+                setManarMode(0.5, false);
                 gp2righttrigger();
+                sleep(100);
             }
         }
     }
     private void gp1lefttrigger() {
         Thread gp1lefttrigger = new Thread(() -> {
             felipe.gripperClosed();
-            sleep(500);
+            sleep(300);
             felipe.setAnglerDeploy();
+            sleep(200);
         });
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
         Thread gp1righttrigger = new Thread(() -> {
             felipe.gripperOpen();
+            sleep(100);
         });
         gp1righttrigger.start();
     }
@@ -234,6 +240,7 @@ public class State_Teleop extends LinearOpMode {
     private void gp2b() {
         Thread gp2b = new Thread(() -> {
             juan.reset();
+            sleep(500);
         });
         gp2b.start();
     }
@@ -290,19 +297,24 @@ public class State_Teleop extends LinearOpMode {
     private void gp2leftbumper() {
         Thread gp2leftbumper = new Thread(() -> {
             felipe.setTurnerLoad();
-            sleep(300);
+            sleep(1000);
         });
         gp2leftbumper.start();
     }
     private void gp2rightbumper() {
         Thread gp2rightbumper = new Thread(() -> {
             felipe.setTurnerDeploy();
-            sleep(300);
+            sleep(1000);
         });
         gp2rightbumper.start();
     }
     private double scaleStick(double input) {
         if(input < 0.75 && input > -0.75) return input / 1.5;
         else return input;
+    }
+    private void setManarMode(double newSpeedFactor, boolean overwrite) {
+        if (newSpeedFactor < speedFactor || overwrite) {
+            speedFactor = newSpeedFactor;
+        }
     }
 }

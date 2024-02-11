@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import java.util.Arrays;
+
 import static java.lang.Thread.sleep;
 
 @Config // this is so the dashboard will pick up variables
@@ -62,7 +64,7 @@ public class Felipe2 {
     //Constants Lift
     public  static double           SLIDESPEED                  = 0.75; // full speed
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
-    public static  double           SLIDERESETSPEED             = -0.2; // only used to retract and reset slide encoder
+    public static  double           SLIDERESETSPEED             = -0.3; // only used to retract and reset slide encoder
     public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
     public static final double      SLIDE_LEVEL_ROW_1           = 4.0 ; // First yellow auto high accuracy -measured 2/7
     public static final double      SLIDE_LEVEL_ROW_2           = 4.1;  // 8 Second row of pixels
@@ -127,22 +129,19 @@ public class Felipe2 {
 
         turnerMotor.setCurrentAlert(6.0, CurrentUnit.AMPS);
 
-        PIDFCoefficients pidfOrig = extendMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
-
         // change coefficients using methods included with DcMotorEx class.
-        //PIDFCoefficients pidSlide_New = new PIDFCoefficients(SLIDE_NEW_P, SLIDE_NEW_I, SLIDE_NEW_D, SLIDE_NEW_F);
-        //slidemotorback.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
-        //slidemotorfront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
-        // re-read coefficients and verify change.
-        //PIDFCoefficients pidModifiedback = slidemotorback.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
-        //PIDFCoefficients pidModifiedfront = slidemotorfront.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
-        //slidemotorback.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
-        //slidemotorfront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
+        PIDFCoefficients pidSlide_New = new PIDFCoefficients(9, 1, 1, 0);
+        extendMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
+
+        PIDFCoefficients pidTurner_New = new PIDFCoefficients(8, 0.5, 1, 0);
+        turnerMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidTurner_New);
 
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
         turnerMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
         armWheel.setPosition(ARM_WHEEL_STOW);
 
         //slideMechanicalReset();
@@ -250,7 +249,7 @@ public class Felipe2 {
         liftToTargetHeight(SLIDE_REACH_2,2);
     }
     public void slideMechanicalReset(){
-        rotateToTargetAngle(40, 0.5, 25);
+        rotateToTargetAngle(25, 0.5, 30);
 
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(SLIDERESETSPEED);
@@ -258,7 +257,7 @@ public class Felipe2 {
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop
         // reset for time allowed or until the limit/ touch sensor is pressed.
-        while (runtime.seconds() < 2.0) {
+        while (runtime.seconds() < 1.0) {
             //Time wasting loop so slide can retract. Loop ends when time expires
         }
         //extendMotor.setPower(0);
@@ -268,12 +267,25 @@ public class Felipe2 {
             //Time wasting loop to let spring relax
         //}
         // set everything back the way is was before reset so encoders can be used
+        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         extendMotor.setPower(0);
-        extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         setSlideLevel_0();
-        setTurnerLoad();
+        turnerMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
+        turnerMotor.setPower(-0.3);
+
+        runtime.reset();
+        // opmode is not active during init so take that condition out of the while loop
+        // reset for time allowed or until the limit/ touch sensor is pressed.
+        while (runtime.seconds() < 2.0) {
+            //Time wasting loop so slide can retract. Loop ends when time expires
+        }
+
+        // set everything back the way is was before reset so encoders can be used
+        turnerMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        turnerMotor.setPower(0);
     }
 
     public void liftToTargetHeight(double height, double timeoutS){
@@ -300,8 +312,7 @@ public class Felipe2 {
         }
     }
 
-    public void
-    rotateToTargetAngle(double degree, double timeoutS, double TURNER_SPEED){
+    public void rotateToTargetAngle(double degree, double timeoutS, double TURNER_SPEED){
         turnerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int newTargetAngle;
 
@@ -320,11 +331,9 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            /* while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
             }
-
-             */
         }
     }
     public void rotateToPreciseAngle(double degree, double timeoutS){
@@ -345,7 +354,7 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while (opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
                 // holds up execution to let the arm turner do its thing.
             }
         }

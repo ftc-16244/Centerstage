@@ -76,6 +76,8 @@ public class Juan {
 
         manarsFootLeft.setPwmEnable();
         manarsFootRight.setPwmEnable();
+
+        reset();
     }
 
     public void prepForClimb() {
@@ -118,8 +120,8 @@ public class Juan {
         climberLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         climberRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        climberLeft.setPower(HOOK_STOW_LEFT);
-        climberRight.setPower(HOOK_STOW_RIGHT);
+        manarsFootLeft.setPosition(HOOK_STOW_LEFT);
+        manarsFootRight.setPosition(HOOK_STOW_RIGHT);
 
     }
 
