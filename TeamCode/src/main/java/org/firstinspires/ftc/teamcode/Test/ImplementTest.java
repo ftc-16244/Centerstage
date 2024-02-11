@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsytems.Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
+import org.firstinspires.ftc.teamcode.subsytems.Juan;
 
 
 @Config
@@ -21,7 +23,9 @@ public class ImplementTest extends LinearOpMode {
 
 
     Felipe2 felipe2 = new Felipe2(this);
-    //Climber_2 winch = new Climber_2(this);
+    Juan juan = new Juan(this);
+
+    Drone drone  = new Drone(this);
 
 
     private ElapsedTime teleopTimer = new ElapsedTime();
@@ -81,8 +85,19 @@ public class ImplementTest extends LinearOpMode {
             ////////////////////////////////////////////////////////////////////////////////
                                              //GAMEPAD 1//
             ///////////////////////////////////////////////////////////////////////////////
+            // Button names and positions
+            //        y
+            //      x   b
+            //        a
+            if (gamepad1.a) {
+                felipe2.setTurnerLoad();
+                felipe2.setSlideLevel_0();
+                
+            }
+            if (gamepad2.y) {
+                felipe2.setTurnerDeploy();
 
-
+            }
             if (gamepad1.dpad_down) {
                 felipe2.setSlideLevel_0();
             }
@@ -98,41 +113,68 @@ public class ImplementTest extends LinearOpMode {
 
             }
             if (gamepad1.left_trigger > 0.25) {
-
-                felipe2.gripperOpen();
-
+                felipe2.gripperClosed();
+                // gp1lefttrigger here
             }
 
             if (gamepad1.right_trigger > 0.25) {
-
-                felipe2.gripperClosed();
+                felipe2.gripperOpen();
+                // gp1righttrigger here
             }
 
             if (gamepad1.right_bumper){
-                felipe2.setTurnerDeploy();
-                //felipe2.rotateToTargetAngle(145,1,0.45);
+                //felipe2.setTurnerDeploy(); // where to put this
+                felipe2.gripperRightOpen();
+                sleep(100);
+
             }
 
             if (gamepad1.left_bumper){
-                felipe2.setTurnerLoad();
-                //felipe2.rotateToTargetAngle(145,1,0.45);
+                //felipe2.setTurnerLoad(); // need to move this
+                felipe2.gripperLeftOpen();
+                sleep(100);
             }
 
 
             ////////////////////////////////////////////////////////////////////////////////
                                              //GAMEPAD 2//
             ///////////////////////////////////////////////////////////////////////////////
+            // Button names and positions
+            //        y
+            //      x   b
+            //        a
+
+            if (gamepad2.a) {
+                juan.climb();
+                sleep(500);
+            }
+            if (gamepad2.y) {
+                juan.prepForClimb();
+                //gp2y();
+                sleep(500);
+            }
+            if (gamepad2.b) {
+                //gp2b();
+                juan.reset();
+            }
+            if (gamepad2.back) {
+                felipe2.slideMechanicalReset();
+            }
+            if (gamepad2.x) {
+                drone.setDroneFly(); // move servo to let drone go
+                sleep(50); // pause to make sure servo moves
 
             if (gamepad2.dpad_down) {
                 felipe2.setSlideLevel_0();
             }
 
             if (gamepad2.dpad_right) {
-                felipe2.setSlideRow_1();
+                felipe2.setSlideRow_2();
+
             }
 
             if (gamepad2.dpad_up) {
-                //felipe2.setSlideRow_2();
+                //felipe2.setSlideRow_4(); // don't use until wires are fixed
             }
 
             if (gamepad2.dpad_left) {
@@ -140,11 +182,15 @@ public class ImplementTest extends LinearOpMode {
             }
             if (gamepad2.left_trigger > 0.25) {
                 felipe2.setAnglerDeploy();
+                sleep(50);
 
             }
 
             if (gamepad2.right_trigger > 0.25) {
                 felipe2.setAnglerLoad();
+                sleep(50);
+                felipe2.gripperOpen();
+                sleep(50);
             }
 
             if (gamepad2.right_bumper){
@@ -158,4 +204,4 @@ public class ImplementTest extends LinearOpMode {
             }
 
 
-            }
+            }}
