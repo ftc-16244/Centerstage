@@ -92,7 +92,7 @@ public class ImplementTest extends LinearOpMode {
             if (gamepad1.a) {
                 felipe2.setTurnerLoad();
                 felipe2.setSlideLevel_0();
-                
+
             }
             if (gamepad2.y) {
                 felipe2.setTurnerDeploy();

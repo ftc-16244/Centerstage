@@ -64,16 +64,16 @@ public class Felipe2 {
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
     public static  double           SLIDERESETSPEED             = -0.2; // only used to retract and reset slide encoder
     public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
-    public static final double      SLIDE_LEVEL_ROW_1           = 4 ; // First yellow auto high accuracy -measured 2/7
-    public static final double      SLIDE_LEVEL_ROW_2           = 8; // Second row of pixels
-    public static final double      SLIDE_LEVEL_ROW_4           = 15; // check wire mgt before making 16
-    public static final double      SLIDE_LEVEL_ROW_6           = 20; // check wire mgt before making 24
+    public static final double      SLIDE_LEVEL_ROW_1           = 4.0 ; // First yellow auto high accuracy -measured 2/7
+    public static final double      SLIDE_LEVEL_ROW_2           = 4.1;  // 8 Second row of pixels
+    public static final double      SLIDE_LEVEL_ROW_4           = 4.2; // 15 check wire mgt before making 16
+    public static final double      SLIDE_LEVEL_ROW_6           = 4.3; // 20 check wire mgt before making 24
 
     public static final double      SLIDE_REACH_0         = 0.25; // Used to reach out horizontally to drop purple ot get white
-    public static final double      SLIDE_REACH_1         = 4; // Used to reach out horizontally to drop purple ot get white
-    public static final double      SLIDE_REACH_2         = 8; // Yellow pixel gentle drop (first yellow)
-    public static final double      SLIDE_REACH_3          = 9; // wire check
-    public static final double      SLIDE_REACH_4         = 10; //wire check
+    public static final double      SLIDE_REACH_1         = 4.0; // Used to reach out horizontally to drop purple ot get white
+    public static final double      SLIDE_REACH_2         = 4.1; // 8 Yellow pixel gentle drop (first yellow)
+    public static final double      SLIDE_REACH_3          = 4.2; // wire check
+    public static final double      SLIDE_REACH_4         = 4.3; //wire check
 
     private static final double     SLIDE_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV_SLIDE             = 145.1 * 2; // goBilda 1150 RPM MOTOR and 2:1 Bevel Gear
