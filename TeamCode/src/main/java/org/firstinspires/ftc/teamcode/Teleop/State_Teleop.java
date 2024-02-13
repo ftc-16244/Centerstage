@@ -24,14 +24,14 @@ public class State_Teleop extends LinearOpMode {
     Drone drone = new Drone(this); // replaces climberDone with drone only subsystem
 
     private ElapsedTime teleopTimer = new ElapsedTime();
-    private double TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
+    private final float TELEOP_TIME_OUT = 140; // WARNING: LOWER FOR OUTREACH
 
     FtcDashboard dashboard;
-    RevBlinkinLedDriver blinkinLedDriver;
-    RevBlinkinLedDriver.BlinkinPattern preInit;
-    RevBlinkinLedDriver.BlinkinPattern main;
-    RevBlinkinLedDriver.BlinkinPattern endgame;
-    RevBlinkinLedDriver.BlinkinPattern climbAlert;
+    RevBlinkinLedDriver blinkin;
+    RevBlinkinLedDriver.BlinkinPattern preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+    RevBlinkinLedDriver.BlinkinPattern main = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
+    RevBlinkinLedDriver.BlinkinPattern endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
+    RevBlinkinLedDriver.BlinkinPattern climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 
     double speedFactor = 0.85;
     @Override
@@ -54,14 +54,9 @@ public class State_Teleop extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        blinkin = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
-        preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
-        main = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-        endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
-        climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
-
-        blinkinLedDriver.setPattern(preInit);
+        blinkin.setPattern(preInit);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // WAIT FOR MATCH TO START
@@ -71,7 +66,7 @@ public class State_Teleop extends LinearOpMode {
         teleopTimer.reset();
 
         Thread liftInit = new Thread(() -> {
-            felipe.slideMechanicalReset();
+            felipe.startSlideMechanicalReset();
             sleep(4000);
         });
         liftInit.start();
@@ -82,7 +77,7 @@ public class State_Teleop extends LinearOpMode {
         });
         climberInit.start();
 
-        blinkinLedDriver.setPattern(main);
+        blinkin.setPattern(main);
 
         felipe.gripperOpen(); // put gripper in open position. Not super wide open
 
@@ -95,13 +90,13 @@ public class State_Teleop extends LinearOpMode {
                     )
             );
             if (teleopTimer.time() > 90 && !(teleopTimer.time() > 110)) { // endgame
-                blinkinLedDriver.setPattern(endgame);
+                blinkin.setPattern(endgame);
             }
             if (teleopTimer.time() > 110 && !(teleopTimer.time() > 120)) { // climb alert (10 seconds to climb)
-                blinkinLedDriver.setPattern(climbAlert);
+                blinkin.setPattern(climbAlert);
             }
             if (teleopTimer.time() > 120) {
-                blinkinLedDriver.close();
+                blinkin.close();
             }
 
             if (gamepad1.dpad_right) {
@@ -192,12 +187,12 @@ public class State_Teleop extends LinearOpMode {
                 setManarMode(0.5, false);
                 sleep(100);
             }
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_bumper && felipe.isReady) {
                 gp2leftbumper();
                 setManarMode(0.85, true);
                 sleep(100);
             }
-            if (gamepad2.right_bumper) {
+            if (gamepad2.right_bumper && felipe.isReady) {
                 gp2rightbumper();
                 setManarMode(0.25, false);
                 sleep(100);
