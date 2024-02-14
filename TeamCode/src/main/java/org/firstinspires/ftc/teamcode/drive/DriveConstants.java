@@ -43,9 +43,9 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 24.0/25.4; // goBilda mecanum wheels are 96mm dia
+    public static double WHEEL_RADIUS = 48/25.4; // goBilda mecanum wheels are 96mm dia
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 13.3;// 13.6 is actual
+    public static double TRACK_WIDTH = 14.41;// 13.6 is actual
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -70,10 +70,10 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 46; // 60 in/sec is theoretical
+    public static double MAX_VEL = 48; // 60 in/sec is theoretical
     public static double MAX_ACCEL = 32;
-    public static double MAX_ANG_VEL = Math.toRadians(220); // was 240 measrued
-    public static double MAX_ANG_ACCEL = Math.toRadians(190); // was 220
+    public static double MAX_ANG_VEL = Math.toRadians(265); // was 274 measrued
+    public static double MAX_ANG_ACCEL = Math.toRadians(250); // was 220
 
 
     public static double encoderTicksToInches(double ticks) {
