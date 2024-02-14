@@ -46,8 +46,8 @@ public class StageRed extends LinearOpMode {
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId); //TODO: Change webcam name
-        Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin); //TODO: Change start position
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
+        Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -110,7 +110,7 @@ public class StageRed extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         TrajectorySequence StageRedCenter = drive.trajectorySequenceBuilder(startPos)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1()})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .lineToLinearHeading(WhiteTravelPart1a_CENTER)
@@ -134,7 +134,7 @@ public class StageRed extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " RED_STAGE" + location); //TODO: Change name in telemetry
+        telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
         switch(location) {
