@@ -113,17 +113,17 @@ public class Felipe2 {
         voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
         // Initialize angler
-        angler = hwMap.get(Servo.class,"anglerServo"); // Exp Hub port 0
+        angler = hwMap.get(Servo.class,"angler"); // Exp Hub port 0
         //setanglerCarry();
 
         // Initialize the gripper
-        gripperRight = hwMap.get(Servo.class,"gripperRightServo"); //Exp Hub port 4
-        gripperLeft = hwMap.get(Servo.class,"gripperLeftServo"); //Exp Hub port 2
-        armWheel = hwMap.get(Servo.class,"armWheelServo"); //Exp Hub port 3
+        gripperRight = hwMap.get(Servo.class,"gripperRight"); //Exp Hub port 4
+        gripperLeft = hwMap.get(Servo.class,"gripperLeft"); //Exp Hub port 2
+        armWheel = hwMap.get(Servo.class,"armWheel"); //Exp Hub port 3
 
         // Initialize the lift motor
-        extendMotor = hwMap.get(DcMotorEx.class,"liftMotor");
-        turnerMotor = hwMap.get(DcMotorEx.class, "turnerMotor");
+        extendMotor = hwMap.get(DcMotorEx.class,"lift");
+        turnerMotor = hwMap.get(DcMotorEx.class, "turner");
         extendMotor.setDirection(DcMotorEx.Direction.REVERSE);
         turnerMotor.setDirection(DcMotorEx.Direction.FORWARD); // was forward
 

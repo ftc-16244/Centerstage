@@ -18,6 +18,7 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 
 // Credit to WolfCorpFTC team # 12525 for the original file.
@@ -35,7 +36,7 @@ public class Pipeline extends OpenCvPipeline {
     Mat output = new Mat();
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-    private static final double PERCENT_COLOR_THRESHOLD = 0.15;
+    private static final int PERCENT_COLOR_THRESHOLD = 10;
     public Pipeline(Telemetry t, StartPosition position, RevBlinkinLedDriver blinkin) {
         telemetry = t;
         startPosition = position;
@@ -46,40 +47,35 @@ public class Pipeline extends OpenCvPipeline {
         // for example, doing output = input; then doing Imgproc.cvtColor(output, output, Imgproc.COLOR_BGRA2BGR); breaks it
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
         Imgproc.cvtColor(input, output, Imgproc.COLOR_BGRA2BGR);
-        Rect NONCENTER_ROI;
+        Rect LEFT_ROI;
         Rect CENTER_ROI;
-        Prop undetectableLocation;
-        Prop detectableNoncenter;
+        Rect RIGHT_ROI;
 
         if (startPosition == StartPosition.RED_AUD) {
-            NONCENTER_ROI = LEFT_ROI_RED;
+            LEFT_ROI = LEFT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            RIGHT_ROI = RIGHT_ROI_RED;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
-        else if (startPosition == StartPosition.BLUE_AUD) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
+        else if (startPosition == StartPosition.BLUE_AUD) { //TODO: move blue camera down one hole
+            LEFT_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            RIGHT_ROI = RIGHT_ROI_BLUE;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }
         else if (startPosition == StartPosition.RED_STAGE) {
-            NONCENTER_ROI = RIGHT_ROI_RED;
+            LEFT_ROI = LEFT_ROI_RED;
             CENTER_ROI = CENTER_ROI_RED;
-            undetectableLocation = Prop.LEFT;
-            detectableNoncenter = Prop.RIGHT;
+            RIGHT_ROI = RIGHT_ROI_RED;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
-            NONCENTER_ROI = LEFT_ROI_BLUE;
+            LEFT_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
-            undetectableLocation = Prop.RIGHT;
-            detectableNoncenter = Prop.LEFT;
+            RIGHT_ROI = RIGHT_ROI_BLUE;
             lowHSV = BLUE_LOW_HSV;
             highHSV = BLUE_HIGH_HSV;
         }
@@ -90,8 +86,9 @@ public class Pipeline extends OpenCvPipeline {
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat noncenter = mat.submat(NONCENTER_ROI); //sub matrices of mat
-        Mat right = mat.submat(CENTER_ROI);
+        Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
+        Mat center = mat.submat(CENTER_ROI);
+        Mat right = mat.submat(RIGHT_ROI);
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
         // white is given a value of 255. This way the new image is just grayscale where 0 is black
@@ -99,22 +96,26 @@ public class Pipeline extends OpenCvPipeline {
         // This essentially calculates the ratio of identified pixels to those not identified. The
         //higher the value the more detection.
 
-        double noncenterValue = Core.sumElems(noncenter).val[0] / NONCENTER_ROI.area() / 255;
-        double centerValue = Core.sumElems(right).val[0] / CENTER_ROI.area() / 255;
+        double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 2.55;
+        double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 2.55;
+        double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 2.55;
 
-        noncenter.release(); // frees up memory
+        left.release(); // frees up memory
+        center.release();
         right.release();
 
-        boolean inNoncenterPosition = noncenterValue > PERCENT_COLOR_THRESHOLD; // sets a limit to compare to so small objects don't accidentally trigger
-        boolean inCenterPosition = centerValue > PERCENT_COLOR_THRESHOLD;
-        location = undetectableLocation;
-        if(inNoncenterPosition) location = detectableNoncenter;
-        else if(inCenterPosition) location = Prop.CENTER;
+        location = null;
+        if (leftValue > PERCENT_COLOR_THRESHOLD) location = Prop.LEFT;
+        else if (centerValue > PERCENT_COLOR_THRESHOLD) location = Prop.CENTER;
+        else if (rightValue > PERCENT_COLOR_THRESHOLD) location = Prop.RIGHT;
+
+        else telemetry.addLine("No prop detected.");
+        if (!(location == null)) telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
 
         if (telemetryEnabled) {
-            telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
-            telemetry.addData(detectableNoncenter + " percentage", Math.round(noncenterValue * 100) + "%");
-            telemetry.addData("CENTER percentage", Math.round(centerValue * 100) + "%");
+            telemetry.addData("LEFT percentage",  Math.round(leftValue * 10) / 10 + "%");
+            telemetry.addData("CENTER percentage",Math.round(centerValue * 10) / 10 + "%");
+            telemetry.addData("RIGHT percentage", Math.round(rightValue * 10) / 10 + "%");
             telemetry.update();
         }
 
@@ -123,12 +124,14 @@ public class Pipeline extends OpenCvPipeline {
         Core.bitwise_and(output, mat, output);
 
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
-        Scalar colorTSE = new Scalar(0, 255, 0);
+        Scalar colorDetection = new Scalar(0, 255, 0);
 
-        Imgproc.rectangle(output, NONCENTER_ROI, location == detectableNoncenter? colorTSE:colorNone); // the target boxes surround the ROI's
-        Imgproc.rectangle(output, CENTER_ROI, location == Prop.CENTER? colorTSE:colorNone);
+        Imgproc.rectangle(output, LEFT_ROI, location == Prop.LEFT? colorDetection:colorNone); // the target boxes surround the ROI's
+        Imgproc.rectangle(output, CENTER_ROI, location == Prop.CENTER? colorDetection:colorNone);
+        Imgproc.rectangle(output, RIGHT_ROI, location == Prop.RIGHT? colorDetection:colorNone);
 
         blinkinLedDriver.setPattern(pipelineReady);
+        if(location == null) location = Prop.CENTER;
         return output;
     }
     public Prop getPropLocation() {

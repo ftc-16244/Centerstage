@@ -26,7 +26,7 @@ public class RunPipelineCam1 extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
 
         Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
@@ -34,7 +34,7 @@ public class RunPipelineCam1 extends LinearOpMode {
             @Override
             public void onOpened() {
                 // this camera supports 1280x800, 1280x720, 800x600, 640x480, and 320x240
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
+                webcam.startStreaming(640, 480, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
             }
             @Override
             public void onError(int errorCode) {}

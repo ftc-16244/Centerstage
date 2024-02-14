@@ -42,8 +42,8 @@ public class Juan {
     }
 
     public void init(HardwareMap hardwareMap) {
-        climberRight = hardwareMap.get(DcMotorEx.class, "climberRightMotor"); // EXP Hub Motor Port
-        climberLeft = hardwareMap.get(DcMotorEx.class, "climberLeftMotor");// EXP hub mtor port
+        climberRight = hardwareMap.get(DcMotorEx.class, "climberRight"); // EXP Hub Motor Port
+        climberLeft = hardwareMap.get(DcMotorEx.class, "climberLeft");// EXP hub mtor port
         manarsFootLeft = (ServoImplEx) hardwareMap.get(Servo.class, "manarsLeftFoot"); // CH servo port 0
         manarsFootRight = (ServoImplEx) hardwareMap.get(Servo.class, "manarsRightFoot");// CH servo port 2
 

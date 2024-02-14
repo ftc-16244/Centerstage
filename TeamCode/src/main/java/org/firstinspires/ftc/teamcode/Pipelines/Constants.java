@@ -6,16 +6,16 @@ import org.opencv.core.Scalar;
 
 public class Constants {
     public static final Rect LEFT_ROI_RED = new Rect(
-            new Point(25, 70),
-            new Point(100, 150)
+            new Point(40, 130),
+            new Point(140, 245)
     );
     public static final Rect CENTER_ROI_RED = new Rect(
-            new Point(25, 60),
-            new Point(85, 130)
+            new Point(290, 110),
+            new Point(390, 210)
     );
     public static final Rect RIGHT_ROI_RED = new Rect(
-            new Point(170, 70),
-            new Point(235, 145)
+            new Point(500, 130),
+            new Point(610, 235)
     );
     public static final Rect LEFT_ROI_BLUE = new Rect(
             new Point(40, 75),
