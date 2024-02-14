@@ -72,7 +72,7 @@ public class DriveConstants {
      */
     public static double MAX_VEL = 46; // 60 in/sec is theoretical
     public static double MAX_ACCEL = 32;
-    public static double MAX_ANG_VEL = Math.toRadians(270); // was 230
+    public static double MAX_ANG_VEL = Math.toRadians(220); // was 240 measrued
     public static double MAX_ANG_ACCEL = Math.toRadians(190); // was 220
 
 

@@ -31,7 +31,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double WHEEL_RADIUS = 24.0/25.4; //  goBilda 48 mm odometry pod wheel diameter
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 8.75; // in; distance between the left and right wheels
+    public static double LATERAL_DISTANCE = 8.86; // in; distance between the left and right wheels
     public static double FORWARD_OFFSET = 0.5; // in; offset of the lateral wheel
 
     private Encoder leftEncoder, rightEncoder, perpendicularEncoder;
