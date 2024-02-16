@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
@@ -24,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 //@Disabled
-public class StageRed extends LinearOpMode {
+public class StageRed22 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvWebcam webcam;
     RevBlinkinLedDriver blinkin;
@@ -160,8 +159,9 @@ public class StageRed extends LinearOpMode {
                 .lineToLinearHeading(WhiteTravelPart2a_CENTER)
                 .strafeLeft(30)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .waitSeconds(0.125)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-
                 //turn the turner
                 //travel to the backstage but make an L motion to avoid crashing but drop on ground
                 //open gripper
@@ -176,13 +176,19 @@ public class StageRed extends LinearOpMode {
                 //go to white stacks and pick up 3rd and 4th white pixel
                 .lineToLinearHeading(WhiteTravelPart1a_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .waitSeconds(0.125)
+                .back(10)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
                 //set to slide level 1, and close gripper
                 //back up and put slide level to 0
                 //travel back under the truss
                 .lineToLinearHeading(WhiteTravelPart2a_CENTER)
+                .strafeLeft(20)
                 //make an L motion and travel to backstage but drop on ground
                 .lineToLinearHeading(WhiteTravelPart2b_Center)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .back(25)
                 //drop pixels and back up and park
                 .build();
 
