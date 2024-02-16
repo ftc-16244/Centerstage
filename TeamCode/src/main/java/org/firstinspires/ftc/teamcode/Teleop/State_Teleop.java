@@ -66,6 +66,8 @@ public class State_Teleop extends LinearOpMode {
         teleopTimer.reset();
 
         Thread liftInit = new Thread(() -> {
+            felipe.gripperOpen(); // put gripper in open position. Not super wide open
+            felipe.setAnglerDeploy();
             felipe.startSlideMechanicalReset();
             sleep(4000);
         });
@@ -78,8 +80,6 @@ public class State_Teleop extends LinearOpMode {
         climberInit.start();
 
         blinkin.setPattern(main);
-
-        felipe.gripperOpen(); // put gripper in open position. Not super wide open
 
         while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             drive.setWeightedDrivePower(
@@ -113,7 +113,6 @@ public class State_Teleop extends LinearOpMode {
 
             if (gamepad1.dpad_left) {
 
-
             }
 
             if (gamepad1.back) {
@@ -143,10 +142,10 @@ public class State_Teleop extends LinearOpMode {
             if (gamepad1.right_stick_button) {
                 speedFactor = 0.25;
             }
-            if (gamepad1.a) {
+            if (gamepad1.y) {
                 speedFactor = 0.85;
             }
-            if (gamepad1.y) {
+            if (gamepad1.a) {
                 speedFactor = 1.0;
             }
 //// GAMEPAD #2/////////////////////////
@@ -211,17 +210,17 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp1lefttrigger() {
         Thread gp1lefttrigger = new Thread(() -> {
-            felipe.gripperClosed();
-            sleep(300);
-            felipe.setAnglerDeploy();
+            felipe.gripperOpen();
             sleep(200);
         });
         gp1lefttrigger.start();
     }
     private void gp1righttrigger() {
         Thread gp1righttrigger = new Thread(() -> {
-            felipe.gripperOpen();
-            sleep(100);
+            felipe.gripperClosed();
+            sleep(300);
+            felipe.setAnglerDeploy();
+            sleep(200);
         });
         gp1righttrigger.start();
     }
@@ -248,7 +247,7 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpup() {
         Thread gp2dpup = new Thread(() -> {
-            felipe.setSlideRow_2();
+            felipe.setSlideRow_4();
             sleep(200);
         });
         gp2dpup.start();
@@ -269,7 +268,7 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpright() {
         Thread gp2dpright = new Thread(() -> {
-            felipe.setSlideRow_4();
+            felipe.setSlideRow_2();
             sleep(200);
         });
         gp2dpright.start();

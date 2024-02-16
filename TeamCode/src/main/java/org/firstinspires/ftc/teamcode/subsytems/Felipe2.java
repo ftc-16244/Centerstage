@@ -64,12 +64,12 @@ public class Felipe2 {
     //Constants Lift
     public  static double           SLIDESPEED                  = 1.0; // full speed
     public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
-    public static  double           SLIDERESETSPEED             = -0.3; // only used to retract and reset slide encoder
+    public static  double           SLIDERESETSPEED             = -1.0; // only used to retract and reset slide encoder
     public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
     public static final double      SLIDE_LEVEL_ROW_1           = 4.0 ; // First yellow auto high accuracy -measured 2/7
-    public static final double      SLIDE_LEVEL_ROW_2           = 4.1;  // 8 Second row of pixels
-    public static final double      SLIDE_LEVEL_ROW_4           = 4.2; // 15 check wire mgt before making 16
-    public static final double      SLIDE_LEVEL_ROW_6           = 4.3; // 20 check wire mgt before making 24
+    public static final double      SLIDE_LEVEL_ROW_2           = 8;  // 8 Second row of pixels
+    public static final double      SLIDE_LEVEL_ROW_4           = 16; // 15 check wire mgt before making 16
+    public static final double      SLIDE_LEVEL_ROW_6           = 21.5; // 20 check wire mgt before making 24
 
     public static final double      SLIDE_REACH_0         = 0.25; // Used to reach out horizontally to drop purple ot get white
     public static final double      SLIDE_REACH_1         = 4.0; // Used to reach out horizontally to drop purple ot get white
@@ -130,7 +130,7 @@ public class Felipe2 {
         turnerMotor.setCurrentAlert(6.0, CurrentUnit.AMPS);
 
         // change coefficients using methods included with DcMotorEx class.
-        PIDFCoefficients pidSlide_New = new PIDFCoefficients(10, 0, 1.5, 0);
+        PIDFCoefficients pidSlide_New = new PIDFCoefficients(14, 0, 1.5, 0); // p was 10
         extendMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
 
         PIDFCoefficients pidTurner_New = new PIDFCoefficients(12, 0, 3.5, 0);
@@ -227,6 +227,11 @@ public class Felipe2 {
     public void setTurnerLoad(){
         setAnglerDeploy();
         setSlideLevel_0();
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         targetAngle = ( TURNER_LOAD_ANGLE );
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
     }
