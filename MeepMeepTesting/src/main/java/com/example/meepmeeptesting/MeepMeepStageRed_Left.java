@@ -25,11 +25,13 @@ public class MeepMeepStageRed_Left {
         Pose2d WhiteTravelPart1a_LEFT = new Pose2d(-0,-60, Math.toRadians(180));
         Pose2d WhiteTravelPart1b_LEFT = new Pose2d(-20,-60, Math.toRadians(180));
         Pose2d WhiteTravelPart1c_LEFT = new Pose2d(-42,-60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1d_LEFT = new Pose2d(-40,-50, Math.toRadians(180));
         Pose2d WhiteTravelPart1e_LEFT = new Pose2d(-56,-36, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_LEFT = new Pose2d (48,-56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_LEFT = new Pose2d(-14,-56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2a_LEFT = new Pose2d(-40,-52, Math.toRadians(180));
+        Pose2d WhiteTravelPart2a_LEFT = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_LEFT = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2c_LEFT = new Pose2d(0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_LEFT = new Pose2d(45,-60, Math.toRadians(180));
+
+
 
 
 
@@ -47,6 +49,21 @@ public class MeepMeepStageRed_Left {
                                 .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
                                 .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
                                 .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
+                                .forward(10)
+                                .splineToLinearHeading(WhiteTravelPart2a_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2b_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
+                                .back(10)
+                                .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
+                                .forward(10)
+                                .splineToLinearHeading(WhiteTravelPart2a_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2b_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
+                                .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
                                 .build()
                 );
 
