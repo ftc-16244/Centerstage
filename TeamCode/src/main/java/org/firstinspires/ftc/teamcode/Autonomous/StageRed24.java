@@ -22,7 +22,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-//@Disabled
+//@Disab+led
 public class StageRed24 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvWebcam webcam;
@@ -59,45 +59,6 @@ public class StageRed24 extends LinearOpMode {
             @Override
             public void onError(int errorCode) {}
         });
-        felipe.setAnglerLoad();
-        sleep(250);
-        felipe.gripperClosed();
-        sleep(250);
-        felipe.slideMechanicalReset();
-        sleep(250);
-
-        waitForStart();
-
-
-        detector.toggleTelemetry();
-        telemetry.clearAll();
-
-        int totalTimeWaited = 0;
-        boolean pipelineRan = true;
-        if(detector.getPropLocation() == null) {
-            telemetry.addData("ERROR", "Start was pressed too soon.");
-            telemetry.update();
-            blinkin.setPattern(pipelineError);
-
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
-                totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
-                sleep(webcam.getOverheadTimeMs() * 4L);
-            }
-            telemetry.addData("Wasted time", totalTimeWaited);
-            if(totalTimeWaited > 7000) {
-                telemetry.addData("ERROR", "The pipeline never ran.");
-                pipelineRan = false;
-                blinkin.setPattern(pipelineBroken);
-            }
-            telemetry.update();
-        }
-        else {
-            telemetry.addData("INFO", "Pipeline is running correctly");
-            telemetry.update();
-            blinkin.setPattern(pipelineReady);
-        }
-
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //============================
         // ALL POSE SECTION
@@ -110,7 +71,7 @@ public class StageRed24 extends LinearOpMode {
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(52,-33.5,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,-33.5,Math.toRadians(180));
         Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,-25,Math.toRadians(180));
 
         /**
@@ -119,10 +80,21 @@ public class StageRed24 extends LinearOpMode {
          * letter symbolizes the different parts of the path
          */
 
-        Pose2d WhiteTravelPart1a_CENTER = new Pose2d(-54,-34.5, Math.toRadians(180));
+        Pose2d WhiteTravelPart1a_CENTER_pt1 = new Pose2d(-54,-36, Math.toRadians(180));
 
-        Pose2d WhiteTravelPart2a_CENTER = new Pose2d(10,-35, Math.toRadians(180));
+        //Pose2d WhiteTravelPart2a_CENTER = new Pose2d(10,-35, Math.toRadians(180));
         Pose2d WhiteTravelPart2b_Center = new Pose2d (48,-56, Math.toRadians(180));
+
+        Pose2d WhiteTravelPart1a_CENTER = new Pose2d(-0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1b_CENTER = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1c_CENTER = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1e_CENTER = new Pose2d(-56,-36, Math.toRadians(180));
+
+        Pose2d WhiteTravelPart2a_CENTER = new Pose2d(-42,-56, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_CENTER = new Pose2d(-20,-56, Math.toRadians(180));
+        Pose2d WhiteTravelPart2c_CENTER = new Pose2d(0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(45,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2e_CENTER = new Pose2d(45,-60, Math.toRadians(180));
 
         //============================
         // LEFT POSE SECTION
@@ -303,7 +275,7 @@ public class StageRed24 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
                 //set turner to deploy, set slide level to 1, open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoDEPLOY();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
                 .waitSeconds(0.125)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
@@ -339,75 +311,91 @@ public class StageRed24 extends LinearOpMode {
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
-                 //purple pixel journey
+                //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
+                .waitSeconds(0.1)
+                .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
+                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()->felipe.setAnglerDeploy())
+                .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
                 //go the the backstage, to the center position
                 //yellow pixel journey
-                .lineToLinearHeading(YellowPixelDropOff_CENTER)
-                .waitSeconds(0.125)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .waitSeconds(0.25)
+                .forward(10)
                 //white pixel journey 1
-                .forward(35)
-                .UNSTABLE_addTemporalMarkerOffset(0.5,()->{felipe.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
-                .waitSeconds(0.75)
+                .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
                 //back up and put turner to load, angler to load, slide to level 0
                 //go under the truss closest the the centerstage door
-                /*
-                .lineToLinearHeading(WhiteTravelPart1a_CENTER)
+                .lineToLinearHeading(WhiteTravelPart1a_CENTER_pt1)
                 //add a line that makes the turner turn 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(10)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
-                //set to slide level 1, and close gripper
+                //set turner correctly, and close gripper
                 //back up and put slide level to 0
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
+                .waitSeconds(0.5)
                 //travel back to under the truss
-                .lineToLinearHeading(WhiteTravelPart2a_CENTER)
-                .strafeLeft(30)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                //turn the turner
-                //travel to the backstage but make an L motion to avoid crashing but drop on ground
-                //open gripper
-                //turn the turner back
-                //travel back under the truss
-                .lineToLinearHeading(WhiteTravelPart2b_Center)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .waitSeconds(0.125)
-                //white pixel journey 2
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                //go back to right before the truss location
-                .lineToLinearHeading(WhiteTravelPart2a_CENTER)
-                //go to white stacks and pick up 3rd and 4th white pixel
-                .lineToLinearHeading(WhiteTravelPart1a_CENTER)
-                //set the turner to 11 degrees
+                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
+                .splineToLinearHeading(WhiteTravelPart2d_CENTER,Math.toRadians(180))
+                .addTemporalMarker(()->felipe.setTurnerAutoDEPLOY())
+                .addTemporalMarker(()->felipe.setAnglerDeploy())
+                .splineToLinearHeading(WhiteTravelPart2e_CENTER,Math.toRadians(180))
+                .addTemporalMarker(()->felipe.gripperOpen())
+                .waitSeconds(0.5)
+                .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
+                /*
+                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
+                .splineToLinearHeading(WhiteTravelPart1a_CENTER,Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(10)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
-                //set to slide level 1, and close gripper
-                //back up and put slide level to 0
-                //travel back under the truss
-                //make an L motion and travel to backstage but drop on ground
-                .lineToLinearHeading(WhiteTravelPart2a_CENTER)
-                .strafeLeft(20)
-                //drop pixels and back up and park
-                .lineToLinearHeading(WhiteTravelPart2b_Center)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .back(25)
-
+                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
+                //.splineToLinearHeading(WhiteTravelPart2b_CENTER,Math.toRadians(180))
+                .addTemporalMarker(()->felipe.setTurnerAutoDEPLOY())
+                .splineToLinearHeading(WhiteTravelPart2e_CENTER,Math.toRadians(180))
+                .addTemporalMarker(()->felipe.gripperOpen())
                  */
                 .build();
+
+        felipe.setAnglerLoad();
+        sleep(250);
+        felipe.gripperClosed();
+        sleep(250);
+        felipe.slideMechanicalReset();
+        sleep(250);
+
+        waitForStart();
+
+
+        detector.toggleTelemetry();
+        telemetry.clearAll();
+
+        int totalTimeWaited = 0;
+        boolean pipelineRan = true;
+        if(detector.getPropLocation() == null) {
+            telemetry.addData("ERROR", "Start was pressed too soon.");
+            telemetry.update();
+            blinkin.setPattern(pipelineError);
+
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+                totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
+                sleep(webcam.getOverheadTimeMs() * 4L);
+            }
+            telemetry.addData("Wasted time", totalTimeWaited);
+            if(totalTimeWaited > 7000) {
+                telemetry.addData("ERROR", "The pipeline never ran.");
+                pipelineRan = false;
+                blinkin.setPattern(pipelineBroken);
+            }
+            telemetry.update();
+        }
+        else {
+            telemetry.addData("INFO", "Pipeline is running correctly");
+            telemetry.update();
+            blinkin.setPattern(pipelineReady);
+        }
+
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
 
 
         //detector.toggleTelemetry();

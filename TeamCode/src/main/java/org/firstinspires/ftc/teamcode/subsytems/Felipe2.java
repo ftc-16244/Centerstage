@@ -222,6 +222,17 @@ public class Felipe2 {
     }
 
     //PASS IN A DOUBLE NO INTEGERS has to have a decimal
+    public void setTurnerAutoDEPLOY(){
+        setSlideLevel_0();
+        targetAngle = ( TURNER_DEPLOY_ANGLE );
+        rotateToTargetAngle( targetAngle,4, TURNER_SPEED);
+    }
+    public void setTurnerAutoLOAD(){
+        setSlideLevel_0();
+        setAnglerAuto();
+        targetAngle = ( TURNER_LOAD_ANGLE );
+        rotateToTargetAngle( targetAngle,4, TURNER_SPEED);
+    }
     public void setTurnerLoad(){
         setAnglerDeploy();
         setSlideLevel_0();
@@ -362,9 +373,13 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            /*while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
+
+
             }
+
+             */
         }
     }
     public void rotateToPreciseAngle(double degree, double timeoutS){
