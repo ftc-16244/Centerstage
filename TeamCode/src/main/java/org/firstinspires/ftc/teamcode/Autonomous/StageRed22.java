@@ -35,7 +35,8 @@ public class StageRed22 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Felipe2 felipe2 = new Felipe2(this);
+        Felipe2 felipe = new Felipe2(this);
+        felipe.init(hardwareMap);
 
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
 
@@ -45,7 +46,7 @@ public class StageRed22 extends LinearOpMode {
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
         Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
@@ -58,11 +59,11 @@ public class StageRed22 extends LinearOpMode {
             @Override
             public void onError(int errorCode) {}
         });
-        felipe2.setAnglerLoad();
+        felipe.setAnglerLoad();
         sleep(250);
-        felipe2.gripperWideOpen();
-        felipe2.slideMechanicalReset();
-        felipe2.setTurnerLoad();
+        felipe.gripperClosed();
+        sleep(250);
+        felipe.slideMechanicalReset();
         sleep(250);
 
         waitForStart();
@@ -179,15 +180,15 @@ public class StageRed22 extends LinearOpMode {
         //============================
         TrajectorySequence StageRedRight = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerAuto();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 /**
                  * purple pixel journey
                  */
                 //head over to purple pixel push prop and then come back
                 //add lines to to do right purple pixel dropoff
                 //open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperRightOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 //wait and back out
                 .waitSeconds(0.125)
                 .back(15)
@@ -195,31 +196,31 @@ public class StageRed22 extends LinearOpMode {
                  * yellow pixel journey
                  */
                 //initialize all the subsystems to get ready to drop the yellow pixel
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
                 //go to yellow pixel drop off
                 //add line to linear heading to yellow pixel dropoff right
                 .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 .waitSeconds(0.125)
                 //drop pixel and head back
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperLeftOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.125)
                 .back(10)
                 /**
                  * white pixel journey 1
                  */
                 //set turner to load, set angler to auto, and slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //spline to white pixel stacks
                 .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1c_RIGHT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1e_RIGHT, Math.toRadians(180))
                 //set turner to 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(5)
                 //spline to backstage area
@@ -228,17 +229,17 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart2c_RIGHT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart2d_RIGHT,Math.toRadians(180))
                 //set turner to deploy, set slide level to 1, open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
                 .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .waitSeconds(0.125)
                 /**
                  * white pixel journey 2
                  */
                 //set turner to load again, set slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //spline to white stacks again
                 .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
@@ -246,7 +247,7 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart1e_RIGHT, Math.toRadians(180))
                 //set turner to 11 degrees
                 //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(5)
                 //spline to backstage area again
@@ -255,7 +256,7 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart2c_RIGHT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart2d_RIGHT,Math.toRadians(180))
                 //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .back(25)
                 .build();
 
@@ -265,8 +266,8 @@ public class StageRed22 extends LinearOpMode {
         //============================
         TrajectorySequence StageRedLeft = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerAuto();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 /**
                  * purple pixel journey
                  */
@@ -274,7 +275,7 @@ public class StageRed22 extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1b)
                 //open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperRightOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 //wait and back out
                 .waitSeconds(0.125)
                 .back(15)
@@ -282,14 +283,14 @@ public class StageRed22 extends LinearOpMode {
                  * yellow pixel journey
                  */
                 //initialize all the subsystems to get ready to drop the yellow pixel
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
                 //go to yellow pixel drop off
                 .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 .waitSeconds(0.125)
                 //drop pixel and head back
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperLeftOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.125)
                 .back(10)
                 /**
@@ -298,16 +299,16 @@ public class StageRed22 extends LinearOpMode {
                 //strafe left to avoid conflict
                 .strafeLeft(15)
                 //set turner to load, set angler to auto, and slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //spline to white pixel stacks
                 .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
                 //set turner to 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(5)
                 //spline to backstage area
@@ -316,17 +317,17 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
                 //set turner to deploy, set slide level to 1, open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideRow_1();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
                 .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .waitSeconds(0.125)
                 /**
                  * white pixel journey 2
                  */
                 //set turner to load again, set slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //spline to white stacks again
                 .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
@@ -334,7 +335,7 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
                 //set turner to 11 degrees
                 //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(5)
                 //spline to backstage area again
@@ -343,7 +344,7 @@ public class StageRed22 extends LinearOpMode {
                 .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
                 //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .back(25)
                 .build();
 
@@ -352,16 +353,16 @@ public class StageRed22 extends LinearOpMode {
         //============================
         TrajectorySequence StageRedCenter = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerAuto();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 /**
                  * purple pixel journey
                  */
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperRightOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
                 //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
                 //go the the backstage, to the center position
                 /**
@@ -369,53 +370,53 @@ public class StageRed22 extends LinearOpMode {
                  */
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperLeftOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.125)
                 .back(12)
                 /**
                  * white pixel journey 1
                  */
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setAnglerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //back up and put turner to load, angler to load, slide to level 0
                 //go under the truss closest the the centerstage door
                 .lineToLinearHeading(WhiteTravelPart1a_CENTER)
                 //add a line that makes the turner turn 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(10)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //set to slide level 1, and close gripper
                 //back up and put slide level to 0
                 //travel back to under the truss
                 .lineToLinearHeading(WhiteTravelPart2a_CENTER)
                 .strafeLeft(30)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
                 //turn the turner
                 //travel to the backstage but make an L motion to avoid crashing but drop on ground
                 //open gripper
                 //turn the turner back
                 //travel back under the truss
                 .lineToLinearHeading(WhiteTravelPart2b_Center)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .waitSeconds(0.125)
                 /**
                  * white pixel journey 2
                  */
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setTurnerLoad();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
                 //go back to right before the truss location
                 .lineToLinearHeading(WhiteTravelPart2a_CENTER)
                 //go to white stacks and pick up 3rd and 4th white pixel
                 .lineToLinearHeading(WhiteTravelPart1a_CENTER)
                 //set the turner to 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperClosed();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .waitSeconds(0.125)
                 .back(10)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.setSlideLevel_0();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
                 //set to slide level 1, and close gripper
                 //back up and put slide level to 0
                 //travel back under the truss
@@ -423,7 +424,7 @@ public class StageRed22 extends LinearOpMode {
                 .strafeLeft(20)
                 //make an L motion and travel to backstage but drop on ground
                 .lineToLinearHeading(WhiteTravelPart2b_Center)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe2.gripperOpen();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .back(25)
                 //drop pixels and back up and park
                 .build();
