@@ -1,4 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-public class StageRedLeft22 {
+public class StageRedRight22 {
 }
