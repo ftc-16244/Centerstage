@@ -51,7 +51,7 @@ public class Felipe2 {
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
     private static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
-    private static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
+    private static final double      ANGLER_DEPLOY      = 0.15; // deposit the pixel
     private static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
     public static final double      ANGLER_AUTO      = 0.65; // Loading the pixel
 
