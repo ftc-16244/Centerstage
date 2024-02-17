@@ -93,7 +93,7 @@ public class StageRed24 extends LinearOpMode {
         Pose2d WhiteTravelPart2a_CENTER = new Pose2d(-42,-56, Math.toRadians(180));
         Pose2d WhiteTravelPart2b_CENTER = new Pose2d(-20,-56, Math.toRadians(180));
         Pose2d WhiteTravelPart2c_CENTER = new Pose2d(0,-60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(45,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(28,-60, Math.toRadians(180));
         Pose2d WhiteTravelPart2e_CENTER = new Pose2d(45,-60, Math.toRadians(180));
 
         //============================
@@ -343,6 +343,8 @@ public class StageRed24 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.gripperOpen())
                 .waitSeconds(0.5)
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
+                .waitSeconds(1)
+                .forward(15)
                 /*
                 .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1a_CENTER,Math.toRadians(180))
