@@ -53,6 +53,7 @@ public class Felipe2 {
     private static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
     private static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
     private static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
+    public static final double      ANGLER_AUTO      = 0.65; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -150,6 +151,9 @@ public class Felipe2 {
     }
     public void setAnglerDeploy() {
         angler.setPosition(ANGLER_DEPLOY);//fwd
+    }
+    public void setAnglerAuto() {
+        angler.setPosition(ANGLER_AUTO);//fwd
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

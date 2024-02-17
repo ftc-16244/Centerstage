@@ -41,12 +41,12 @@ public class StageRed22 extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         blinkin = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-        //blinkin.
+
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId); //TODO: Change webcam name
-        Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin); //TODO: Change start position
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId);
+        Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -440,7 +440,7 @@ public class StageRed22 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " RED_STAGE" + location); //TODO: Change name in telemetry
+        telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
         switch(location) {
