@@ -186,12 +186,12 @@ public class State_Teleop extends LinearOpMode {
                 setManarMode(0.5, false);
                 sleep(100);
             }
-            if (gamepad2.left_bumper && felipe.isReady) {
+            if (gamepad2.left_bumper) {
                 gp2leftbumper();
                 setManarMode(0.85, true);
                 sleep(100);
             }
-            if (gamepad2.right_bumper && felipe.isReady) {
+            if (gamepad2.right_bumper) {
                 gp2rightbumper();
                 setManarMode(0.25, false);
                 sleep(100);
@@ -247,7 +247,11 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpup() {
         Thread gp2dpup = new Thread(() -> {
-            felipe.setSlideRow_4();
+            if(felipe.turnerDown) {
+                felipe.setSlideReach_2();
+            } else {
+                felipe.setSlideRow_4();
+            }
             sleep(200);
         });
         gp2dpup.start();
@@ -261,14 +265,22 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2dpleft() {
         Thread gp2dpleft = new Thread(() -> {
-            felipe.setSlideRow_6();
+            if(felipe.turnerDown) {
+                felipe.setSlideReach_3();
+            } else {
+                felipe.setSlideRow_6();
+            }
             sleep(200);
         });
         gp2dpleft.start();
     }
     private void gp2dpright() {
         Thread gp2dpright = new Thread(() -> {
-            felipe.setSlideRow_2();
+            if(felipe.turnerDown) {
+                felipe.setSlideReach_1();
+            } else {
+                felipe.setSlideRow_2();
+            }
             sleep(200);
         });
         gp2dpright.start();

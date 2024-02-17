@@ -22,41 +22,37 @@ import static java.lang.Thread.sleep;
 public class Felipe2 {
 
     //Define Hardware Objects
-    public Servo            angler             = null;
-    public Servo            gripperRight       = null;
-    public Servo            gripperLeft        = null;
-    public Servo            armWheel            = null;
-    public VoltageSensor    voltSensor         = null;
-
-    public  DcMotorEx       extendMotor;  // config name is "slideMotor"
-    public DcMotorEx        turnerMotor; // config name is "turnerMotor"
+    private Servo            angler             = null;
+    private Servo            gripperRight       = null;
+    private Servo            gripperLeft        = null;
+    private Servo            armWheel            = null;
+    private DcMotorEx       extendMotor;  // config name is "slideMotor"
+    private DcMotorEx        turnerMotor; // config name is "turnerMotor"
 
     //Constants for gripper
     //larer numbers are more clockwise
 
-    public static final double      GRIPPER_LEFT_CLOSED      = 0.44; //to close more, decrease
-    public static final double      GRIPPER_LEFT_OPEN        = 0.7; //to open more, increase
-    public static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.8;
+    private static final double      GRIPPER_LEFT_CLOSED      = 0.44; //to close more, decrease
+    private static final double      GRIPPER_LEFT_OPEN        = 0.69; //to open more, increase
+    private static final double      GRIPPER_LEFT_WIDE_OPEN   = 0.8;
 
-    public static final double      GRIPPER_RIGHT_CLOSED     = 0.52;// to close more, increase
-    public static final double      GRIPPER_RIGHT_OPEN       = 0.3; // too open more, decrease
-    public static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.15; // not gripped
+    private static final double      GRIPPER_RIGHT_CLOSED     = 0.52;// to close more, increase
+    private static final double      GRIPPER_RIGHT_OPEN       = 0.31; // too open more, decrease
+    private static final double      GRIPPER_RIGHT_WIDE_OPEN  = 0.15; // not gripped
 
     //Constants for slidewheel
 
-    public static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
-    public static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
-    public static final double      ARM_WHEEL_STOW        = 0.62; //pick up 4th and 5th pixel on stack
-    public static final double      ARM_WHEEL_PIXEL_1      = 0.58; //pick up ground pixel
+    private static final double      ARM_WHEEL_PIXEL_5        = 1; //stowed position
+    private static final double      ARM_WHEEL_PIXEL_4        = 1; //to open more, increase
+    private static final double      ARM_WHEEL_STOW        = 0.62; //pick up 4th and 5th pixel on stack
+    private static final double      ARM_WHEEL_PIXEL_1      = 0.58; //pick up ground pixel
 
 
     //Constants for angler
     //NOTE: lower values make the angler go higher, higher values make it go lower
-    public static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
-    public static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
-    public static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
-    public static final double      ANGLER_AUTO      = 0.65; // Loading the pixel
-
+    private static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
+    private static final double      ANGLER_DEPLOY      = 0.1; // deposit the pixel
+    private static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
@@ -64,20 +60,20 @@ public class Felipe2 {
     ElapsedTime runtime = new ElapsedTime();
 
     //Constants Lift
-    public  static double           SLIDESPEED                  = 1.0; // full speed
-    public  static double           SLIDESPEEDSLOWER            = 0.5; //half speed
-    public static  double           SLIDERESETSPEED             = -1.0; // only used to retract and reset slide encoder
-    public static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
-    public static final double      SLIDE_LEVEL_ROW_1           = 4.0 ; // First yellow auto high accuracy -measured 2/7
-    public static final double      SLIDE_LEVEL_ROW_2           = 8;  // 8 Second row of pixels
-    public static final double      SLIDE_LEVEL_ROW_4           = 16; // 15 check wire mgt before making 16
-    public static final double      SLIDE_LEVEL_ROW_6           = 21.5; // 20 check wire mgt before making 24
+    private static final double           SLIDESPEED                  = 1.0; // full speed
+    private static final double           SLIDESPEEDSLOWER            = 0.5; //half speed
+    private static final double           SLIDERESETSPEED             = -1.0; // only used to retract and reset slide encoder
+    private static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
+    private static final double      SLIDE_LEVEL_ROW_1           = 4.0 ; // First yellow auto high accuracy -measured 2/7
+    private static final double      SLIDE_LEVEL_ROW_2           = 8;  // 8 Second row of pixels
+    private static final double      SLIDE_LEVEL_ROW_4           = 16; // 15 check wire mgt before making 16
+    private static final double      SLIDE_LEVEL_ROW_6           = 21.5; // 20 check wire mgt before making 24
 
-    public static final double      SLIDE_REACH_0         = 0.25; // Used to reach out horizontally to drop purple ot get white
-    public static final double      SLIDE_REACH_1         = 4.0; // Used to reach out horizontally to drop purple ot get white
-    public static final double      SLIDE_REACH_2         = 4.1; // 8 Yellow pixel gentle drop (first yellow)
-    public static final double      SLIDE_REACH_3          = 4.2; // wire check
-    public static final double      SLIDE_REACH_4         = 4.3; //wire check
+    private static final double      SLIDE_REACH_0         = 0.25; // Used to reach out horizontally to drop purple ot get white
+    private static final double      SLIDE_REACH_1         = 0.0; // Used to reach out horizontally to drop purple ot get white
+    private static final double      SLIDE_REACH_2         = 0.0; // 8 Yellow pixel gentle drop (first yellow)
+    private static final double      SLIDE_REACH_3         = 0.0; // wire check
+    private static final double      SLIDE_REACH_4         = 0.0; //wire check
 
     private static final double     SLIDE_HEIGHT_CORRECTION_FACTOR   =   1.00;
     private static final double     TICKS_PER_MOTOR_REV_SLIDE             = 145.1 * 2; // goBilda 1150 RPM MOTOR and 2:1 Bevel Gear
@@ -92,27 +88,23 @@ public class Felipe2 {
     private static final double     TICKS_PER_TURNER_DEGREE             = TICKS_PER_MOTOR_REV_TURNER / 360;
 
     private static final double     TURNER_SPEED = 1.0;
-    public static final double     TURNER_PRECISE_SPEED = 0.20; // used to help the arm float with arm wheel
-
-
+    private static final double     TURNER_PRECISE_SPEED = 0.35; // was 0.2 used to help the arm float with arm wheel
     //Constants for Turner
-    public static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
-    public static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
-    public static final double     PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
-    public static final double     PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
+    private static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
+    private static final double      TURNER_DRONE_ANGLE = 70.0;
+    private static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
+    private static final double      PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
+    private static final double      PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
     public double  targetHeight;
     public double  targetAngle;
-    public boolean isReady = true;
+    public boolean turnerDown = true;
 
     /// constructor with opmode passed in
     public Felipe2(LinearOpMode opmode) {
         this.opmode = opmode;
-
     }
 
     public void init(HardwareMap hwMap)  {
-
-        voltSensor = hwMap.voltageSensor.get("Expansion Hub 2");
 
         // Initialize angler
         angler = hwMap.get(Servo.class,"angler"); // Exp Hub port 0
@@ -129,7 +121,7 @@ public class Felipe2 {
         extendMotor.setDirection(DcMotorEx.Direction.REVERSE);
         turnerMotor.setDirection(DcMotorEx.Direction.FORWARD); // was forward
 
-        turnerMotor.setCurrentAlert(6.0, CurrentUnit.AMPS);
+        turnerMotor.setCurrentAlert(5.0, CurrentUnit.AMPS);
 
         // change coefficients using methods included with DcMotorEx class.
         PIDFCoefficients pidSlide_New = new PIDFCoefficients(14, 0, 1.5, 0); // p was 10
@@ -158,10 +150,6 @@ public class Felipe2 {
     }
     public void setAnglerDeploy() {
         angler.setPosition(ANGLER_DEPLOY);//fwd
-    }
-
-    public void setAnglerAuto() {
-        angler.setPosition(ANGLER_AUTO);//fwd
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,16 +203,16 @@ public class Felipe2 {
         liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlidReach_1(){
+    public void  setSlideReach_1(){
         targetHeight = (  SLIDE_REACH_1 );
         liftToTargetHeight(targetHeight,3);
     }
 
-    public void  setSlidReach_2(){
+    public void  setSlideReach_2(){
         targetHeight = (  SLIDE_REACH_2 );
         liftToTargetHeight(targetHeight,3);
     }
-    public void  setSlidReach_3(){
+    public void  setSlideReach_3(){
         targetHeight = ( SLIDE_REACH_3);
         liftToTargetHeight(targetHeight,3);
     }
@@ -240,18 +228,19 @@ public class Felipe2 {
         }
         targetAngle = ( TURNER_LOAD_ANGLE );
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
+        turnerDown = true;
     }
 
     public void setTurnerDeploy(){
-        isReady = false;
         targetAngle = ( TURNER_DEPLOY_ANGLE );
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
         if (extendMotor.getTargetPosition() < 50) {
-            slideMechanicalReset();
+            //slideMechanicalReset();
         }
-        isReady = true;
+        turnerDown = false;
     }
     /// Get white pixel methods
+
 
     public void getPixel_4(){
         angler.setPosition(0.55); // this will change slightly as the arm extends.
