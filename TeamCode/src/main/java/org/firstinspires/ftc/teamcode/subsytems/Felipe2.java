@@ -225,13 +225,13 @@ public class Felipe2 {
     public void setTurnerAutoDEPLOY(){
         setSlideLevel_0();
         targetAngle = ( TURNER_DEPLOY_ANGLE );
-        rotateToTargetAngle( targetAngle,4, TURNER_SPEED);
+        rotateToTargetAutoAngle( targetAngle,4, TURNER_SPEED);
     }
     public void setTurnerAutoLOAD(){
         setSlideLevel_0();
         setAnglerAuto();
         targetAngle = ( TURNER_LOAD_ANGLE );
-        rotateToTargetAngle( targetAngle,4, TURNER_SPEED);
+        rotateToTargetAutoAngle( targetAngle,4, TURNER_SPEED);
     }
     public void setTurnerLoad(){
         setAnglerDeploy();
@@ -373,15 +373,38 @@ public class Felipe2 {
             // reset the timeout time and start motion.
             runtime.reset();
             turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
+            // holds up execution to let the arm turner do its thing.
+            }
+        }
+    }
+
+    public void rotateToTargetAutoAngle(double degree, double timeoutS, double TURNER_SPEED){
+        turnerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int newTargetAngle;
+
+        // Ensure that the opmode is still active
+        if ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive()) {
+            // This is the rotational equivalent of a lift to height
+            // The "0" point for the arm on this robot is 25 degrees below horizontal
+            // deploy is 120 degrees from horizontal or 145 degrees from start position.
+
+            newTargetAngle = (int)(degree *  TICKS_PER_TURNER_DEGREE);
+            // Set the target now that is has been calculated//
+            //armWheel.setPosition(ARM_WHEEL_STOW);// use servo and wheel to fine tune height of arm
+            turnerMotor.setTargetPosition(newTargetAngle);
+            // Turn On RUN_TO_POSITION
+            turnerMotor.setPower(Math.abs(TURNER_SPEED));
+            // reset the timeout time and start motion.
+            runtime.reset();
+            turnerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             /*while ((opmode.opModeInInit() && !opmode.isStopRequested()) || opmode.opModeIsActive() && runtime.seconds() < timeoutS) {
             // holds up execution to let the arm turner do its thing.
-
-
             }
-
              */
         }
     }
+
     public void rotateToPreciseAngle(double degree, double timeoutS){
         int newTargetAngle;
 
