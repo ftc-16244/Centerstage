@@ -190,27 +190,6 @@ public class StageRed22 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.gripperOpen())
                 .waitSeconds(0.5)
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
-                /*
-                //white pixel journey 2
-                //spline to white stacks again
-                .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_RIGHT, Math.toRadians(180))
-                //set turner to 11 degrees
-                //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area again
-                .splineToLinearHeading(WhiteTravelPart2a_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_RIGHT,Math.toRadians(180))
-                //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .back(25)
-                 */
                 .build();
 
 
@@ -255,27 +234,6 @@ public class StageRed22 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.gripperOpen())
                 .waitSeconds(0.5)
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
-                /*
-                //white pixel journey 2
-                //spline to white stacks again
-                .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
-                //set turner to 11 degrees
-                //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area again
-                .splineToLinearHeading(WhiteTravelPart2a_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
-                //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .back(25)
-                 */
                 .build();
 
         //============================
@@ -314,16 +272,6 @@ public class StageRed22 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.gripperOpen())
                 .waitSeconds(0.5)
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
-                /*
-                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1a_CENTER,Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
-                //.splineToLinearHeading(WhiteTravelPart2b_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.setTurnerAutoDEPLOY())
-                .splineToLinearHeading(WhiteTravelPart2e_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.gripperOpen())
-                 */
                 .build();
 
         felipe.setAnglerLoad();
