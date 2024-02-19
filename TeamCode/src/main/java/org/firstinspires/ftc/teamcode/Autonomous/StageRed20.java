@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 //@Disab+led
-public class StageRed24 extends LinearOpMode {
+public class StageRed20 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvWebcam webcam;
     RevBlinkinLedDriver blinkin;
@@ -100,9 +100,11 @@ public class StageRed24 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(45,-29,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(10,-35,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(4,-35,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,-24,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(18,-33,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(3,-33,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1c = new Pose2d(12,-33,Math.toRadians(180));
+
 
         /**
          * the number 1 symbolizes the journey from backstage to audience
@@ -124,8 +126,9 @@ public class StageRed24 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(0,0,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_RIGHT = new Pose2d(0,0,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-40,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(30,-30,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(35.5,-30,Math.toRadians(180));
 
         /**
          * the number 1 symbolizes the journey from backstage to audience
@@ -155,31 +158,23 @@ public class StageRed24 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
-                //head over to purple pixel push prop and then come back
-                //add lines to to do right purple pixel dropoff
-                //open gripper
+                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
+                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
-                //wait and back out
-                .waitSeconds(0.125)
-                .back(15)
-                //yellow pixel journey
-                //initialize all the subsystems to get ready to drop the yellow pixel
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
-                //go to yellow pixel drop off
-                //add line to linear heading to yellow pixel dropoff right
-                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
-                .waitSeconds(0.125)
-                //drop pixel and head back
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .waitSeconds(0.125)
+                .waitSeconds(0.1)
                 .back(10)
-                //white pixel journey 1
-                //set turner to load, set angler to auto, and slide level 0
+                .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
+                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()->felipe.setAnglerDeploy())
+                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
+                //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
+                //go the the backstage, to the center position
+                //yellow pixel journey
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
+                .strafeLeft(24)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
+                /*
                 //spline to white pixel stacks
                 .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
@@ -222,6 +217,8 @@ public class StageRed24 extends LinearOpMode {
                 //drop pixels, and back out
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .back(25)
+
+                 */
                 .build();
 
 
@@ -233,33 +230,24 @@ public class StageRed24 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
-                //head over to purple pixel push prop and then come back
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1b)
-                //open gripper
+                .lineToLinearHeading(PurplePixelDropOff_LEFT_1c)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
-                //wait and back out
-                .waitSeconds(0.125)
-                .back(15)
-                //yellow pixel journey
-                //initialize all the subsystems to get ready to drop the yellow pixel
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerDeploy();})
-                //go to yellow pixel drop off
-                .lineToLinearHeading(YellowPixelDropOff_LEFT)
-                .waitSeconds(0.125)
-                //drop pixel and head back
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .waitSeconds(0.125)
+                .waitSeconds(0.1)
                 .back(10)
-                //white pixel journey 1
-                //strafe left to avoid conflict
-                .strafeLeft(15)
-                //set turner to load, set angler to auto, and slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
+                .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
+                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()->felipe.setAnglerDeploy())
+                .lineToLinearHeading(YellowPixelDropOff_LEFT)
+                //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
+                //go the the backstage, to the center position
+                //yellow pixel journey
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
+                .forward(5)
+                .strafeLeft(38)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                /*
                 //spline to white pixel stacks
                 .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
                 .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
@@ -302,6 +290,8 @@ public class StageRed24 extends LinearOpMode {
                 //drop pixels, and back out
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
                 .back(25)
+
+                 */
                 .build();
 
         //============================
@@ -324,6 +314,8 @@ public class StageRed24 extends LinearOpMode {
                 //yellow pixel journey
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(10)
+                .strafeLeft(30)
+                /*
                 //white pixel journey 1
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
                 //back up and put turner to load, angler to load, slide to level 0
