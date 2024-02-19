@@ -22,7 +22,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous
-public class StageBlue20nocamera extends LinearOpMode {
+//@Disabled
+public class StageRed22 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvWebcam webcam;
     RevBlinkinLedDriver blinkin;
@@ -45,8 +46,8 @@ public class StageBlue20nocamera extends LinearOpMode {
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId);
-        Pipeline detector = new Pipeline(telemetry, StartPosition.BLUE_STAGE, blinkin);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
+        Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -63,15 +64,15 @@ public class StageBlue20nocamera extends LinearOpMode {
         // ALL POSE SECTION
         //============================
 
-        Pose2d startPos = new Pose2d(14.5,62,Math.toRadians(180));
+        Pose2d startPos = new Pose2d(14.5,-62,Math.toRadians(180));
         Pose2d wallpark = new Pose2d(1,1,Math.toRadians(180));
 
         //============================
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,35.5,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,21,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,-33.5,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,-25,Math.toRadians(180));
 
         /**
          * the number 1 symbolizes the journey from backstage to audience
@@ -79,54 +80,31 @@ public class StageBlue20nocamera extends LinearOpMode {
          * letter symbolizes the different parts of the path
          */
 
-        Pose2d WhiteTravelPart1a_CENTER_pt1 = new Pose2d(-54,36, Math.toRadians(180));
+        Pose2d WhiteTravelPart1a_CENTER_pt1 = new Pose2d(-54,-36, Math.toRadians(180));
 
         //Pose2d WhiteTravelPart2a_CENTER = new Pose2d(10,-35, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_Center = new Pose2d (48,56, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_Center = new Pose2d (48,-56, Math.toRadians(180));
 
-        Pose2d WhiteTravelPart1a_CENTER = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_CENTER = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_CENTER = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_CENTER = new Pose2d(-56,36, Math.toRadians(180));
+        Pose2d WhiteTravelPart1a_CENTER = new Pose2d(-0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1b_CENTER = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1c_CENTER = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1e_CENTER = new Pose2d(-56,-36, Math.toRadians(180));
 
-        Pose2d WhiteTravelPart2a_CENTER = new Pose2d(-42,56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_CENTER = new Pose2d(-20,56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_CENTER = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(28,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2e_CENTER = new Pose2d(45,60, Math.toRadians(180));
-
-        //============================
-        // RIGHT POSE SECTION
-        //============================
-
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,26,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(18,33,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(3,33,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_RIGHT_1c = new Pose2d(12,33,Math.toRadians(180));
-
-
-        /**
-         * the number 1 symbolizes the journey from backstage to audience
-         * the number 2 symbolizes the journey from audience to backstage
-         * letter symbolizes the different parts of the path
-         */
-
-        Pose2d WhiteTravelPart1a_RIGHT = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_RIGHT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_RIGHT = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_RIGHT = new Pose2d(-56,36, Math.toRadians(180));
-
-        Pose2d WhiteTravelPart2a_RIGHt = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_RIGHT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_RIGHT = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_RIGHT = new Pose2d(45,60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2a_CENTER = new Pose2d(-42,-56, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_CENTER = new Pose2d(-20,-56, Math.toRadians(180));
+        Pose2d WhiteTravelPart2c_CENTER = new Pose2d(0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(28,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2e_CENTER = new Pose2d(45,-60, Math.toRadians(180));
 
         //============================
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(55,44.5,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(34,28,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,-24,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(18,-33,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(3,-33,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1c = new Pose2d(12,-33,Math.toRadians(180));
+
 
         /**
          * the number 1 symbolizes the journey from backstage to audience
@@ -134,42 +112,66 @@ public class StageBlue20nocamera extends LinearOpMode {
          * letter symbolizes the different parts of the path
          */
 
-        Pose2d WhiteTravelPart1a_LEFT = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_LEFT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_LEFT = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_LEFT = new Pose2d(-56,36, Math.toRadians(180));
+        Pose2d WhiteTravelPart1a_LEFT = new Pose2d(-0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1b_LEFT = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1c_LEFT = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1e_LEFT = new Pose2d(-56,-36, Math.toRadians(180));
 
-        Pose2d WhiteTravelPart2a_LEFt = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_LEFT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_LEFT = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_LEFT = new Pose2d(45,60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2a_LEFT = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_LEFT = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2c_LEFT = new Pose2d(0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_LEFT = new Pose2d(45,-60, Math.toRadians(180));
+
+        //============================
+        // RIGHT POSE SECTION
+        //============================
+
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-40,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(30,-30,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(35.5,-30,Math.toRadians(180));
+
+        /**
+         * the number 1 symbolizes the journey from backstage to audience
+         * the number 2 symbolizes the journey from audience to backstage
+         * letter symbolizes the different parts of the path
+         */
+
+        Pose2d WhiteTravelPart1a_RIGHT = new Pose2d(-0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1b_RIGHT = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1c_RIGHT = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart1e_RIGHT = new Pose2d(-56,-36, Math.toRadians(180));
+
+        Pose2d WhiteTravelPart2a_RIGHT = new Pose2d(-42,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2b_RIGHT = new Pose2d(-20,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2c_RIGHT = new Pose2d(0,-60, Math.toRadians(180));
+        Pose2d WhiteTravelPart2d_RIGHT = new Pose2d(45,-60, Math.toRadians(180));
 
 
         drive.setPoseEstimate(startPos);
 
 
         //============================
-        // LEFT TRAJECTORY
+        // RIGHT TRAJECTORY
         //============================
-        TrajectorySequence StageRedLeft = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageRedRight = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
-                .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
+                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
+                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
-                .back(5)
+                .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .lineToLinearHeading(YellowPixelDropOff_LEFT)
+                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
                 //go the the backstage, to the center position
                 //yellow pixel journey
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .forward(5)
-                .strafeRight(20)
+                .strafeLeft(24)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
                 /*
@@ -221,29 +223,29 @@ public class StageBlue20nocamera extends LinearOpMode {
 
 
         //============================
-        // RIGHT TRAJECTORY
+        // LEFT TRAJECTORY
         //============================
-        TrajectorySequence StageRedRight = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageRedLeft = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
-                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
-                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
-                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1c)
+                .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
+                .lineToLinearHeading(PurplePixelDropOff_LEFT_1b)
+                .lineToLinearHeading(PurplePixelDropOff_LEFT_1c)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
+                .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
                 //go the the backstage, to the center position
                 //yellow pixel journey
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(5)
-                .strafeRight(38)
+                .strafeLeft(38)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 /*
                 //spline to white pixel stacks
@@ -303,18 +305,16 @@ public class StageBlue20nocamera extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
-                .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
                 //go the the backstage, to the center position
                 //yellow pixel journey
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .forward(5)
-                .strafeRight(30)
+                .forward(10)
+                .strafeLeft(30)
                 /*
                 //white pixel journey 1
                 .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
@@ -403,12 +403,10 @@ public class StageBlue20nocamera extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_STAGE" + location);
+        telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageRedLeft);
-
-        /*switch(location) {
+        switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageRedLeft);
                 break;
@@ -421,7 +419,5 @@ public class StageBlue20nocamera extends LinearOpMode {
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
-
-         */
     }
 }

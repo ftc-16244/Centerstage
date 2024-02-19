@@ -71,79 +71,23 @@ public class StageBlue20 extends LinearOpMode {
         //============================
 
         Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,35.5,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,22,Math.toRadians(180));
-
-        /**
-         * the number 1 symbolizes the journey from backstage to audience
-         * the number 2 symbolizes the journey from audience to backstage
-         * letter symbolizes the different parts of the path
-         */
-
-        Pose2d WhiteTravelPart1a_CENTER_pt1 = new Pose2d(-54,36, Math.toRadians(180));
-
-        //Pose2d WhiteTravelPart2a_CENTER = new Pose2d(10,-35, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_Center = new Pose2d (48,56, Math.toRadians(180));
-
-        Pose2d WhiteTravelPart1a_CENTER = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_CENTER = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_CENTER = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_CENTER = new Pose2d(-56,36, Math.toRadians(180));
-
-        Pose2d WhiteTravelPart2a_CENTER = new Pose2d(-42,56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_CENTER = new Pose2d(-20,56, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_CENTER = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_CENTER = new Pose2d(28,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2e_CENTER = new Pose2d(45,60, Math.toRadians(180));
+        Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,21,Math.toRadians(180));
 
         //============================
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,24,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,26,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(18,33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(3,33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1c = new Pose2d(12,33,Math.toRadians(180));
-
-
-        /**
-         * the number 1 symbolizes the journey from backstage to audience
-         * the number 2 symbolizes the journey from audience to backstage
-         * letter symbolizes the different parts of the path
-         */
-
-        Pose2d WhiteTravelPart1a_RIGHT = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_RIGHT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_RIGHT = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_RIGHT = new Pose2d(-56,36, Math.toRadians(180));
-
-        Pose2d WhiteTravelPart2a_RIGHt = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_RIGHT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_RIGHT = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_RIGHT = new Pose2d(45,60, Math.toRadians(180));
 
         //============================
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,40,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(30,30,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(35.5,30,Math.toRadians(180));
-
-        /**
-         * the number 1 symbolizes the journey from backstage to audience
-         * the number 2 symbolizes the journey from audience to backstage
-         * letter symbolizes the different parts of the path
-         */
-
-        Pose2d WhiteTravelPart1a_LEFT = new Pose2d(-0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1b_LEFT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1c_LEFT = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart1e_LEFT = new Pose2d(-56,36, Math.toRadians(180));
-
-        Pose2d WhiteTravelPart2a_LEFt = new Pose2d(-42,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2b_LEFT = new Pose2d(-20,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2c_LEFT = new Pose2d(0,60, Math.toRadians(180));
-        Pose2d WhiteTravelPart2d_LEFT = new Pose2d(45,60, Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(55,44.5,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(34,28,Math.toRadians(180));
 
 
         drive.setPoseEstimate(startPos);
@@ -158,66 +102,19 @@ public class StageBlue20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
-                .lineToLinearHeading(PurplePixelDropOff_LEFT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
-                .back(10)
+                .back(5)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .lineToLinearHeading(YellowPixelDropOff_LEFT)
-                //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
-                //go the the backstage, to the center position
                 //yellow pixel journey
+                .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .strafeLeft(24)
+                .forward(5)
+                .strafeRight(20)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
-                /*
-                //spline to white pixel stacks
-                .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_RIGHT, Math.toRadians(180))
-                //set turner to 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area
-                .splineToLinearHeading(WhiteTravelPart2a_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_RIGHT,Math.toRadians(180))
-                //set turner to deploy, set slide level to 1, open gripper
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerDeploy();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
-                .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .waitSeconds(0.125)
-                //white pixel journey 2
-                //set turner to load again, set slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
-                //spline to white stacks again
-                .splineToLinearHeading(WhiteTravelPart1a_RIGHT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_RIGHT, Math.toRadians(180))
-                //set turner to 11 degrees
-                //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area again
-                .splineToLinearHeading(WhiteTravelPart2a_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_RIGHT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_RIGHT,Math.toRadians(180))
-                //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .back(25)
-
-                 */
                 .build();
 
 
@@ -238,59 +135,12 @@ public class StageBlue20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
-                //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
-                //go the the backstage, to the center position
                 //yellow pixel journey
+                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(5)
-                .strafeLeft(38)
+                .strafeRight(38)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                /*
-                //spline to white pixel stacks
-                .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
-                //set turner to 11 degrees
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area
-                .splineToLinearHeading(WhiteTravelPart2a_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
-                //set turner to deploy, set slide level to 1, open gripper
-                //.UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoDEPLOY();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideRow_1();})
-                .waitSeconds(0.125)
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .waitSeconds(0.125)
-                //white pixel journey 2
-                //set turner to load again, set slide level 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerLoad();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setSlideLevel_0();})
-                //spline to white stacks again
-                .splineToLinearHeading(WhiteTravelPart1a_LEFT, Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1e_LEFT, Math.toRadians(180))
-                //set turner to 11 degrees
-                //grip and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.125)
-                .back(5)
-                //spline to backstage area again
-                .splineToLinearHeading(WhiteTravelPart2a_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2b_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2c_LEFT,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_LEFT,Math.toRadians(180))
-                //drop pixels, and back out
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperOpen();})
-                .back(25)
-
-                 */
                 .build();
 
         //============================
@@ -304,48 +154,16 @@ public class StageBlue20 extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
+                .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .lineToLinearHeading(YellowPixelDropOff_CENTER)
-                //release right gripper, turn the turner, set the slide one, and angle the angler to deploy
-                //go the the backstage, to the center position
                 //yellow pixel journey
+                .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .forward(10)
-                .strafeLeft(30)
-                /*
-                //white pixel journey 1
-                .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
-                //back up and put turner to load, angler to load, slide to level 0
-                //go under the truss closest the the centerstage door
-                .lineToLinearHeading(WhiteTravelPart1a_CENTER_pt1)
-                //add a line that makes the turner turn 11 degrees
-                //set turner correctly, and close gripper
-                //back up and put slide level to 0
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .waitSeconds(0.5)
-                //travel back to under the truss
-                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart2d_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .splineToLinearHeading(WhiteTravelPart2e_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.gripperOpen())
-                .waitSeconds(0.5)
-                .addTemporalMarker(()->felipe.setTurnerAutoLOAD())
-                .waitSeconds(1)
-                .forward(15)
-                /*
-                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
-                .splineToLinearHeading(WhiteTravelPart1a_CENTER,Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
-                .splineToLinearHeading(WhiteTravelPart2a_CENTER,Math.toRadians(180))
-                //.splineToLinearHeading(WhiteTravelPart2b_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.setTurnerAutoDEPLOY())
-                .splineToLinearHeading(WhiteTravelPart2e_CENTER,Math.toRadians(180))
-                .addTemporalMarker(()->felipe.gripperOpen())
-                 */
+                .forward(5)
+                .strafeRight(30)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .build();
 
         felipe.setAnglerLoad();
@@ -405,7 +223,9 @@ public class StageBlue20 extends LinearOpMode {
         telemetry.addData("Running path", " BLUE_STAGE" + location);
         telemetry.update();
 
-        switch(location) {
+        drive.followTrajectorySequence(StageRedLeft);
+
+        /*switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageRedLeft);
                 break;
@@ -418,5 +238,7 @@ public class StageBlue20 extends LinearOpMode {
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
+
+         */
     }
 }
