@@ -65,7 +65,6 @@ public class AudRed20 extends LinearOpMode {
         //============================
 
         Pose2d startPos = new Pose2d(-34,-64,Math.toRadians(0));
-        Pose2d wallpark = new Pose2d(1,1,Math.toRadians(180));
 
         Pose2d Splinept1 = new Pose2d(-34,-11,Math.toRadians(0));
         Pose2d Splinept2 = new Pose2d(33,-11,Math.toRadians(0));
@@ -103,7 +102,7 @@ public class AudRed20 extends LinearOpMode {
         //============================
         // RIGHT TRAJECTORY
         //============================
-        TrajectorySequence StageRedRight = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence AudRedRight = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -135,7 +134,7 @@ public class AudRed20 extends LinearOpMode {
         //============================
         // LEFT TRAJECTORY
         //============================
-        TrajectorySequence StageRedLeft = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence AudRedLeft = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -165,7 +164,7 @@ public class AudRed20 extends LinearOpMode {
         //============================
         // CENTER TRAJECTORY
         //============================
-        TrajectorySequence StageRedCenter = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence AudRedCenter = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -250,19 +249,19 @@ public class AudRed20 extends LinearOpMode {
         telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageRedRight);
+        drive.followTrajectorySequence(AudRedRight);
 
 
         /*
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeft);
+                drive.followTrajectorySequence(AudRedLeft);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenter);
+                drive.followTrajectorySequence(AudRedCenter);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRight);
+                drive.followTrajectorySequence(AudRedRight);
                 break;
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");

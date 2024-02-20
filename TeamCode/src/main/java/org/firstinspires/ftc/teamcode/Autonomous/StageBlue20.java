@@ -96,7 +96,7 @@ public class StageBlue20 extends LinearOpMode {
         //============================
         // LEFT TRAJECTORY
         //============================
-        TrajectorySequence StageRedLeft = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueLeft = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -121,7 +121,7 @@ public class StageBlue20 extends LinearOpMode {
         //============================
         // RIGHT TRAJECTORY
         //============================
-        TrajectorySequence StageRedRight = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueRight = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -146,7 +146,7 @@ public class StageBlue20 extends LinearOpMode {
         //============================
         // CENTER TRAJECTORY
         //============================
-        TrajectorySequence StageRedCenter = drive.trajectorySequenceBuilder(startPos)
+        TrajectorySequence StageBlueCenter = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
@@ -223,17 +223,17 @@ public class StageBlue20 extends LinearOpMode {
         telemetry.addData("Running path", " BLUE_STAGE" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageRedLeft);
+        drive.followTrajectorySequence(StageBlueLeft);
 
         /*switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeft);
+                drive.followTrajectorySequence(StageBlueLeft);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenter);
+                drive.followTrajectorySequence(StageBlueCenter);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRight);
+                drive.followTrajectorySequence(StageBlueRight);
                 break;
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
