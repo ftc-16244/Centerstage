@@ -83,16 +83,16 @@ public class AudRed20 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,-24,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-52,-29,Math.toRadians(0));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(51,-29,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-54.5,-29,Math.toRadians(0));
 
 
         //============================
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-40,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(-35,-32,Math.toRadians(0));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-41,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(-37,-32,Math.toRadians(0));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(-31,-32,Math.toRadians(0));
 
 
@@ -111,18 +111,24 @@ public class AudRed20 extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
-                /*
-                .waitSeconds(0.1)
+                .addTemporalMarker(()->felipe.setAnglerAuto())
+                .back(15)
+                .strafeLeft(10)
+                //yellow pixel journey
+                .splineToLinearHeading(Splinept1,Math.toRadians(0))
+                .splineToLinearHeading(Splinept2,Math.toRadians(0))
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                //yellow pixel journey
-                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
+                .splineToLinearHeading(YellowPixelDropOff_RIGHT,Math.toRadians(180))
+                .back(5)
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .strafeLeft(24)
+                .waitSeconds(0.1)
+                .forward(5)
+                .strafeRight(30)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
-                 */
+                .back(11)
                 .build();
 
 
@@ -146,12 +152,14 @@ public class AudRed20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .splineToLinearHeading(YellowPixelDropOff_LEFT,Math.toRadians(180))
+                .back(5)
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
-                .strafeRight(24)
-                .back(20)
+                .strafeRight(15)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                .back(11)
                 .build();
 
         //============================
@@ -175,6 +183,8 @@ public class AudRed20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .splineToLinearHeading(YellowPixelDropOff_CENTER,Math.toRadians(180))
+                .forward(5)
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
@@ -240,7 +250,7 @@ public class AudRed20 extends LinearOpMode {
         telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageRedCenter);
+        drive.followTrajectorySequence(StageRedRight);
 
 
         /*
