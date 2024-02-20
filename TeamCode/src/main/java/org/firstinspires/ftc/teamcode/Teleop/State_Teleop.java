@@ -128,12 +128,12 @@ public class State_Teleop extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper) {
-                felipe.gripperRightOpen();
+                felipe.gripperLeftOpen();
                 sleep(100);
             }
 
             if (gamepad1.left_bumper) {
-                felipe.gripperLeftOpen();
+                felipe.gripperRightOpen();
                 sleep(100);
             }
             if (gamepad1.left_stick_button) {
@@ -187,13 +187,15 @@ public class State_Teleop extends LinearOpMode {
                 sleep(100);
             }
             if (gamepad2.left_bumper) {
+
                 gp2leftbumper();
                 setManarMode(0.85, true);
                 sleep(100);
             }
             if (gamepad2.right_bumper) {
+                //felipe.setTurnerDeploy();
                 gp2rightbumper();
-                setManarMode(0.25, false);
+                setManarMode(0.5, false);
                 sleep(100);
             }
             if (gamepad2.left_trigger > 0.25) {
@@ -203,7 +205,8 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad2.right_trigger > 0.25) {
                 setManarMode(0.5, false);
-                gp2righttrigger();
+                felipe.setAnglerDeploy();
+                //gp2righttrigger();
                 sleep(100);
             }
         }
@@ -218,7 +221,7 @@ public class State_Teleop extends LinearOpMode {
     private void gp1righttrigger() {
         Thread gp1righttrigger = new Thread(() -> {
             felipe.gripperClosed();
-            sleep(300);
+            sleep(500);
             felipe.setAnglerDeploy();
             sleep(200);
         });
@@ -287,15 +290,17 @@ public class State_Teleop extends LinearOpMode {
     }
     private void gp2lefttrigger() {
         Thread gp2lefttrigger = new Thread(() -> {
-            felipe.setAnglerDeploy();
+            //felipe.setAnglerDeploy();
+            felipe.setAnglerLoad();
+            felipe.gripperOpen();
             sleep(100);
         });
         gp2lefttrigger.start();
     }
     private void gp2righttrigger() {
         Thread gp2righttrigger = new Thread(() -> {
-            felipe.setAnglerLoad();
-            felipe.gripperOpen();
+            felipe.setAnglerDeploy();
+
             sleep(100);
         });
         gp2righttrigger.start();
