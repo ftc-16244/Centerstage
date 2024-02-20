@@ -102,8 +102,9 @@ public class MecanumDriveBase extends MecanumDrive {
 
         // Now initialize the IMU with this mounting orientation
         // This sample expects the IMU to be in a REV Hub and named "imu".
-        imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+       // imu = hardwareMap.get(IMU.class, "imu");
+        //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // TODO: If the hub containing the IMU you are using is mounted so that the "REV" logo does
         // not face up, remap the IMU axes so that the z-axis points upward (normal to the floor.)
@@ -316,7 +317,7 @@ public class MecanumDriveBase extends MecanumDrive {
     @Override
     public double getRawExternalHeading() {
         //return imu.getAngularOrientation().firstAngle;
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        return 0; //imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         //return 55.0;
     }
@@ -327,8 +328,8 @@ public class MecanumDriveBase extends MecanumDrive {
         //return (double) imu.getAngularVelocity().xRotationRate;
         angularVelocity = imu.getRobotAngularVelocity(AngleUnit.RADIANS);
         float zRotationRate = angularVelocity.zRotationRate;
-        return  (double) zRotationRate;
-        //return 55.0;
+       //return  (double) zRotationRate;
+        return (double) 0; //55.0;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
