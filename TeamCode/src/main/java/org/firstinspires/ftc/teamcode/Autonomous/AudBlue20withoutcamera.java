@@ -23,44 +23,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 //@Disabled
-public class AudBlue20 extends LinearOpMode {
+public class AudBlue20withoutcamera extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
-    OpenCvWebcam webcam;
-    RevBlinkinLedDriver blinkin;
-    RevBlinkinLedDriver.BlinkinPattern pipelineError = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
-    RevBlinkinLedDriver.BlinkinPattern pipelineBroken = RevBlinkinLedDriver.BlinkinPattern.LARSON_SCANNER_RED;
-    RevBlinkinLedDriver.BlinkinPattern pipelineNotReady = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
-    RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
 
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        blinkin = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-
-        blinkin.setPattern(pipelineNotReady);
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId);
-        System.out.println("webcams created");
-        Pipeline detector = new Pipeline(telemetry, StartPosition.BLUE_AUD, blinkin);
-        System.out.println("Pipeline created");
-        webcam.setPipeline(detector);
-        System.out.println("Pipeline set");
-
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                // this camera supports 1280x800, 1280x720, 800x600, 640x480, and 320x240
-                webcam.startStreaming(640, 480, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
-            }
-            @Override
-            public void onError(int errorCode) {
-                System.err.println("Webcam could not be opened!");
-            }
-        });
-        System.out.println("webcam opened");
 
         Felipe2 felipe = new Felipe2(this);
         felipe.init(hardwareMap);
@@ -208,30 +178,6 @@ public class AudBlue20 extends LinearOpMode {
         //detector.toggleTelemetry();
         //telemetry.clearAll();
 
-        int totalTimeWaited = 0;
-        boolean pipelineRan = true;
-        if(detector.getPropLocation() == null) {
-            telemetry.addData("ERROR", "Start was pressed too soon.");
-            telemetry.update();
-            blinkin.setPattern(pipelineError);
-
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && !isStopRequested()) {
-                totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
-                sleep(webcam.getOverheadTimeMs() * 4L);
-            }
-            telemetry.addData("Wasted time", totalTimeWaited);
-            if(totalTimeWaited > 7000) {
-                telemetry.addData("ERROR", "The pipeline never ran.");
-                pipelineRan = false;
-                blinkin.setPattern(pipelineBroken);
-            }
-            telemetry.update();
-        }
-        else {
-            telemetry.addData("INFO", "Pipeline is running correctly");
-            telemetry.update();
-            blinkin.setPattern(pipelineReady);
-        }
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -240,17 +186,6 @@ public class AudBlue20 extends LinearOpMode {
 
         //detector.toggleTelemetry();
         //telemetry.clearAll();
-
-        Prop location = Prop.CENTER;
-
-        if(pipelineRan) {
-            location = detector.getPropLocation();
-            webcam.stopStreaming();
-            webcam.closeCameraDevice();
-        }
-
-        telemetry.addData("Running path", " RED_STAGE" + location);
-        telemetry.update();
 
         drive.followTrajectorySequence(AudBlueRight);
 

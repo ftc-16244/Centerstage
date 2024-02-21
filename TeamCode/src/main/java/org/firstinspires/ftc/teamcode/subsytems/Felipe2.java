@@ -53,7 +53,7 @@ public class Felipe2 {
     private static final double      ANGLER_CARRY       = 0.75;// load and moving the pixel
     private static final double      ANGLER_DEPLOY      = 0.15; // deposit the pixel
     private static final double      ANGLER_LOAD      = 0.7; // Loading the pixel
-    public static final double      ANGLER_AUTO      = 0.65; // purple pixel drop level
+    public static final double      ANGLER_AUTO      = 0.63; // purple pixel drop level
 
     Telemetry       telemetry;
     LinearOpMode    opmode; // need content from Linear opmodes here. Elapsed time mainly
