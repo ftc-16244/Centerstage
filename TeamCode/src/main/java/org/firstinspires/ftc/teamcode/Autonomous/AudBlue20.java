@@ -60,6 +60,7 @@ public class AudBlue20 extends LinearOpMode {
             public void onError(int errorCode) {}
         });
 
+
         //============================
         // ALL POSE SECTION
         //============================
@@ -74,7 +75,7 @@ public class AudBlue20 extends LinearOpMode {
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,32,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,39.5,Math.toRadians(180));
         Pose2d PurplePixelDropOff_CENTER = new Pose2d(-45,27,Math.toRadians(0));
 
 
@@ -172,7 +173,6 @@ public class AudBlue20 extends LinearOpMode {
                 .back(5)
                 .addTemporalMarker(()->felipe.setAnglerAuto())
                 .strafeRight(10)
-                .turn(180)
                 //yellow pixel journey
                 .splineToLinearHeading(Splinept1,Math.toRadians(180))
                 .splineToLinearHeading(Splinept2,Math.toRadians(180))
@@ -180,14 +180,14 @@ public class AudBlue20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .splineToLinearHeading(YellowPixelDropOff_CENTER,Math.toRadians(180))
-                .back(5)
+                .back(2)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
                 .strafeLeft(24)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .back(16)
+                .back(12)
                 .build();
 
         felipe.setAnglerLoad();
@@ -210,12 +210,12 @@ public class AudBlue20 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 10000 && opModeIsActive()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }
             telemetry.addData("Wasted time", totalTimeWaited);
-            if(totalTimeWaited > 7000) {
+            if(totalTimeWaited > 10000) {
                 telemetry.addData("ERROR", "The pipeline never ran.");
                 pipelineRan = false;
                 blinkin.setPattern(pipelineBroken);
@@ -247,7 +247,7 @@ public class AudBlue20 extends LinearOpMode {
         telemetry.addData("Running path", " RED_STAGE" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(AudBlueCenter);
+        drive.followTrajectorySequence(AudBlueRight);
 
 
         /*

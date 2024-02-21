@@ -186,7 +186,7 @@ public class StageBlue20 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && opModeIsActive()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }

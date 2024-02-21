@@ -26,6 +26,9 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 // Also heavily modified for telemetry, multiple ROIs, and many other things
 
 public class Pipeline extends OpenCvPipeline {
+    {
+        System.out.println("Pipeline first code ran");
+    }
     boolean telemetryEnabled = true;
     Prop location;
     Telemetry telemetry;
@@ -38,6 +41,7 @@ public class Pipeline extends OpenCvPipeline {
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
     private static final int PERCENT_COLOR_THRESHOLD = 10;
     public Pipeline(Telemetry t, StartPosition position, RevBlinkinLedDriver blinkin) {
+        System.out.println("Pipeline created");
         telemetry = t;
         startPosition = position;
         blinkinLedDriver = blinkin;
@@ -45,6 +49,7 @@ public class Pipeline extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) { // DON'T under any circumstances do anything that has the smallest possibility of changing input
         // for example, doing output = input; then doing Imgproc.cvtColor(output, output, Imgproc.COLOR_BGRA2BGR); breaks it
+        System.out.println("Process frame called");
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
         Imgproc.cvtColor(input, output, Imgproc.COLOR_BGRA2BGR);
         Rect LEFT_ROI;
@@ -82,13 +87,16 @@ public class Pipeline extends OpenCvPipeline {
         else {
             throw new IllegalArgumentException("Invalid start position passed to pipeline!");
         }
+        System.out.println("Start position set");
 
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
+        System.out.println("Inrange done");
 
         Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
         Mat center = mat.submat(CENTER_ROI);
         Mat right = mat.submat(RIGHT_ROI);
+        System.out.println("Submats made");
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
         // white is given a value of 255. This way the new image is just grayscale where 0 is black
@@ -99,18 +107,24 @@ public class Pipeline extends OpenCvPipeline {
         double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 2.55;
         double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 2.55;
         double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 2.55;
+        System.out.println("Values created");
 
         left.release(); // frees up memory
         center.release();
         right.release();
+        System.out.println("Submats released");
 
         location = null;
         if (leftValue > PERCENT_COLOR_THRESHOLD) location = Prop.LEFT;
         else if (centerValue > PERCENT_COLOR_THRESHOLD) location = Prop.CENTER;
         else if (rightValue > PERCENT_COLOR_THRESHOLD) location = Prop.RIGHT;
 
-        else telemetry.addLine("No prop detected.");
         if (!(location == null)) telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
+        else {
+            location = Prop.CENTER;
+            telemetry.addLine("No prop detected.");
+        }
+        System.out.println("Pipeline values set");
 
         if (telemetryEnabled) {
             telemetry.addData("LEFT percentage",  Math.round(leftValue * 10) / 10 + "%");
@@ -120,8 +134,10 @@ public class Pipeline extends OpenCvPipeline {
         }
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
+        System.out.println("telemetry and cvtcolor done");
 
         Core.bitwise_and(output, mat, output);
+        System.out.println("bitwise and done");
 
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
         Scalar colorDetection = new Scalar(0, 255, 0);

@@ -248,11 +248,11 @@ public class Felipe2 {
 
     public void setTurnerDeploy(){
         targetAngle = ( TURNER_DEPLOY_ANGLE );
+        turnerDown = false;
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
         if (extendMotor.getTargetPosition() < 50) {
             //slideMechanicalReset();
         }
-        turnerDown = false;
     }
     /// Get white pixel methods
 
