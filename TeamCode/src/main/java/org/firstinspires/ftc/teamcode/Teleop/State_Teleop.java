@@ -33,7 +33,7 @@ public class State_Teleop extends LinearOpMode {
     RevBlinkinLedDriver.BlinkinPattern endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
     RevBlinkinLedDriver.BlinkinPattern climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 
-    double speedFactor = 0.85;
+    double speedFactor = 1.0;
     @Override
     public void runOpMode() throws InterruptedException {
         // set up Mecanum Drive
@@ -142,11 +142,8 @@ public class State_Teleop extends LinearOpMode {
             if (gamepad1.right_stick_button) {
                 speedFactor = 0.25;
             }
-            if (gamepad1.y) {
-                speedFactor = 0.85;
-            }
             if (gamepad1.a) {
-                speedFactor = 1.0;
+                speedFactor = 0.85;
             }
 //// GAMEPAD #2/////////////////////////
 
@@ -168,7 +165,7 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
-                setManarMode(0.85, true);
+                setManarMode(1.0, true);
                 sleep(100);
             }
             if (gamepad2.dpad_right) {
@@ -189,7 +186,7 @@ public class State_Teleop extends LinearOpMode {
             if (gamepad2.left_bumper) {
 
                 gp2leftbumper();
-                setManarMode(0.85, true);
+                setManarMode(1.0, true);
                 sleep(100);
             }
             if (gamepad2.right_bumper) {
@@ -200,7 +197,7 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad2.left_trigger > 0.25) {
                 gp2lefttrigger();
-                setManarMode(0.85, true);
+                setManarMode(1.0, true);
                 sleep(100);
             }
             if (gamepad2.right_trigger > 0.25) {

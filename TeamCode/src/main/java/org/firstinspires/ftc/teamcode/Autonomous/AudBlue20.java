@@ -34,10 +34,6 @@ public class AudBlue20 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        Felipe2 felipe = new Felipe2(this);
-        felipe.init(hardwareMap);
-
         MecanumDriveBase drive = new MecanumDriveBase(hardwareMap);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -47,8 +43,11 @@ public class AudBlue20 extends LinearOpMode {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Blue"), cameraMonitorViewId);
+        System.out.println("webcams created");
         Pipeline detector = new Pipeline(telemetry, StartPosition.BLUE_AUD, blinkin);
+        System.out.println("Pipeline created");
         webcam.setPipeline(detector);
+        System.out.println("Pipeline set");
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -57,8 +56,14 @@ public class AudBlue20 extends LinearOpMode {
                 webcam.startStreaming(640, 480, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
             }
             @Override
-            public void onError(int errorCode) {}
+            public void onError(int errorCode) {
+                System.err.println("Webcam could not be opened!");
+            }
         });
+        System.out.println("webcam opened");
+
+        Felipe2 felipe = new Felipe2(this);
+        felipe.init(hardwareMap);
 
 
         //============================
@@ -210,12 +215,12 @@ public class AudBlue20 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 10000 && opModeIsActive()) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && !isStopRequested()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }
             telemetry.addData("Wasted time", totalTimeWaited);
-            if(totalTimeWaited > 10000) {
+            if(totalTimeWaited > 7000) {
                 telemetry.addData("ERROR", "The pipeline never ran.");
                 pipelineRan = false;
                 blinkin.setPattern(pipelineBroken);

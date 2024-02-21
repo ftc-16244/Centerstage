@@ -295,7 +295,7 @@ public class StageRed22 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && !isStopRequested()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }

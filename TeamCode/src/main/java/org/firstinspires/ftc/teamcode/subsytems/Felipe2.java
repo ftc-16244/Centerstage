@@ -306,7 +306,7 @@ public class Felipe2 {
     }
     public void slideMechanicalReset(){
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
-        extendMotor.setPower(SLIDERESETSPEED);
+        extendMotor.setPower(-0.5);
 
         runtime.reset();
         // opmode is not active during init so take that condition out of the while loop

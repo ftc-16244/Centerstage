@@ -41,7 +41,6 @@ public class Pipeline extends OpenCvPipeline {
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
     private static final int PERCENT_COLOR_THRESHOLD = 10;
     public Pipeline(Telemetry t, StartPosition position, RevBlinkinLedDriver blinkin) {
-        System.out.println("Pipeline created");
         telemetry = t;
         startPosition = position;
         blinkinLedDriver = blinkin;
@@ -87,16 +86,13 @@ public class Pipeline extends OpenCvPipeline {
         else {
             throw new IllegalArgumentException("Invalid start position passed to pipeline!");
         }
-        System.out.println("Start position set");
 
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
-        System.out.println("Inrange done");
 
         Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
         Mat center = mat.submat(CENTER_ROI);
         Mat right = mat.submat(RIGHT_ROI);
-        System.out.println("Submats made");
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
         // white is given a value of 255. This way the new image is just grayscale where 0 is black
@@ -107,12 +103,10 @@ public class Pipeline extends OpenCvPipeline {
         double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 2.55;
         double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 2.55;
         double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 2.55;
-        System.out.println("Values created");
 
         left.release(); // frees up memory
         center.release();
         right.release();
-        System.out.println("Submats released");
 
         location = null;
         if (leftValue > PERCENT_COLOR_THRESHOLD) location = Prop.LEFT;
@@ -124,7 +118,6 @@ public class Pipeline extends OpenCvPipeline {
             location = Prop.CENTER;
             telemetry.addLine("No prop detected.");
         }
-        System.out.println("Pipeline values set");
 
         if (telemetryEnabled) {
             telemetry.addData("LEFT percentage",  Math.round(leftValue * 10) / 10 + "%");
@@ -134,10 +127,8 @@ public class Pipeline extends OpenCvPipeline {
         }
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
-        System.out.println("telemetry and cvtcolor done");
 
         Core.bitwise_and(output, mat, output);
-        System.out.println("bitwise and done");
 
         Scalar colorNone = new Scalar(255, 0, 0); // color scheme for targeting boxes drawn on the display
         Scalar colorDetection = new Scalar(0, 255, 0);
@@ -147,7 +138,7 @@ public class Pipeline extends OpenCvPipeline {
         Imgproc.rectangle(output, RIGHT_ROI, location == Prop.RIGHT? colorDetection:colorNone);
 
         blinkinLedDriver.setPattern(pipelineReady);
-        if(location == null) location = Prop.CENTER;
+
         return output;
     }
     public Prop getPropLocation() {
