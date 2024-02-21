@@ -35,7 +35,6 @@ public class AudBlue20withoutcamera extends LinearOpMode {
         Felipe2 felipe = new Felipe2(this);
         felipe.init(hardwareMap);
 
-
         //============================
         // ALL POSE SECTION
         //============================
@@ -44,6 +43,7 @@ public class AudBlue20withoutcamera extends LinearOpMode {
 
         Pose2d Splinept1 = new Pose2d(-35,12,Math.toRadians(180));
         Pose2d Splinept2 = new Pose2d(32,13,Math.toRadians(180));
+
 
 
         //============================
@@ -72,6 +72,7 @@ public class AudBlue20withoutcamera extends LinearOpMode {
 
         drive.setPoseEstimate(startPos);
 
+        /*
         //============================
         // LEFT TRAJECTORY
         //============================
@@ -134,9 +135,28 @@ public class AudBlue20withoutcamera extends LinearOpMode {
                 .back(11)
                 .build();
 
+
+         */
         //============================
         // CENTER TRAJECTORY
         //============================
+
+        felipe.setAnglerLoad();
+        sleep(250);
+        felipe.gripperClosed();
+        sleep(250);
+        felipe.slideMechanicalReset();
+        sleep(250);
+
+        waitForStart();
+
+        //detector.toggleTelemetry();
+        //telemetry.clearAll();
+
+
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
         TrajectorySequence AudBlueCenter = drive.trajectorySequenceBuilder(startPos)
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
@@ -165,29 +185,12 @@ public class AudBlue20withoutcamera extends LinearOpMode {
                 .back(12)
                 .build();
 
-        felipe.setAnglerLoad();
-        sleep(250);
-        felipe.gripperClosed();
-        sleep(250);
-        felipe.slideMechanicalReset();
-        sleep(250);
-
-        waitForStart();
 
 
         //detector.toggleTelemetry();
         //telemetry.clearAll();
 
-
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-
-
-        //detector.toggleTelemetry();
-        //telemetry.clearAll();
-
-        drive.followTrajectorySequence(AudBlueRight);
+        drive.followTrajectorySequence(AudBlueCenter);
 
 
         /*
