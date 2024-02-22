@@ -74,8 +74,7 @@ public class AudBlue20 extends LinearOpMode {
 
         Pose2d Splinept1 = new Pose2d(-35,12,Math.toRadians(180));
         Pose2d Splinept2 = new Pose2d(32,13,Math.toRadians(180));
-
-
+        Pose2d BlueCenterPark = new Pose2d(46,12,Math.toRadians(180));
         //============================
         // CENTER POSE SECTION
         //============================
@@ -88,8 +87,8 @@ public class AudBlue20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_Right = new Pose2d(51,32,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_Right_1a = new Pose2d(-54,32,Math.toRadians(0));
+        Pose2d YellowPixelDropOff_Right = new Pose2d(51,34,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_Right_1a = new Pose2d(-55,32,Math.toRadians(0));
 
 
         //============================
@@ -118,7 +117,7 @@ public class AudBlue20 extends LinearOpMode {
                 .strafeRight(25)
                 //yellow pixel journey
                 .splineToLinearHeading(Splinept1,Math.toRadians(180))
-                .splineToLinearHeading(Splinept2,Math.toRadians(180))
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
@@ -128,9 +127,10 @@ public class AudBlue20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
-                .strafeLeft(30)
+                .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .back(11)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .back(15)
                 .build();
 
 
@@ -149,7 +149,7 @@ public class AudBlue20 extends LinearOpMode {
                 .strafeRight(20)
                 //yellow pixel journey
                 .splineToLinearHeading(Splinept1,Math.toRadians(180))
-                .splineToLinearHeading(Splinept2,Math.toRadians(180))
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
@@ -159,9 +159,10 @@ public class AudBlue20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
-                .strafeLeft(21)
+                .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .back(11)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .back(15)
                 .build();
 
         //============================
@@ -180,7 +181,7 @@ public class AudBlue20 extends LinearOpMode {
                 .strafeRight(10)
                 //yellow pixel journey
                 .splineToLinearHeading(Splinept1,Math.toRadians(180))
-                .splineToLinearHeading(Splinept2,Math.toRadians(180))
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
@@ -190,9 +191,10 @@ public class AudBlue20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
-                .strafeLeft(24)
+                .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .back(12)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .back(15)
                 .build();
 
         felipe.setAnglerLoad();
