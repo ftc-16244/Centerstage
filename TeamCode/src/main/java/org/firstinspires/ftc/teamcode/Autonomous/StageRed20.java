@@ -77,6 +77,7 @@ public class StageRed20 extends LinearOpMode {
         //============================
 
         Pose2d startPos = new Pose2d(14.5,-62,Math.toRadians(180));
+        Pose2d RedCenterPark = new Pose2d(46,-12,Math.toRadians(180));
 
         //============================
         // CENTER POSE SECTION
@@ -128,11 +129,13 @@ public class StageRed20 extends LinearOpMode {
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .strafeLeft(24)
+                .waitSeconds(0.1)
+                .forward(5)
+                .lineToLinearHeading(RedCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
-                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
+                .back(15)
                 .build();
 
 
@@ -156,11 +159,13 @@ public class StageRed20 extends LinearOpMode {
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
+                .waitSeconds(0.1)
                 .forward(5)
-                .strafeLeft(38)
+                .lineToLinearHeading(RedCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
+                .back(15)
                 .build();
 
         //============================
@@ -180,11 +185,13 @@ public class StageRed20 extends LinearOpMode {
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
-                .forward(10)
-                .strafeLeft(30)
+                .waitSeconds(0.1)
+                .forward(5)
+                .lineToLinearHeading(RedCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
+                .back(15)
                 .build();
 
         felipe.setAnglerLoad();
