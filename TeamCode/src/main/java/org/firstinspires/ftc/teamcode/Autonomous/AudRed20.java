@@ -139,7 +139,9 @@ public class AudRed20 extends LinearOpMode {
                 .forward(5)
                 .strafeRight(30)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                .waitSeconds(1)
                 .back(11)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
 
@@ -170,7 +172,9 @@ public class AudRed20 extends LinearOpMode {
                 .forward(5)
                 .strafeRight(15)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                .waitSeconds(1)
                 .back(11)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         //============================
@@ -201,7 +205,9 @@ public class AudRed20 extends LinearOpMode {
                 .forward(5)
                 .strafeRight(24)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
-                .back(16)
+                .waitSeconds(1)
+                .back(11)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         felipe.setAnglerLoad();
