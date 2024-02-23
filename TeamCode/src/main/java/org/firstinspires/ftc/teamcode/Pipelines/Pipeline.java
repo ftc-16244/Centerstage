@@ -33,6 +33,9 @@ public class Pipeline extends OpenCvPipeline {
     Scalar lowHSV;
     Scalar highHSV;
     Mat mat = new Mat(); // Mat is a matrix
+    Mat left;
+    Mat center;
+    Mat right;
     Mat output = new Mat();
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
@@ -87,9 +90,9 @@ public class Pipeline extends OpenCvPipeline {
         // takes the values that are between lowHSV and highHSV only
         Core.inRange(mat, lowHSV, highHSV, mat);
 
-        Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
-        Mat center = mat.submat(CENTER_ROI);
-        Mat right = mat.submat(RIGHT_ROI);
+        left = mat.submat(LEFT_ROI); //sub matrices of mat
+        center = mat.submat(CENTER_ROI);
+        right = mat.submat(RIGHT_ROI);
 
         // if a pixel is deemed to be between the low and high HSV range OpenCV makes it white
         // white is given a value of 255. This way the new image is just grayscale where 0 is black
@@ -100,10 +103,6 @@ public class Pipeline extends OpenCvPipeline {
         double leftValue = Core.sumElems(left).val[0] / LEFT_ROI.area() / 2.55;
         double centerValue = Core.sumElems(center).val[0] / CENTER_ROI.area() / 2.55;
         double rightValue = Core.sumElems(right).val[0] / RIGHT_ROI.area() / 2.55;
-
-        left.release(); // frees up memory
-        center.release();
-        right.release();
 
         location = null;
         if (leftValue > PERCENT_COLOR_THRESHOLD) location = Prop.LEFT;
@@ -132,6 +131,7 @@ public class Pipeline extends OpenCvPipeline {
         Imgproc.rectangle(output, RIGHT_ROI, location == Prop.RIGHT? colorDetection:colorNone);
 
         blinkinLedDriver.setPattern(pipelineReady);
+        System.out.println("Process frame done");
 
         return output;
     }
