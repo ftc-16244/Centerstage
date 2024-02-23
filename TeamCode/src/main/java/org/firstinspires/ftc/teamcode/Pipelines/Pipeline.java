@@ -26,9 +26,6 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 // Also heavily modified for telemetry, multiple ROIs, and many other things
 
 public class Pipeline extends OpenCvPipeline {
-    {
-        System.out.println("Pipeline first code ran");
-    }
     boolean telemetryEnabled = true;
     Prop location;
     Telemetry telemetry;
@@ -62,7 +59,7 @@ public class Pipeline extends OpenCvPipeline {
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
         }
-        else if (startPosition == StartPosition.BLUE_AUD) { //TODO: move blue camera down one hole
+        else if (startPosition == StartPosition.BLUE_AUD) {
             LEFT_ROI = LEFT_ROI_BLUE;
             CENTER_ROI = CENTER_ROI_BLUE;
             RIGHT_ROI = RIGHT_ROI_BLUE;

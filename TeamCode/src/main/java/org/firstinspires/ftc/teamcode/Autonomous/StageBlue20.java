@@ -104,7 +104,7 @@ public class StageBlue20 extends LinearOpMode {
 
         drive.setPoseEstimate(startPos);
 
-
+        System.out.println("Path building started");
         //============================
         // LEFT TRAJECTORY
         //============================
@@ -177,6 +177,8 @@ public class StageBlue20 extends LinearOpMode {
                 .strafeRight(30)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .build();
+
+        System.out.println("Path building done");
 
         felipe.setAnglerLoad();
         sleep(250);
