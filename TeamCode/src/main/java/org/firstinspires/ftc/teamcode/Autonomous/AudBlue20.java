@@ -135,6 +135,8 @@ public class AudBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(BlueCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -169,6 +171,8 @@ public class AudBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(BlueCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -203,6 +207,8 @@ public class AudBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(BlueCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -267,24 +273,19 @@ public class AudBlue20 extends LinearOpMode {
         telemetry.addData("Running path", " BLUE_AUD_" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(AudBlueRight);
 
-
-        /*
         switch(location) {
             case LEFT:
-                drive.followTrajectorySequence(StageRedLeft);
+                drive.followTrajectorySequence(AudBlueLeft);
                 break;
             case CENTER:
-                drive.followTrajectorySequence(StageRedCenter);
+                drive.followTrajectorySequence(AudBlueCenter);
                 break;
             case RIGHT:
-                drive.followTrajectorySequence(StageRedRight);
+                drive.followTrajectorySequence(AudBlueRight);
                 break;
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
-
-         */
     }
 }

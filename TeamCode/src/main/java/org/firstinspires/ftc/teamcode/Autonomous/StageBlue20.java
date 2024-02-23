@@ -76,7 +76,8 @@ public class StageBlue20 extends LinearOpMode {
         //============================
 
         Pose2d startPos = new Pose2d(14.5,62,Math.toRadians(180));
-        Pose2d BlueCenterPark = new Pose2d(46,12,Math.toRadians(180));
+        //Pose2d BlueCenterPark = new Pose2d(46,12,Math.toRadians(180));
+        Pose2d BlueWallPark = new Pose2d(45,62,Math.toRadians(180));
 
         //============================
         // CENTER POSE SECTION
@@ -123,7 +124,9 @@ public class StageBlue20 extends LinearOpMode {
                 .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(5)
-                .lineToLinearHeading(BlueCenterPark)
+                .lineToLinearHeading(BlueWallPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -153,7 +156,9 @@ public class StageBlue20 extends LinearOpMode {
                 .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(5)
-                .lineToLinearHeading(BlueCenterPark)
+                .lineToLinearHeading(BlueWallPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -180,7 +185,9 @@ public class StageBlue20 extends LinearOpMode {
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .forward(5)
-                .lineToLinearHeading(BlueCenterPark)
+                .lineToLinearHeading(BlueWallPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -247,9 +254,7 @@ public class StageBlue20 extends LinearOpMode {
         telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageBlueLeft);
-
-        /*switch(location) {
+        switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageBlueLeft);
                 break;
@@ -262,7 +267,5 @@ public class StageBlue20 extends LinearOpMode {
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
-
-         */
     }
 }

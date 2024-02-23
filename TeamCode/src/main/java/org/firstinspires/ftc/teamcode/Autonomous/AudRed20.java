@@ -140,6 +140,8 @@ public class AudRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(RedCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -173,6 +175,8 @@ public class AudRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(RedCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -206,6 +210,8 @@ public class AudRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .forward(5)
                 .lineToLinearHeading(RedCenterPark)
+                .addTemporalMarker(()->felipe.setAnglerLoad())
+                .waitSeconds(0.25)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
@@ -269,10 +275,6 @@ public class AudRed20 extends LinearOpMode {
         telemetry.addData("Running path", " RED_AUD_" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(AudRedRight);
-
-
-        /*
         switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(AudRedLeft);
@@ -286,7 +288,5 @@ public class AudRed20 extends LinearOpMode {
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
-
-         */
     }
 }

@@ -347,9 +347,7 @@ public class StageBlue22 extends LinearOpMode {
         telemetry.addData("Running path", " BLUE_STAGE_" + location);
         telemetry.update();
 
-        drive.followTrajectorySequence(StageRedLeft);
-
-        /*switch(location) {
+        switch(location) {
             case LEFT:
                 drive.followTrajectorySequence(StageRedLeft);
                 break;
@@ -362,7 +360,5 @@ public class StageBlue22 extends LinearOpMode {
             default:
                 throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
         }
-
-         */
     }
 }
