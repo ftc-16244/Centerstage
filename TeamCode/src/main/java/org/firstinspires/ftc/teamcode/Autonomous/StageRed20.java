@@ -66,7 +66,7 @@ public class StageRed20 extends LinearOpMode {
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Right"), cameraMonitorViewId);
         Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
@@ -202,7 +202,7 @@ public class StageRed20 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && !isStopRequested()) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 3000 && !isStopRequested()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }
@@ -236,7 +236,7 @@ public class StageRed20 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " RED_STAGE" + location);
+        telemetry.addData("Running path", " RED_STAGE_" + location);
         telemetry.update();
 
         switch(location) {

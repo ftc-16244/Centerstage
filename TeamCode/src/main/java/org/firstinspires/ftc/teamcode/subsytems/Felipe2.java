@@ -99,6 +99,7 @@ public class Felipe2 {
     public double  targetHeight;
     public double  targetAngle;
     public boolean turnerDown = true;
+    public boolean inLevelZero = false;
 
     /// constructor with opmode passed in
     public Felipe2(LinearOpMode opmode) {
@@ -183,42 +184,52 @@ public class Felipe2 {
         return  slidePos;
     }
     public void  setSlideLevel_0(){
-        targetHeight = ( SLIDE_LEVEL_0 );
-        liftToTargetHeight(targetHeight,3);
+        if(!inLevelZero) {
+            targetHeight = (SLIDE_LEVEL_0);
+            liftToTargetHeight(targetHeight, 3);
+            inLevelZero = true;
+        }
     }
 
     public void  setSlideRow_1(){
         targetHeight = (SLIDE_LEVEL_ROW_1 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     public void  setSlideRow_2(){
         targetHeight = (  SLIDE_LEVEL_ROW_2 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     public void  setSlideRow_4(){
         targetHeight = ( SLIDE_LEVEL_ROW_4 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     public void  setSlideRow_6(){
         targetHeight = ( SLIDE_LEVEL_ROW_6 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     public void  setSlideReach_1(){
         targetHeight = (  SLIDE_REACH_1 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     public void  setSlideReach_2(){
         targetHeight = (  SLIDE_REACH_2 );
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
     public void  setSlideReach_3(){
         targetHeight = ( SLIDE_REACH_3);
         liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
     }
 
     //PASS IN A DOUBLE NO INTEGERS has to have a decimal
@@ -303,8 +314,10 @@ public class Felipe2 {
         turnerMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         turnerMotor.setPower(0);
+        inLevelZero = true;
     }
     public void slideMechanicalReset(){
+        inLevelZero = false;
         extendMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // need to switch off encoder to run with a timer
         extendMotor.setPower(-0.5);
 
@@ -328,6 +341,7 @@ public class Felipe2 {
         while (runtime.seconds() < 0.75) {
             //Time wasting loop so slide can retract. Loop ends when time expires
         }
+        inLevelZero = true;
     }
 
     public void liftToTargetHeight(double height, double timeoutS){

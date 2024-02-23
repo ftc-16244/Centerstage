@@ -192,7 +192,7 @@ public class State_Teleop extends LinearOpMode {
             if (gamepad2.right_bumper) {
                 //felipe.setTurnerDeploy();
                 gp2rightbumper();
-                setManarMode(0.5, false);
+                setManarMode(1.0, true);
                 sleep(100);
             }
             if (gamepad2.left_trigger > 0.25) {

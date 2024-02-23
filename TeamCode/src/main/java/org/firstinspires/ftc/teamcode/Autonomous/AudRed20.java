@@ -66,7 +66,7 @@ public class AudRed20 extends LinearOpMode {
         blinkin.setPattern(pipelineNotReady);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Red"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Left"), cameraMonitorViewId);
         Pipeline detector = new Pipeline(telemetry, StartPosition.RED_AUD, blinkin);
         webcam.setPipeline(detector);
 
@@ -224,7 +224,7 @@ public class AudRed20 extends LinearOpMode {
             telemetry.update();
             blinkin.setPattern(pipelineError);
 
-            while(detector.getPropLocation() == null && totalTimeWaited < 7000 && !isStopRequested()) {
+            while(detector.getPropLocation() == null && totalTimeWaited < 3000 && !isStopRequested()) {
                 totalTimeWaited += (webcam.getOverheadTimeMs() * 4);
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }
@@ -258,7 +258,7 @@ public class AudRed20 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " RED_STAGE" + location);
+        telemetry.addData("Running path", " RED_AUD_" + location);
         telemetry.update();
 
         drive.followTrajectorySequence(AudRedRight);
