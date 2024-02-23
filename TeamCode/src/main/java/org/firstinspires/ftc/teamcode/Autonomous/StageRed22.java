@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Pipelines.StartPosition;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraException;
 import org.openftc.easyopencv.OpenCvWebcam;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -27,12 +28,31 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class StageRed22 extends LinearOpMode {
     static final double FEET_PER_METER = 3.28084;
     OpenCvWebcam webcam;
+    int timesWebcamAttemptedOpen = 0;
     RevBlinkinLedDriver blinkin;
     RevBlinkinLedDriver.BlinkinPattern pipelineError = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
     RevBlinkinLedDriver.BlinkinPattern pipelineBroken = RevBlinkinLedDriver.BlinkinPattern.LARSON_SCANNER_RED;
     RevBlinkinLedDriver.BlinkinPattern pipelineNotReady = RevBlinkinLedDriver.BlinkinPattern.BREATH_RED;
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
-
+    private void openCamera() {
+        timesWebcamAttemptedOpen++;
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                // this camera supports 1280x800, 1280x720, 800x600, 640x480, and 320x240
+                webcam.startStreaming(640, 480, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
+            }
+            @Override
+            public void onError(int errorCode) {
+                if(timesWebcamAttemptedOpen < 10) {
+                    System.err.println("Webcam could not be opened! Retrying...");
+                    openCamera();
+                } else {
+                    throw new OpenCvCameraException("Webcam failed to open 10 times!");
+                }
+            }
+        });
+    }
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -51,15 +71,7 @@ public class StageRed22 extends LinearOpMode {
         Pipeline detector = new Pipeline(telemetry, StartPosition.RED_STAGE, blinkin);
         webcam.setPipeline(detector);
 
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                // this camera supports 1280x800, 1280x720, 800x600, 640x480, and 320x240
-                webcam.startStreaming(640, 480, OpenCvCameraRotation.SENSOR_NATIVE, OpenCvWebcam.StreamFormat.MJPEG);
-            }
-            @Override
-            public void onError(int errorCode) {}
-        });
+        openCamera();
 
         //============================
         // ALL POSE SECTION
