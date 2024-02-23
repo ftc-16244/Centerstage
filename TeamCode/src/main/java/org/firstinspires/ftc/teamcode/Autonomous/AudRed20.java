@@ -229,7 +229,7 @@ public class AudRed20 extends LinearOpMode {
                 sleep(webcam.getOverheadTimeMs() * 4L);
             }
             telemetry.addData("Wasted time", totalTimeWaited);
-            if(totalTimeWaited > 7000) {
+            if(totalTimeWaited > 3000) {
                 telemetry.addData("ERROR", "The pipeline never ran.");
                 pipelineRan = false;
                 blinkin.setPattern(pipelineBroken);

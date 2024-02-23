@@ -114,10 +114,7 @@ public class Pipeline extends OpenCvPipeline {
         else if (rightValue > PERCENT_COLOR_THRESHOLD) location = Prop.RIGHT;
 
         if (!(location == null)) telemetry.addData("Detected position: ", String.valueOf(getPropLocation()));
-        else {
-            location = Prop.CENTER;
-            telemetry.addLine("No prop detected.");
-        }
+        else telemetry.addLine("No prop detected.");
 
         if (telemetryEnabled) {
             telemetry.addData("LEFT percentage",  Math.round(leftValue * 10) / 10 + "%");
