@@ -77,7 +77,6 @@ public class StageRed20 extends LinearOpMode {
         //============================
 
         Pose2d startPos = new Pose2d(14.5,-62,Math.toRadians(180));
-        Pose2d wallpark = new Pose2d(1,1,Math.toRadians(180));
 
         //============================
         // CENTER POSE SECTION
@@ -132,6 +131,8 @@ public class StageRed20 extends LinearOpMode {
                 .strafeLeft(24)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerLoad();})
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
 
@@ -158,6 +159,8 @@ public class StageRed20 extends LinearOpMode {
                 .forward(5)
                 .strafeLeft(38)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         //============================
@@ -180,6 +183,8 @@ public class StageRed20 extends LinearOpMode {
                 .forward(10)
                 .strafeLeft(30)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         felipe.setAnglerLoad();

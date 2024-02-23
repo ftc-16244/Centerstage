@@ -137,7 +137,9 @@ public class AudBlue20 extends LinearOpMode {
                 .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
                 .back(15)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
 
@@ -169,7 +171,9 @@ public class AudBlue20 extends LinearOpMode {
                 .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
                 .back(15)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         //============================
@@ -201,7 +205,9 @@ public class AudBlue20 extends LinearOpMode {
                 .lineToLinearHeading(BlueCenterPark)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
+                .waitSeconds(1)
                 .back(15)
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .build();
 
         felipe.setAnglerLoad();
