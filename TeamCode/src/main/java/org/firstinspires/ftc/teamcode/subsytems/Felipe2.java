@@ -4,17 +4,13 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-
-import java.util.Arrays;
 
 import static java.lang.Thread.sleep;
 
@@ -92,7 +88,7 @@ public class Felipe2 {
     private static final double     TURNER_PRECISE_SPEED = 0.35; // was 0.2 used to help the arm float with arm wheel
     //Constants for Turner
     private static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
-    private static final double      TURNER_DRONE_ANGLE = 70.0;
+    private static final double      TURNER_DRONE_ANGLE = 80.0;
     private static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
     private static final double      PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
     private static final double      PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
@@ -129,7 +125,7 @@ public class Felipe2 {
         PIDFCoefficients pidSlide_New = new PIDFCoefficients(14, 0, 1.5, 0); // p was 10
         extendMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
 
-        setTurnerPID(normalP, normalI, normalD);
+        setTurnerPIDF(normalP, normalI, normalD, normalF);
 
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -142,11 +138,14 @@ public class Felipe2 {
     private final double normalP = 12;
     private final double normalI = 0;
     private final double normalD = 3.5;
-    private final double droneP = 8;
-    private final double droneI = 0.75;
-    private final double droneD = 0.8;
-    private void setTurnerPID(double p, double i, double d) {
-        PIDFCoefficients pidTurner_New = new PIDFCoefficients(p, i, d, 0);
+    private final double normalF = 0;
+    private final double droneP = 1.25;
+    private final double droneI = 0.8;
+    private final double droneD = 0.1;
+    private final double droneF = 4.5;
+
+    private void setTurnerPIDF(double p, double i, double d, double f) {
+        PIDFCoefficients pidTurner_New = new PIDFCoefficients(p, i, d, f);
         turnerMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidTurner_New);
     }
     //Angler methods
@@ -273,9 +272,9 @@ public class Felipe2 {
     }
     public void setTurnerDrone() {
         turnerDown = false;
-        setTurnerPID(droneP, droneI, droneD);
-        rotateToTargetAngle(TURNER_DRONE_ANGLE, 1, 0.4);
-        setTurnerPID(normalP, normalI, normalD);
+        setTurnerPIDF(droneP, droneI, droneD, droneF);
+        rotateToTargetAngle(TURNER_DRONE_ANGLE, 1, 0.7);
+        setTurnerPIDF(normalP, normalI, normalD, normalF);
     }
     /// Get white pixel methods
 

@@ -160,8 +160,7 @@ public class State_Teleop extends LinearOpMode {
                 felipe.slideMechanicalReset();
             }
             if (gamepad2.x) {
-                drone.setDroneFly(); // move servo to let drone go
-                sleep(50); // pause to make sure servo moves
+                gp2x();
             }
             if (gamepad2.dpad_down) {
                 gp2dpdown();
@@ -244,6 +243,16 @@ public class State_Teleop extends LinearOpMode {
             sleep(500);
         });
         gp2y.start();
+    }
+    private void gp2x() {
+        Thread gp2x = new Thread(() -> {
+            felipe.setTurnerDrone();
+            sleep(100);
+            drone.setDroneFly(); // move servo to let drone go
+            sleep(50); // pause to make sure servo moves
+            felipe.setTurnerLoad();
+        });
+        gp2x.start();
     }
     private void gp2dpup() {
         Thread gp2dpup = new Thread(() -> {
