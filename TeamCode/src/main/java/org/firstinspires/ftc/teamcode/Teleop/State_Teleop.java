@@ -46,7 +46,7 @@ public class State_Teleop extends LinearOpMode {
         felipe.setAnglerLoad();
 
         drone.init(hardwareMap);
-        drone.setDroneGrounded(); // power servo to make sure rubber band stays tight.
+        drone.setDroneGrounded(); // power servo to make sure rubber band stays tight. 
 
         // no need to power the hook servo until it is time to climb
 
