@@ -119,7 +119,6 @@ public class StageRed20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
-                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
@@ -184,6 +183,7 @@ public class StageRed20 extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
+                .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())

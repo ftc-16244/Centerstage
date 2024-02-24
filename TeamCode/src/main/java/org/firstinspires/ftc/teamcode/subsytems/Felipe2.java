@@ -129,8 +129,7 @@ public class Felipe2 {
         PIDFCoefficients pidSlide_New = new PIDFCoefficients(14, 0, 1.5, 0); // p was 10
         extendMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidSlide_New);
 
-        PIDFCoefficients pidTurner_New = new PIDFCoefficients(12, 0, 3.5, 0);
-        turnerMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidTurner_New);
+        setTurnerPID(normalP, normalI, normalD);
 
         extendMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -139,10 +138,17 @@ public class Felipe2 {
         turnerMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         armWheel.setPosition(ARM_WHEEL_STOW);
-
-        //slideMechanicalReset();
     }
-
+    private final double normalP = 12;
+    private final double normalI = 0;
+    private final double normalD = 3.5;
+    private final double droneP = 8;
+    private final double droneI = 0.75;
+    private final double droneD = 0.8;
+    private void setTurnerPID(double p, double i, double d) {
+        PIDFCoefficients pidTurner_New = new PIDFCoefficients(p, i, d, 0);
+        turnerMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidTurner_New);
+    }
     //Angler methods
     public void setAnglerLoad() {
         angler.setPosition(ANGLER_LOAD);//fwd
@@ -265,8 +271,13 @@ public class Felipe2 {
             //slideMechanicalReset();
         }
     }
+    public void setTurnerDrone() {
+        turnerDown = false;
+        setTurnerPID(droneP, droneI, droneD);
+        rotateToTargetAngle(TURNER_DRONE_ANGLE, 1, 0.4);
+        setTurnerPID(normalP, normalI, normalD);
+    }
     /// Get white pixel methods
-
 
     public void getPixel_4(){
         angler.setPosition(0.55); // this will change slightly as the arm extends.

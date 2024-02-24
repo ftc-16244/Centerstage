@@ -77,7 +77,7 @@ public class StageBlue20 extends LinearOpMode {
 
         Pose2d startPos = new Pose2d(14.5,62,Math.toRadians(180));
         //Pose2d BlueCenterPark = new Pose2d(46,12,Math.toRadians(180));
-        Pose2d BlueWallPark = new Pose2d(45,62,Math.toRadians(180));
+        Pose2d BlueWallPark = new Pose2d(45,61,Math.toRadians(180));
 
         //============================
         // CENTER POSE SECTION
@@ -90,7 +90,7 @@ public class StageBlue20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,26,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,28,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(18,33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(3,33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1c = new Pose2d(12,33,Math.toRadians(180));
@@ -100,7 +100,7 @@ public class StageBlue20 extends LinearOpMode {
         //============================
 
         Pose2d YellowPixelDropOff_LEFT = new Pose2d(55,44.5,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(34,28,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(35.5,28,Math.toRadians(180));
 
 
         drive.setPoseEstimate(startPos);
@@ -144,7 +144,7 @@ public class StageBlue20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
-                .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
+                //.lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1c)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
