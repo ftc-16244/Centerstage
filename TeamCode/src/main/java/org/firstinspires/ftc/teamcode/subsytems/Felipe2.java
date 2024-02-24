@@ -88,7 +88,7 @@ public class Felipe2 {
     private static final double     TURNER_PRECISE_SPEED = 0.35; // was 0.2 used to help the arm float with arm wheel
     //Constants for Turner
     private static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
-    private static final double      TURNER_DRONE_ANGLE = 80.0;
+    private static final double      TURNER_DRONE_ANGLE = 70.0;
     private static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
     private static final double      PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
     private static final double      PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
@@ -139,9 +139,9 @@ public class Felipe2 {
     private final double normalI = 0;
     private final double normalD = 3.5;
     private final double normalF = 0;
-    private final double droneP = 1.25;
-    private final double droneI = 0.8;
-    private final double droneD = 0.1;
+    private final double droneP = 5;//1.25
+    private final double droneI = 0.5;//0.8
+    private final double droneD = 0.0; //0.1
     private final double droneF = 4.5;
 
     private void setTurnerPIDF(double p, double i, double d, double f) {
