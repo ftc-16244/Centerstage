@@ -81,15 +81,15 @@ public class AudRed20 extends LinearOpMode {
         Pose2d Splinept1 = new Pose2d(-34,-11,Math.toRadians(0));
         Pose2d Splinept2 = new Pose2d(33,-11,Math.toRadians(0));
 
-        Pose2d RedCenterPark = new Pose2d(46,-12,Math.toRadians(180));
+        Pose2d RedCenterPark = new Pose2d(46,-15,Math.toRadians(180));
 
 
         //============================
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53.5,-32,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_CENTER = new Pose2d(-41,-22,Math.toRadians(0));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(48.5,-35,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_CENTER = new Pose2d(-43,-22,Math.toRadians(0));
 
 
         //============================
@@ -106,7 +106,7 @@ public class AudRed20 extends LinearOpMode {
 
         Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-41,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(-37,-32,Math.toRadians(0));
-        Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(-31,-32,Math.toRadians(0));
+        Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(-32,-32,Math.toRadians(0));
 
 
 
@@ -139,6 +139,7 @@ public class AudRed20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
+                .strafeRight(10)
                 .lineToLinearHeading(RedCenterPark)
                 .addTemporalMarker(()->felipe.setAnglerLoad())
                 .waitSeconds(0.25)
@@ -180,7 +181,7 @@ public class AudRed20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setTurnerAutoLOAD();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperWideOpen();})
                 .waitSeconds(1)
-                .back(15)
+                .back(17)
                 .build();
 
         //============================
@@ -204,7 +205,7 @@ public class AudRed20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .splineToLinearHeading(YellowPixelDropOff_CENTER,Math.toRadians(180))
-                .forward(5)
+                .back(8)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)

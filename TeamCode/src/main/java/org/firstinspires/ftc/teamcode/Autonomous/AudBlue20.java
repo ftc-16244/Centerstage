@@ -86,7 +86,7 @@ public class AudBlue20 extends LinearOpMode {
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,39.5,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,40.5,Math.toRadians(180));
         Pose2d PurplePixelDropOff_CENTER = new Pose2d(-45,27,Math.toRadians(0));
 
 
@@ -102,7 +102,7 @@ public class AudBlue20 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,41,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,43,Math.toRadians(180));
         Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-37,34,Math.toRadians(0));
         Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(-32,32,Math.toRadians(0));
 
@@ -201,7 +201,7 @@ public class AudBlue20 extends LinearOpMode {
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 .splineToLinearHeading(YellowPixelDropOff_CENTER,Math.toRadians(180))
-                .back(2)
+                .back(3)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
