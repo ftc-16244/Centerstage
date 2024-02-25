@@ -285,7 +285,8 @@ public class AudBlue20 extends LinearOpMode {
                 drive.followTrajectorySequence(AudBlueRight);
                 break;
             default:
-                throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
+                drive.followTrajectorySequence(AudBlueCenter);
+                break;
         }
     }
 }

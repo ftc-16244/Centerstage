@@ -265,7 +265,8 @@ public class StageBlue20 extends LinearOpMode {
                 drive.followTrajectorySequence(StageBlueRight);
                 break;
             default:
-                throw new IllegalArgumentException("the code did not detect the prop at all, and it is running the default case.");
+                drive.followTrajectorySequence(StageBlueCenter);
+                break;
         }
     }
 }
