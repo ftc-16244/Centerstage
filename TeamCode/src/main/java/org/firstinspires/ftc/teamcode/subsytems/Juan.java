@@ -93,7 +93,7 @@ public class Juan {
         climberLeft.setPower(CLIMB_POWER);
         climberRight.setPower(CLIMB_POWER);
 
-        manarsFootLeft.setPosition(HOOK_DEPLOY);
+        manarsFootLeft.setPosition(HOOK_DEPLOY - 0.01); // to make the hook straight up
         manarsFootRight.setPosition(HOOK_DEPLOY);
     }
     public void climb() {

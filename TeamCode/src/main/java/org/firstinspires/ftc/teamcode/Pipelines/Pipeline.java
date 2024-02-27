@@ -51,6 +51,7 @@ public class Pipeline extends OpenCvPipeline {
     public Mat processFrame(Mat input) { // DON'T under any circumstances do anything that has the smallest possibility of changing input
         // for example, doing output = input; then doing Imgproc.cvtColor(output, output, Imgproc.COLOR_BGRA2BGR); breaks it
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
+        Imgproc.cvtColor(input, secondFilter, Imgproc.COLOR_RGB2HSV);
         Imgproc.cvtColor(input, output, Imgproc.COLOR_BGRA2BGR);
         Rect LEFT_ROI;
         Rect CENTER_ROI;
@@ -93,9 +94,14 @@ public class Pipeline extends OpenCvPipeline {
         }
 
         // takes the values that are between lowHSV and highHSV only
-        Core.inRange(mat, lowHSV2, highHSV2, secondFilter);
+        if(startPosition == StartPosition.RED_AUD || startPosition == StartPosition.RED_STAGE) {
+            Core.inRange(mat, lowHSV2, highHSV2, secondFilter);
+        }
         Core.inRange(mat, lowHSV, highHSV, mat);
-        Core.bitwise_or(mat, secondFilter, mat);
+        if(startPosition == StartPosition.RED_AUD || startPosition == StartPosition.RED_STAGE) {
+            Core.bitwise_or(mat, secondFilter, mat);
+        }
+        secondFilter.release();
 
         Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
         Mat center = mat.submat(CENTER_ROI);
