@@ -90,6 +90,7 @@ public class Felipe2 {
     private static final double      TURNER_DEPLOY_ANGLE =  145.0; // deposit the pixel
     private static final double      TURNER_DRONE_ANGLE = 70.0;
     private static final double      TURNER_LOAD_ANGLE      = 0.0; // Loading the pixel
+    private static final double      TURNER_WHITE_STACK  = 15;
     private static final double      PIXEL_4_ANGLE =10; // pick up 4th and possibly 5th pixel from the mat.
     private static final double      PIXEL_5_ANGLE =11; // pick up top or 5th pixel only from white stack
     public double  targetHeight;
@@ -264,6 +265,15 @@ public class Felipe2 {
 
     public void setTurnerDeploy(){
         targetAngle = ( TURNER_DEPLOY_ANGLE );
+        turnerDown = false;
+        rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
+        if (extendMotor.getTargetPosition() < 50) {
+            //slideMechanicalReset();
+        }
+    }
+
+    public void setTurnerDeployAUTOWHITESTACK(){
+        targetAngle = ( TURNER_WHITE_STACK );
         turnerDown = false;
         rotateToTargetAngle( targetAngle,1, TURNER_SPEED);
         if (extendMotor.getTargetPosition() < 50) {
