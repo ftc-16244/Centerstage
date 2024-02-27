@@ -31,8 +31,8 @@ public class Constants {
     );
     public static final Scalar RED_LOW_HSV = new Scalar(0, 145,  105);
     public static final Scalar RED_HIGH_HSV = new Scalar(25, 255, 255);
-    //public static final Scalar RED_LOW_HSV2 = new Scalar(0, 145,  105); //other half of the red spectrum
-    //public static final Scalar RED_HIGH_HSV2 = new Scalar(25, 255, 255);
+    public static final Scalar RED_LOW_HSV2 = new Scalar(0, 145,  105); //other half of the red spectrum
+    public static final Scalar RED_HIGH_HSV2 = new Scalar(25, 255, 255);
     public static final Scalar BLUE_LOW_HSV = new Scalar(90, 95, 10);
     public static final Scalar BLUE_HIGH_HSV = new Scalar(125, 255, 255);
 }

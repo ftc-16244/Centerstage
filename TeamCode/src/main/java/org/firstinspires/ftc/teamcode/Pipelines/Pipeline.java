@@ -18,8 +18,8 @@ import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.LEFT_ROI_RED;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV;
-//import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV2;
-//import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV2;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_HIGH_HSV2;
+import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RED_LOW_HSV2;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_BLUE;
 import static org.firstinspires.ftc.teamcode.Pipelines.Constants.RIGHT_ROI_RED;
 
@@ -34,10 +34,10 @@ public class Pipeline extends OpenCvPipeline {
     StartPosition startPosition;
     Scalar lowHSV;
     Scalar highHSV;
-    //Scalar lowHSV2;
-    //Scalar highHSV2;
+    Scalar lowHSV2;
+    Scalar highHSV2;
     Mat mat = new Mat(); // Mat is a matrix
-    //Mat secondFilter = new Mat();
+    Mat secondFilter = new Mat();
     Mat output = new Mat();
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
@@ -62,8 +62,8 @@ public class Pipeline extends OpenCvPipeline {
             RIGHT_ROI = RIGHT_ROI_RED;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
-            //lowHSV2 = RED_LOW_HSV2;
-            //highHSV2 = RED_HIGH_HSV2;
+            lowHSV2 = RED_LOW_HSV2;
+            highHSV2 = RED_HIGH_HSV2;
         }
         else if (startPosition == StartPosition.BLUE_AUD) {
             LEFT_ROI = LEFT_ROI_BLUE;
@@ -78,8 +78,8 @@ public class Pipeline extends OpenCvPipeline {
             RIGHT_ROI = RIGHT_ROI_RED;
             lowHSV = RED_LOW_HSV;
             highHSV = RED_HIGH_HSV;
-            //lowHSV2 = RED_LOW_HSV2;
-            //highHSV2 = RED_HIGH_HSV2;
+            lowHSV2 = RED_LOW_HSV2;
+            highHSV2 = RED_HIGH_HSV2;
         }
         else if (startPosition == StartPosition.BLUE_STAGE) {
             LEFT_ROI = LEFT_ROI_BLUE;
@@ -93,9 +93,9 @@ public class Pipeline extends OpenCvPipeline {
         }
 
         // takes the values that are between lowHSV and highHSV only
-        //Core.inRange(mat, lowHSV2, highHSV2, secondFilter);
+        Core.inRange(mat, lowHSV2, highHSV2, secondFilter);
         Core.inRange(mat, lowHSV, highHSV, mat);
-        //Core.bitwise_or(mat, secondFilter, mat);
+        Core.bitwise_or(mat, secondFilter, mat);
 
         Mat left = mat.submat(LEFT_ROI); //sub matrices of mat
         Mat center = mat.submat(CENTER_ROI);
