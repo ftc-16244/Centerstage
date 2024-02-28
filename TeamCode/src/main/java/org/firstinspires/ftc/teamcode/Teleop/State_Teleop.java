@@ -150,7 +150,7 @@ public class State_Teleop extends LinearOpMode {
             if (gamepad2.a) {
                 gp2a();
             }
-            if (gamepad2.y) {
+            if (gamepad2.y && teleopTimer.time() > 105) {
                 gp2y();
             }
             if (gamepad2.b) {
