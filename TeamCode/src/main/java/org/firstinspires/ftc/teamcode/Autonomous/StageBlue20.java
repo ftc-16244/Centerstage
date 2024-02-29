@@ -200,6 +200,7 @@ public class StageBlue20 extends LinearOpMode {
         felipe.gripperClosed();
         sleep(250);
         felipe.slideMechanicalReset();
+        sleep(250);felipe.gripperWideOpen();
         sleep(250);
 
         System.out.println("Current location: " + detector.getPropLocation());

@@ -304,7 +304,8 @@ public class StageRed22 extends LinearOpMode {
         sleep(250);
         felipe.slideMechanicalReset();
         sleep(250);
-
+        felipe.gripperWideOpen();
+        sleep(250);
         waitForStart();
 
 
