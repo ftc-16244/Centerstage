@@ -90,7 +90,7 @@ public class StageBlue20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(54,28,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(54,30,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(18,31,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(3,33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1c = new Pose2d(12,33,Math.toRadians(180));
