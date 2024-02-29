@@ -84,7 +84,7 @@ public class StageRed20 extends LinearOpMode {
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,-33.5,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(53,-34,Math.toRadians(180));
         Pose2d PurplePixelDropOff_CENTER = new Pose2d(22,-25,Math.toRadians(180));
 
 
@@ -92,7 +92,7 @@ public class StageRed20 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,-24,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(52,-25,Math.toRadians(180));
         Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(18,-33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_LEFT_1b = new Pose2d(3,-33,Math.toRadians(180));
         Pose2d PurplePixelDropOff_LEFT_1c = new Pose2d(12,-33,Math.toRadians(180));
@@ -102,7 +102,7 @@ public class StageRed20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-40,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-41,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(30,-30,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(35.5,-30,Math.toRadians(180));
 
