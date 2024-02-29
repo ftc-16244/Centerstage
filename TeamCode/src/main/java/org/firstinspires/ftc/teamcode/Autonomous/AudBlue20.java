@@ -94,7 +94,7 @@ public class AudBlue20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_Right = new Pose2d(51,34,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_Right = new Pose2d(52.5,34,Math.toRadians(180));
         Pose2d PurplePixelDropOff_Right_1a = new Pose2d(-55,32,Math.toRadians(0));
 
 
@@ -221,8 +221,7 @@ public class AudBlue20 extends LinearOpMode {
 
         felipe.setAnglerLoad();
         sleep(250);
-        felipe.gripperClosed();
-        sleep(250);
+
         felipe.slideMechanicalReset();
         sleep(250);
         felipe.gripperWideOpen();

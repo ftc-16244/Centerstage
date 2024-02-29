@@ -200,8 +200,6 @@ public class StageBlue20 extends LinearOpMode {
 
         felipe.setAnglerLoad();
         sleep(250);
-        felipe.gripperClosed();
-        sleep(250);
         felipe.slideMechanicalReset();
         sleep(250);felipe.gripperWideOpen();
         sleep(250);
