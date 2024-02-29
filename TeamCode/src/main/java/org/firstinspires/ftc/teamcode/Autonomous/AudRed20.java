@@ -97,7 +97,7 @@ public class AudRed20 extends LinearOpMode {
         //============================
 
         Pose2d YellowPixelDropOff_LEFT = new Pose2d(51,-29,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-54.5,-29,Math.toRadians(0));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-54.5,-30,Math.toRadians(0));
 
 
         //============================

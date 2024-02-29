@@ -224,7 +224,6 @@ public class StageRed22 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
-                .lineToLinearHeading(PurplePixelDropOff_LEFT_1b)
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1c)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
