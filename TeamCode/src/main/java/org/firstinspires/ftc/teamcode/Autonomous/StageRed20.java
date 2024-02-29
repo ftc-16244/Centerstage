@@ -102,7 +102,7 @@ public class StageRed20 extends LinearOpMode {
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-41,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(53.5,-41,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(30,-30,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(35.5,-30,Math.toRadians(180));
 
