@@ -120,6 +120,7 @@ public class AudRed20 extends LinearOpMode {
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
+                .waitSeconds(0.1)
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1a)
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
@@ -157,6 +158,7 @@ public class AudRed20 extends LinearOpMode {
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
+                .waitSeconds(0.1)
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_LEFT_1a)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
@@ -191,6 +193,7 @@ public class AudRed20 extends LinearOpMode {
                 //initialize all the subsystems and drive the purple pixel dropoff
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperClosed();})
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.setAnglerAuto();})
+                .waitSeconds(0.1)
                 //purple pixel journey
                 .lineToLinearHeading(PurplePixelDropOff_CENTER)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
