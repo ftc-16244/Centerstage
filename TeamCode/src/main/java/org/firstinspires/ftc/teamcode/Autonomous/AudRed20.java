@@ -81,7 +81,7 @@ public class AudRed20 extends LinearOpMode {
         Pose2d Splinept1 = new Pose2d(-34,-11,Math.toRadians(0));
         Pose2d Splinept2 = new Pose2d(33,-11,Math.toRadians(0));
 
-        Pose2d RedCenterPark = new Pose2d(46,-15,Math.toRadians(180));
+        Pose2d RedCenterPark = new Pose2d(46,-14.5,Math.toRadians(180));
 
 
         //============================
@@ -96,15 +96,15 @@ public class AudRed20 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(51,-29,Math.toRadians(180));
-        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-54.5,-30,Math.toRadians(0));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(51,-28.5,Math.toRadians(180));
+        Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(-56,-30,Math.toRadians(0));
 
 
         //============================
         // RIGHT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-41,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_RIGHT = new Pose2d(52,-42,Math.toRadians(180));
         Pose2d PurplePixelDropOff_RIGHT_1a = new Pose2d(-37,-32,Math.toRadians(0));
         Pose2d PurplePixelDropOff_RIGHT_1b = new Pose2d(-32,-32,Math.toRadians(0));
 
@@ -127,20 +127,20 @@ public class AudRed20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .addTemporalMarker(()->felipe.setAnglerAuto())
                 .back(15)
-                .strafeLeft(10)
+                .strafeLeft(13)
                 //yellow pixel journey
-                .splineToLinearHeading(Splinept1,Math.toRadians(0))
-                .splineToLinearHeading(Splinept2,Math.toRadians(0))
+                .lineToLinearHeading(Splinept1)
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .splineToLinearHeading(YellowPixelDropOff_RIGHT,Math.toRadians(180))
+                .lineToLinearHeading(YellowPixelDropOff_RIGHT)
                 .back(5)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
-                .strafeRight(10)
+                .strafeRight(16)
                 .lineToLinearHeading(RedCenterPark)
                 .addTemporalMarker(()->felipe.setAnglerLoad())
                 .waitSeconds(0.25)
@@ -166,17 +166,18 @@ public class AudRed20 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.setAnglerAuto())
                 .strafeLeft(10)
                 //yellow pixel journey
-                .splineToLinearHeading(Splinept1,Math.toRadians(0))
-                .splineToLinearHeading(Splinept2,Math.toRadians(0))
+                .lineToLinearHeading(Splinept1)
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .splineToLinearHeading(YellowPixelDropOff_LEFT,Math.toRadians(180))
+                .lineToLinearHeading(YellowPixelDropOff_LEFT)
                 .back(5)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
                 .waitSeconds(0.1)
                 .forward(5)
+                .strafeRight(18)
                 .lineToLinearHeading(RedCenterPark)
                 .addTemporalMarker(()->felipe.setAnglerLoad())
                 .waitSeconds(0.25)
@@ -202,12 +203,12 @@ public class AudRed20 extends LinearOpMode {
                 .addTemporalMarker(()->felipe.setAnglerAuto())
                 .strafeLeft(10)
                 //yellow pixel journey
-                .splineToLinearHeading(Splinept1,Math.toRadians(0))
-                .splineToLinearHeading(Splinept2,Math.toRadians(0))
+                .lineToLinearHeading(Splinept1)
+                .lineToLinearHeading(Splinept2)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
                 .addTemporalMarker(()-> felipe.setSlideRow_1())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
-                .splineToLinearHeading(YellowPixelDropOff_CENTER,Math.toRadians(180))
+                .lineToLinearHeading(YellowPixelDropOff_CENTER)
                 .back(8)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperLeftOpen();})
