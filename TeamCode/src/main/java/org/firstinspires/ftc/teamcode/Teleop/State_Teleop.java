@@ -120,7 +120,7 @@ public class State_Teleop extends LinearOpMode {
             }
             if (gamepad1.left_trigger > 0.25) {
                 gp1lefttrigger();
-                setManarMode(0.85, true);
+                setManarMode(1.00, true);
             }
 
             if (gamepad1.right_trigger > 0.25) {
