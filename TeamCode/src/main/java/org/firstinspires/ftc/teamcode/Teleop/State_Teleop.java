@@ -28,9 +28,9 @@ public class State_Teleop extends LinearOpMode {
 
     FtcDashboard dashboard;
     RevBlinkinLedDriver blinkin;
-    RevBlinkinLedDriver.BlinkinPattern preInit = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+    RevBlinkinLedDriver.BlinkinPattern preInit = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
     RevBlinkinLedDriver.BlinkinPattern main = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
-    RevBlinkinLedDriver.BlinkinPattern endgame = RevBlinkinLedDriver.BlinkinPattern.CONFETTI;
+    RevBlinkinLedDriver.BlinkinPattern endgame = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
     RevBlinkinLedDriver.BlinkinPattern climbAlert = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
 
     double speedFactor = 1.0;
