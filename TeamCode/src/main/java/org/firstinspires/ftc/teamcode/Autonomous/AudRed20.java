@@ -126,6 +126,7 @@ public class AudRed20 extends LinearOpMode {
                 .lineToLinearHeading(PurplePixelDropOff_RIGHT_1b)
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .addTemporalMarker(()->felipe.setAnglerAuto())
+                .waitSeconds(5)
                 .back(15)
                 .strafeLeft(13)
                 //yellow pixel journey
@@ -164,6 +165,7 @@ public class AudRed20 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0,()->{felipe.gripperRightOpen();})
                 .waitSeconds(0.1)
                 .addTemporalMarker(()->felipe.setAnglerAuto())
+                .waitSeconds(5)
                 .strafeLeft(10)
                 //yellow pixel journey
                 .lineToLinearHeading(Splinept1)
@@ -201,6 +203,7 @@ public class AudRed20 extends LinearOpMode {
                 .waitSeconds(0.5)
                 .back(10)
                 .addTemporalMarker(()->felipe.setAnglerAuto())
+                .waitSeconds(5)
                 .strafeLeft(10)
                 //yellow pixel journey
                 .lineToLinearHeading(Splinept1)
