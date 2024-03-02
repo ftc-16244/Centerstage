@@ -253,7 +253,12 @@ public class StageBlue20 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_STAGE_" + location);
+        if(location == null) {
+            telemetry.addLine("Pipeline returned null! Defaulting to Center!");
+            location = Prop.CENTER;
+        } else {
+            telemetry.addData("Running path", " BLUE_STAGE_" + location);
+        }
         telemetry.update();
 
         switch(location) {

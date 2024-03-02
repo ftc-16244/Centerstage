@@ -87,7 +87,7 @@ public class AudBlue20 extends LinearOpMode {
         // CENTER POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,39.5,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_CENTER = new Pose2d(51.5,40.5,Math.toRadians(180));
         Pose2d PurplePixelDropOff_CENTER = new Pose2d(-45,27,Math.toRadians(0));
 
 
@@ -280,7 +280,12 @@ public class AudBlue20 extends LinearOpMode {
             webcam.closeCameraDevice();
         }
 
-        telemetry.addData("Running path", " BLUE_AUD_" + location);
+        if(location == null) {
+            telemetry.addLine("Pipeline returned null! Defaulting to Center!");
+            location = Prop.CENTER;
+        } else {
+            telemetry.addData("Running path", " BLUE_AUD_" + location);
+        }
         telemetry.update();
 
 
