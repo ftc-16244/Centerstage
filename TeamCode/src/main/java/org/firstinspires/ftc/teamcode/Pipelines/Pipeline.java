@@ -41,7 +41,7 @@ public class Pipeline extends OpenCvPipeline {
     Mat output = new Mat();
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pipelineReady = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-    private static final int PERCENT_COLOR_THRESHOLD = 10;
+    private static final int PERCENT_COLOR_THRESHOLD = 15;
     public Pipeline(Telemetry t, StartPosition position, RevBlinkinLedDriver blinkin) {
         telemetry = t;
         startPosition = position;

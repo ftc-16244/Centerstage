@@ -61,6 +61,8 @@ public class Felipe2 {
     private static final double           SLIDESPEEDSLOWER            = 0.5; //half speed
     private static final double           SLIDERESETSPEED             = -1.0; // only used to retract and reset slide encoder
     private static final double      SLIDE_LEVEL_0               = 0;// Extension fully retracted but not to mechanical stop
+    private static final double      SLIDE_LEVEL_ROW_1_STAGE           = 4.0 ; // First yellow auto high accuracy -measured 2/7
+
     private static final double      SLIDE_LEVEL_ROW_1           = 6.0 ; // First yellow auto high accuracy -measured 2/7
     private static final double      SLIDE_LEVEL_ROW_2           = 8;  // 8 Second row of pixels
     private static final double      SLIDE_LEVEL_ROW_4           = 16; // 15 check wire mgt before making 16
@@ -199,6 +201,12 @@ public class Felipe2 {
 
     public void  setSlideRow_1(){
         targetHeight = (SLIDE_LEVEL_ROW_1 );
+        liftToTargetHeight(targetHeight,3);
+        inLevelZero = false;
+    }
+
+    public void  setSlideRow_1_STAGE(){
+        targetHeight = (SLIDE_LEVEL_ROW_1_STAGE );
         liftToTargetHeight(targetHeight,3);
         inLevelZero = false;
     }

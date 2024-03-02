@@ -125,7 +125,7 @@ public class StageRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_RIGHT)
@@ -157,7 +157,7 @@ public class StageRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_LEFT)
@@ -187,7 +187,7 @@ public class StageRed20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)

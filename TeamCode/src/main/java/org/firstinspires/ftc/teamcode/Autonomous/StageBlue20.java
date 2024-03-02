@@ -99,7 +99,7 @@ public class StageBlue20 extends LinearOpMode {
         // LEFT POSE SECTION
         //============================
 
-        Pose2d YellowPixelDropOff_LEFT = new Pose2d(55,44.5,Math.toRadians(180));
+        Pose2d YellowPixelDropOff_LEFT = new Pose2d(53.5,45,Math.toRadians(180));
         Pose2d PurplePixelDropOff_LEFT_1a = new Pose2d(35.5,28,Math.toRadians(180));
 
 
@@ -119,7 +119,7 @@ public class StageBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(5)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_LEFT)
@@ -152,7 +152,7 @@ public class StageBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_RIGHT)
@@ -182,7 +182,7 @@ public class StageBlue20 extends LinearOpMode {
                 .waitSeconds(0.1)
                 .back(10)
                 .addTemporalMarker(()-> felipe.setTurnerAutoDEPLOY())
-                .addTemporalMarker(()-> felipe.setSlideRow_1())
+                .addTemporalMarker(()-> felipe.setSlideRow_1_STAGE())
                 .addTemporalMarker(()->felipe.setAnglerDeploy())
                 //yellow pixel journey
                 .lineToLinearHeading(YellowPixelDropOff_CENTER)
