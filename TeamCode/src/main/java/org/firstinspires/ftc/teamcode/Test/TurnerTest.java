@@ -25,6 +25,8 @@ public class TurnerTest extends LinearOpMode {
     Drone drone = new Drone(this); // replaces climberDone with drone only subsystem
 
     FtcDashboard dashboard;
+    private ElapsedTime teleopTimer = new ElapsedTime();
+    private final float TELEOP_TIME_OUT = 20; // WARNING: LOWER FOR OUTREACH
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize the subsystems. Note the init method is inside the subsystem class
@@ -49,7 +51,7 @@ public class TurnerTest extends LinearOpMode {
         });
         liftInit.start();
 
-        while (!isStopRequested()) {
+        while (!isStopRequested() && teleopTimer.time() < TELEOP_TIME_OUT) {
             if(gamepad2.x) {
                 felipe.setTurnerDrone();
                 sleep(100);
