@@ -16,8 +16,6 @@ import org.firstinspires.ftc.teamcode.subsytems.Drone;
 import org.firstinspires.ftc.teamcode.subsytems.Felipe2;
 import org.firstinspires.ftc.teamcode.subsytems.Juan;
 
-@Config
-@Disabled
 @TeleOp(group = "Test")
 
 public class TurnerTest extends LinearOpMode {
