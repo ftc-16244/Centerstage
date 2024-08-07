@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import static java.lang.Thread.sleep;
 
 @Config // this is so the dashboard will pick up variables
-public class Felipe2 {
+public class Felipe2 { // todo: add locks on the turner to prevent jittering
 
     //Define Hardware Objects
     private Servo            angler             = null;
@@ -290,6 +290,7 @@ public class Felipe2 {
     }
     public void setTurnerDrone() {
         turnerDown = false;
+        gripperClosed();
         setTurnerPIDF(droneP, droneI, droneD, droneF);
         rotateToTargetAngle(TURNER_DRONE_ANGLE, 1, 0.7);
         setTurnerPIDF(normalP, normalI, normalD, normalF);
