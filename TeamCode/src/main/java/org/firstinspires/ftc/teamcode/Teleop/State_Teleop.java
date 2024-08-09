@@ -143,7 +143,7 @@ public class State_Teleop extends LinearOpMode {
                 speedFactor = 0.25;
             }
             if (gamepad1.a) {
-                speedFactor = 0.85;
+                speedFactor = 1.00;
             }
 //// GAMEPAD #2/////////////////////////
 
